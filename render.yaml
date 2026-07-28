@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: rocha-ai
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn servidor:app
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
