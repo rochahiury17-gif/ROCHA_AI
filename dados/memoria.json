@@ -1,0 +1,22 @@
+{
+    "usuario": {
+        "nome": "Hiury"
+    },
+
+    "rocha_ai": {
+        "nome": "ROCHA AI",
+        "criacao": "26/07/2026",
+        "origem": "Porto Alegre - Rio Grande do Sul",
+        "criador": "Hiury Rocha"
+    },
+
+    "projetos": [
+        "ROCHA AI"
+    ],
+
+    "preferencias": [],
+
+    "informacoes": [
+        "Meu criador se chama Hiury Rocha"
+    ]
+}
