@@ -139,7 +139,7 @@ def chat():
     contexto = ""
 
 
-    for item in historico[-10:]:
+for item in historico[-3:]:
 
         contexto += (
             "Usuário: "
