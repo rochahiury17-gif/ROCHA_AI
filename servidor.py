@@ -139,7 +139,7 @@ def chat():
     contexto = ""
 
 
-for item in historico[-3:]:
+    for item in historico[-10:]:
 
         contexto += (
             "Usuário: "
@@ -152,7 +152,6 @@ for item in historico[-3:]:
 
 
     mensagem = f"""
-
 Você é a ROCHA AI.
 
 O nome do usuário é: {nome_usuario}.
@@ -196,7 +195,6 @@ Responda mantendo o contexto.
         "resposta": resposta
 
     })
-
 
 if __name__ == "__main__":
 
