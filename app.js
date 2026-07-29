@@ -149,11 +149,12 @@ async function abrirChat(nome){
             "Content-Type":"application/json"
         },
 
-        body:JSON.stringify({
+body:JSON.stringify({
 
-            chat:nome
+    usuario: usuario,
+    chat:nome
 
-        })
+})
 
     });
 
