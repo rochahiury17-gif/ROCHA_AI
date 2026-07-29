@@ -2,3 +2,4 @@ __pycache__/
 *.wav
 app_backup.js
 servidor_backup.py
+.env
