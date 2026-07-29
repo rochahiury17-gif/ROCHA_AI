@@ -3,16 +3,12 @@ from flask_cors import CORS
 
 import json
 import os
-import uuid
 
 from ia.cerebro import responder
 
 
 app = Flask(__name__, static_folder=".")
 CORS(app)
-
-
-ARQUIVO_CHATS = "dados/chats.json"
 
 
 def carregar_chats(usuario):
@@ -26,11 +22,9 @@ def carregar_chats(usuario):
     if os.path.exists(arquivo):
 
         with open(arquivo, "r", encoding="utf-8") as f:
-
             return json.load(f)
 
     return {}
-
 
 
 def salvar_chats(usuario, chats):
@@ -57,31 +51,28 @@ def inicio():
     return send_from_directory(".", "index.html")
 
 
-
 @app.route("/<path:arquivo>")
 def arquivos(arquivo):
 
     return send_from_directory(".", arquivo)
 
 
-
 @app.post("/novo_chat")
 def novo_chat():
 
-dados = request.get_json()
+    dados = request.get_json()
 
-usuario = dados.get("usuario")
-
-nome = dados.get("nome")
+    usuario = dados.get("usuario")
+    nome = dados.get("nome")
 
     if not nome:
 
         return jsonify({
-            "erro":"Nome vazio"
+            "erro": "Nome vazio"
         })
 
 
-    chats = carregar_chats()
+    chats = carregar_chats(usuario)
 
 
     if nome not in chats:
@@ -89,13 +80,12 @@ nome = dados.get("nome")
         chats[nome] = []
 
 
-    salvar_chats(chats)
+    salvar_chats(usuario, chats)
 
 
     return jsonify({
-        "status":"ok"
+        "status": "ok"
     })
-
 
 
 @app.post("/listar_chats")
@@ -110,18 +100,16 @@ def listar_chats():
     return jsonify(list(chats.keys()))
 
 
-
 @app.post("/historico")
 def historico():
 
     dados = request.get_json()
 
-usuario = dados.get("usuario")
-
+    usuario = dados.get("usuario")
     nome = dados.get("chat")
 
 
-chats = carregar_chats(usuario)
+    chats = carregar_chats(usuario)
 
 
     return jsonify(
@@ -129,21 +117,21 @@ chats = carregar_chats(usuario)
     )
 
 
-
 @app.post("/chat")
 def chat():
 
     dados = request.get_json()
 
-usuario = dados.get("usuario")
-nome_usuario = dados.get("nome", "Usuário")
+    usuario = dados.get("usuario")
+    nome_usuario = dados.get("nome", "Usuário")
 
-    pergunta = dados.get("mensagem","")
+    pergunta = dados.get("mensagem", "")
 
-    nome_chat = dados.get("chat","Geral")
+    nome_chat = dados.get("chat", "Geral")
 
 
-chats = carregar_chats(usuario)
+    chats = carregar_chats(usuario)
+
 
     historico = chats.get(nome_chat, [])
 
@@ -157,15 +145,13 @@ chats = carregar_chats(usuario)
             "Usuário: "
             + item["usuario"]
             + "\n"
-
             "ROCHA AI: "
             + item["rocha"]
             + "\n\n"
         )
 
 
-
-mensagem = f"""
+    mensagem = f"""
 
 Você é a ROCHA AI.
 
@@ -182,18 +168,15 @@ Nova pergunta:
 {pergunta}
 
 Responda mantendo o contexto.
-
 """
 
 
     resposta = responder(mensagem)
 
 
-
     if nome_chat not in chats:
 
         chats[nome_chat] = []
-
 
 
     chats[nome_chat].append({
@@ -205,7 +188,7 @@ Responda mantendo o contexto.
     })
 
 
-salvar_chats(usuario, chats)
+    salvar_chats(usuario, chats)
 
 
     return jsonify({
@@ -215,8 +198,6 @@ salvar_chats(usuario, chats)
     })
 
 
-
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
 
+    app.run(host="0.0.0.0", port=5000)
