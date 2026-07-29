@@ -1,5 +1,22 @@
 let chatAtual = "Geral";
 
+let usuario = localStorage.getItem("usuario");
+
+if (!usuario) {
+    usuario = crypto.randomUUID();
+    localStorage.setItem("usuario", usuario);
+}
+
+let nomeUsuario = localStorage.getItem("nomeUsuario");
+
+if (!nomeUsuario) {
+    nomeUsuario = prompt("Como você gostaria que eu chamasse você?");
+    if (!nomeUsuario || nomeUsuario.trim() === "") {
+        nomeUsuario = "Usuário";
+    }
+    localStorage.setItem("nomeUsuario", nomeUsuario);
+}
+
 const chat = document.getElementById("chat");
 const pergunta = document.getElementById("pergunta");
 const listaChats = document.getElementById("listaChats");
@@ -30,7 +47,15 @@ function limparChat(){
 
 async function carregarChats(){
 
-    const resposta = await fetch("/listar_chats");
+const resposta = await fetch("/listar_chats", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        usuario: usuario
+    })
+});
 
     const chats = await resposta.json();
 
@@ -80,6 +105,7 @@ async function novoChat(){
 
         body:JSON.stringify({
 
+usuario: usuario,
             nome:nome
 
         })
@@ -206,13 +232,13 @@ chat.scrollTop = chat.scrollHeight;
         },
 
 
-        body:JSON.stringify({
+body: JSON.stringify({
+    usuario: usuario,
+    nome: nomeUsuario,
+    mensagem: texto,
+    chat: chatAtual
+})
 
-            mensagem:texto,
-
-            chat:chatAtual
-
-        })
 
 
     });

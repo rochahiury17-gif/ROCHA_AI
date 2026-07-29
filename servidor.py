@@ -3,6 +3,7 @@ from flask_cors import CORS
 
 import json
 import os
+import uuid
 
 from ia.cerebro import responder
 
@@ -14,28 +15,40 @@ CORS(app)
 ARQUIVO_CHATS = "dados/chats.json"
 
 
-def carregar_chats():
+def carregar_chats(usuario):
 
-    if os.path.exists(ARQUIVO_CHATS):
+    pasta = "dados/usuarios"
 
-        with open(ARQUIVO_CHATS, "r", encoding="utf-8") as arquivo:
-            return json.load(arquivo)
+    os.makedirs(pasta, exist_ok=True)
+
+    arquivo = os.path.join(pasta, f"{usuario}.json")
+
+    if os.path.exists(arquivo):
+
+        with open(arquivo, "r", encoding="utf-8") as f:
+
+            return json.load(f)
 
     return {}
 
 
 
-def salvar_chats(chats):
+def salvar_chats(usuario, chats):
 
-    with open(ARQUIVO_CHATS, "w", encoding="utf-8") as arquivo:
+    pasta = "dados/usuarios"
+
+    os.makedirs(pasta, exist_ok=True)
+
+    arquivo = os.path.join(pasta, f"{usuario}.json")
+
+    with open(arquivo, "w", encoding="utf-8") as f:
 
         json.dump(
             chats,
-            arquivo,
+            f,
             indent=4,
             ensure_ascii=False
         )
-
 
 
 @app.route("/")
@@ -55,10 +68,11 @@ def arquivos(arquivo):
 @app.post("/novo_chat")
 def novo_chat():
 
-    dados = request.get_json()
+dados = request.get_json()
 
-    nome = dados.get("nome")
+usuario = dados.get("usuario")
 
+nome = dados.get("nome")
 
     if not nome:
 
@@ -84,10 +98,14 @@ def novo_chat():
 
 
 
-@app.get("/listar_chats")
+@app.post("/listar_chats")
 def listar_chats():
 
-    chats = carregar_chats()
+    dados = request.get_json()
+
+    usuario = dados.get("usuario")
+
+    chats = carregar_chats(usuario)
 
     return jsonify(list(chats.keys()))
 
@@ -98,10 +116,12 @@ def historico():
 
     dados = request.get_json()
 
+usuario = dados.get("usuario")
+
     nome = dados.get("chat")
 
 
-    chats = carregar_chats()
+chats = carregar_chats(usuario)
 
 
     return jsonify(
@@ -115,14 +135,15 @@ def chat():
 
     dados = request.get_json()
 
+usuario = dados.get("usuario")
+nome_usuario = dados.get("nome", "Usuário")
 
     pergunta = dados.get("mensagem","")
 
     nome_chat = dados.get("chat","Geral")
 
 
-    chats = carregar_chats()
-
+chats = carregar_chats(usuario)
 
     historico = chats.get(nome_chat, [])
 
@@ -144,24 +165,25 @@ def chat():
 
 
 
-    mensagem = f"""
+mensagem = f"""
 
 Você é a ROCHA AI.
+
+O nome do usuário é: {nome_usuario}.
+
+Sempre chame essa pessoa por esse nome.
 
 Histórico da conversa:
 
 {contexto}
 
-
 Nova pergunta:
 
 {pergunta}
 
-
 Responda mantendo o contexto.
 
 """
-
 
 
     resposta = responder(mensagem)
@@ -183,8 +205,7 @@ Responda mantendo o contexto.
     })
 
 
-    salvar_chats(chats)
-
+salvar_chats(usuario, chats)
 
 
     return jsonify({
