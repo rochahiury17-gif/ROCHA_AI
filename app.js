@@ -9,12 +9,14 @@ if (!usuario) {
 
 let nomeUsuario = localStorage.getItem("nomeUsuario");
 
-if (!nomeUsuario) {
-    nomeUsuario = prompt("Como você gostaria que eu chamasse você?");
-    if (!nomeUsuario || nomeUsuario.trim() === "") {
-        nomeUsuario = "Usuário";
-    }
-    localStorage.setItem("nomeUsuario", nomeUsuario);
+if (!nomeUsuario || nomeUsuario === "Usuário") {
+
+    nomeUsuario = "Hiury";
+
+    localStorage.setItem(
+        "nomeUsuario",
+        nomeUsuario
+    );
 }
 
 const chat = document.getElementById("chat");
