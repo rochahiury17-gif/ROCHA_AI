@@ -164,10 +164,9 @@ Responda em português do Brasil.
 
 
 
-    if resposta.status_code == 200:
+if resposta.status_code == 200:
 
-        return resposta.json()["choices"][0]["message"]["content"]
+    return resposta.json()["choices"][0]["message"]["content"]
 
 
-
-    return "Tive um problema ao acessar meu cérebro."
+return f"Erro Groq: {resposta.status_code} - {resposta.text}"
