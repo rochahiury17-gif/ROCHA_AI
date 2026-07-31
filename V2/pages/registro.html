@@ -1,4 +1,4 @@
-..<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
@@ -8,7 +8,7 @@
 
 <title>Criar Conta - ROCHA AI</title>
 
-<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="/V2/css/style.css">
 
 </head>
 
@@ -16,7 +16,7 @@
 
 <div class="login-container">
 
-    <img src="../assets/logo_v2.png" class="logo">
+    <img src="/V2/assets/logo_v2.png" class="logo">
 
     <h1>ROCHA AI</h1>
 
@@ -28,49 +28,47 @@
         Bem-vindo à nova geração
     </h2>
 
+    <input
+        id="nome"
+        type="text"
+        placeholder="Nome"
+        autocomplete="name">
 
-<input 
-id="nome"
-type="text"
-placeholder="Nome">
+    <input
+        id="email"
+        type="email"
+        placeholder="E-mail"
+        autocomplete="email">
 
-<input 
-id="email"
-type="email"
-placeholder="E-mail">
+    <input
+        id="senha"
+        type="password"
+        placeholder="Senha"
+        autocomplete="new-password">
 
-<input 
-id="senha"
-type="password"
-placeholder="Senha">
+    <input
+        id="confirmar-senha"
+        type="password"
+        placeholder="Confirmar senha"
+        autocomplete="new-password">
 
-    <input 
-    type="password"
-    placeholder="Confirmar senha">
-
-
-<button id="criar-conta">
-    Criar conta
-</button>
+    <button id="criar-conta" class="primary-button">
+        Criar conta
+    </button>
 
     <div class="divider">
         ou
     </div>
 
-
-<a href="../index.html">
-    <button class="register">
-        Já tenho conta
-    </button>
-</a>
-
-</a>
-
+    <a href="/V2/index.html" class="register-link">
+        <button type="button" class="register">
+            Já tenho conta
+        </button>
+    </a>
 
 </div>
 
-
-<script src="../js/app.js"></script>
+<script src="/V2/js/app.js"></script>
 
 </body>
 
