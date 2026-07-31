@@ -20,6 +20,7 @@ def verificar_memoria(pergunta, usuario_id=None):
 
     texto = pergunta.lower()
 
+
     # --------------------------------------------------------
     # NOME DO USUÁRIO
     # --------------------------------------------------------
@@ -192,96 +193,6 @@ def formatar_historico(
 
 
 # ============================================================
-# OBTER NOME DO USUÁRIO ATUAL
-# ============================================================
-
-def obter_nome_usuario(
-    memoria_usuario
-):
-
-    if not isinstance(
-        memoria_usuario,
-        dict
-    ):
-
-        return ""
-
-
-    # --------------------------------------------------------
-    # Formato direto
-    # --------------------------------------------------------
-
-    nome = memoria_usuario.get(
-        "nome",
-        ""
-    )
-
-
-    if isinstance(nome, str) and nome.strip():
-
-        return nome.strip()
-
-
-    # --------------------------------------------------------
-    # Formato dentro de "memorias"
-    # --------------------------------------------------------
-
-    memorias = memoria_usuario.get(
-        "memorias",
-        {}
-    )
-
-
-    if isinstance(
-        memorias,
-        dict
-    ):
-
-        nome = memorias.get(
-            "nome",
-            ""
-        )
-
-        if (
-            isinstance(nome, str)
-            and nome.strip()
-        ):
-
-            return nome.strip()
-
-
-    # --------------------------------------------------------
-    # Formato dentro de "memoria"
-    # --------------------------------------------------------
-
-    memoria = memoria_usuario.get(
-        "memoria",
-        {}
-    )
-
-
-    if isinstance(
-        memoria,
-        dict
-    ):
-
-        nome = memoria.get(
-            "nome",
-            ""
-        )
-
-        if (
-            isinstance(nome, str)
-            and nome.strip()
-        ):
-
-            return nome.strip()
-
-
-    return ""
-
-
-# ============================================================
 # RESPOSTA PRINCIPAL
 # ============================================================
 
@@ -326,6 +237,7 @@ Estou aqui para ajudar, conversar e evoluir junto com meu criador.
     # DETECTAR MEMÓRIA
     # ========================================================
 
+    # Mantemos o sistema antigo funcionando.
     detectar_memoria(pergunta)
 
 
@@ -358,15 +270,6 @@ Estou aqui para ajudar, conversar e evoluir junto com meu criador.
     memoria_usuario_texto = str(
         memoria_usuario
     )[:3000]
-
-
-    # ========================================================
-    # NOME DO USUÁRIO ATUAL
-    # ========================================================
-
-    nome_usuario = obter_nome_usuario(
-        memoria_usuario
-    )
 
 
     # ========================================================
@@ -406,25 +309,6 @@ Estou aqui para ajudar, conversar e evoluir junto com meu criador.
 
 
     # ========================================================
-    # IDENTIDADE DO USUÁRIO
-    # ========================================================
-
-    if nome_usuario:
-
-        identidade_usuario = (
-            f"O nome registrado do usuário "
-            f"atual é: {nome_usuario}."
-        )
-
-    else:
-
-        identidade_usuario = (
-            "O usuário atual ainda não "
-            "informou seu nome."
-        )
-
-
-    # ========================================================
     # PROMPT
     # ========================================================
 
@@ -454,24 +338,6 @@ priorize a informação mais recente
 da conversa.
 
 Responda em português do Brasil.
-
-
-============================================================
-IDENTIDADE DO USUÁRIO ATUAL
-============================================================
-
-{identidade_usuario}
-
-REGRAS IMPORTANTES SOBRE O USUÁRIO:
-
-- O usuário atual é identificado pelo ID de usuário autenticado.
-- Use somente as informações pertencentes a esse usuário.
-- Nunca presuma que o usuário atual se chama Hiury.
-- Hiury Rocha é o criador da ROCHA AI.
-- O fato de Hiury Rocha ser o criador NÃO significa que o usuário
-  atual seja Hiury.
-- Se o nome do usuário atual não estiver informado, não invente.
-- Nunca utilize a memória de outro usuário.
 
 
 ============================================================
@@ -537,11 +403,8 @@ a memória e o contexto acima.
         "messages": [
 
             {
-
                 "role": "system",
-
                 "content": prompt
-
             }
 
         ],

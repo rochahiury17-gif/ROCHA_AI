@@ -3,6 +3,15 @@
         "7cce42e3-0b9f-4860-bae7-06b9f5dfd225": {
             "titulo": "Novo chat",
             "mensagens": []
+        },
+        "46e8cb25-fa50-47aa-8c3c-434f71777154": {
+            "titulo": "Qual meu nome?",
+            "mensagens": [
+                {
+                    "usuario": "Qual meu nome?",
+                    "ia": "Você não informou seu nome. A memória pessoal do usuário está vazia e não há informações sobre o seu nome. Você gostaria de informar seu nome agora?"
+                }
+            ]
         }
     }
 }
