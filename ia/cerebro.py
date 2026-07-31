@@ -1,58 +1,224 @@
 import requests
+
 from ia.memoria_auto import detectar_memoria
+
+from ia.memoria_usuario import (
+    carregar_memoria_usuario,
+    adicionar_memoria_usuario
+)
 
 from config import API_KEY, MODELO
 from ia.personalidade import PERSONALIDADE
 from ia.memoria import carregar_memoria, adicionar_memoria
 
 
-def verificar_memoria(pergunta):
+# ============================================================
+# MEMÓRIA ESPECÍFICA DA FRASE
+# ============================================================
+
+def verificar_memoria(pergunta, usuario_id=None):
 
     texto = pergunta.lower()
 
+
+    # --------------------------------------------------------
+    # NOME DO USUÁRIO
+    # --------------------------------------------------------
+
     if "meu nome é" in texto:
 
-        nome = pergunta.lower().split("meu nome é")[-1].strip()
-
-        adicionar_memoria(
-            "usuario_nome",
-            nome
+        nome = (
+            pergunta
+            .split("meu nome é", 1)[-1]
+            .strip()
         )
 
-        return f"Prazer, {nome}! Vou lembrar do seu nome."
+        if usuario_id:
+
+            adicionar_memoria_usuario(
+                usuario_id,
+                "nome",
+                nome
+            )
+
+        return (
+            f"Prazer, {nome}! "
+            "Vou lembrar do seu nome."
+        )
+
+
+    # --------------------------------------------------------
+    # LEMBRETE
+    # --------------------------------------------------------
 
     if "lembre que" in texto:
 
-        info = pergunta.split("lembre que")[-1].strip()
-
-        adicionar_memoria(
-            "informacoes",
-            info
+        info = (
+            pergunta
+            .split("lembre que", 1)[-1]
+            .strip()
         )
+
+        if usuario_id:
+
+            adicionar_memoria_usuario(
+                usuario_id,
+                "informacoes",
+                info
+            )
 
         return "Entendido. Guardei essa informação."
 
-    if "eu nasci" in texto or "minha criação" in texto:
 
-        adicionar_memoria(
-            "identidade_rocha",
-            pergunta
+    # --------------------------------------------------------
+    # IDENTIDADE DA ROCHA
+    # --------------------------------------------------------
+
+    if (
+        "eu nasci" in texto
+        or "minha criação" in texto
+    ):
+
+        if usuario_id:
+
+            adicionar_memoria_usuario(
+                usuario_id,
+                "informacoes",
+                pergunta
+            )
+
+        return (
+            "Informação registrada "
+            "na minha memória."
         )
 
-        return "Informação da minha identidade registrada."
 
     return None
 
 
-def responder(pergunta):
+# ============================================================
+# HISTÓRICO RECENTE
+# ============================================================
+
+def carregar_historico_recente(
+    usuario_id,
+    limite=10
+):
+
+    if not usuario_id:
+
+        return []
+
+
+    arquivo = (
+        f"dados/usuarios/"
+        f"{usuario_id}.json"
+    )
+
+
+    try:
+
+        with open(
+            arquivo,
+            "r",
+            encoding="utf-8"
+        ) as f:
+
+            historico = __import__(
+                "json"
+            ).load(f)
+
+    except (
+        FileNotFoundError,
+        ValueError,
+        OSError
+    ):
+
+        return []
+
+
+    conversas = historico.get(
+        "conversas",
+        []
+    )
+
+
+    return conversas[-limite:]
+
+
+# ============================================================
+# CONVERTER HISTÓRICO EM TEXTO
+# ============================================================
+
+def formatar_historico(
+    conversas
+):
+
+    if not conversas:
+
+        return "Nenhuma conversa anterior."
+
+
+    linhas = []
+
+
+    for conversa in conversas:
+
+        usuario = conversa.get(
+            "usuario",
+            ""
+        )
+
+        ia = conversa.get(
+            "ia",
+            ""
+        )
+
+
+        if usuario:
+
+            linhas.append(
+                f"Usuário: {usuario}"
+            )
+
+
+        if ia:
+
+            linhas.append(
+                f"ROCHA AI: {ia}"
+            )
+
+
+    return "\n".join(linhas)
+
+
+# ============================================================
+# RESPOSTA PRINCIPAL
+# ============================================================
+
+def responder(
+    pergunta,
+    usuario_id=None
+):
 
     texto = pergunta.lower()
 
-    if "quem é você" in texto or "quem é a rocha" in texto:
+
+    # ========================================================
+    # IDENTIDADE DA ROCHA AI
+    # ========================================================
+
+    if (
+        "quem é você" in texto
+        or "quem é a rocha" in texto
+    ):
 
         memoria = carregar_memoria()
 
-        rocha = memoria.get("rocha_ai", {})
+        rocha = memoria.get(
+            "rocha_ai",
+            {}
+        )
 
         return f"""
 Eu sou {rocha.get('nome', 'ROCHA AI')}.
@@ -66,66 +232,236 @@ Meu criador é {rocha.get('criador', 'Hiury Rocha')}.
 Estou aqui para ajudar, conversar e evoluir junto com meu criador.
 """
 
+
+    # ========================================================
+    # DETECTAR MEMÓRIA
+    # ========================================================
+
+    # Mantemos o sistema antigo funcionando.
     detectar_memoria(pergunta)
 
-    memoria = carregar_memoria()
 
-    memoria_texto = str(memoria)[:3000]
+    # ========================================================
+    # MEMÓRIA GLOBAL DA ROCHA
+    # ========================================================
+
+    memoria_global = carregar_memoria()
+
+    memoria_global_texto = str(
+        memoria_global
+    )[:2500]
 
 
-    memoria_resposta = verificar_memoria(pergunta)
+    # ========================================================
+    # MEMÓRIA INDIVIDUAL
+    # ========================================================
+
+    memoria_usuario = {}
+
+    if usuario_id:
+
+        memoria_usuario = (
+            carregar_memoria_usuario(
+                usuario_id
+            )
+        )
+
+
+    memoria_usuario_texto = str(
+        memoria_usuario
+    )[:3000]
+
+
+    # ========================================================
+    # MEMÓRIA ESPECÍFICA
+    # ========================================================
+
+    memoria_resposta = (
+        verificar_memoria(
+            pergunta,
+            usuario_id
+        )
+    )
+
 
     if memoria_resposta:
 
         return memoria_resposta
+
+
+    # ========================================================
+    # HISTÓRICO RECENTE
+    # ========================================================
+
+    historico = (
+        carregar_historico_recente(
+            usuario_id,
+            limite=10
+        )
+    )
+
+
+    historico_texto = (
+        formatar_historico(
+            historico
+        )
+    )
+
+
+    # ========================================================
+    # PROMPT
+    # ========================================================
 
     prompt = f"""
 {PERSONALIDADE}
 
 Você é a ROCHA AI.
 
-Não use frases de abertura como "é um prazer conversar com você" em todas as respostas.
-Não repita sua identidade, criador ou origem, a menos que o usuário pergunte.
-Responda de forma natural como uma conversa real.
+Responda naturalmente como uma assistente pessoal.
 
-Memória permanente:
+Não use frases de abertura repetitivas.
 
-{memoria_texto}
+Não repita sua identidade,
+criador ou origem,
+a menos que isso seja relevante
+ou o usuário pergunte.
 
-Use essa memória quando for útil.
+Use o contexto da conversa
+para entender perguntas
+que dependem de mensagens anteriores.
+
+Não invente informações
+que não estejam disponíveis.
+
+Se houver conflito entre informações,
+priorize a informação mais recente
+da conversa.
+
+Responda em português do Brasil.
+
+
+============================================================
+MEMÓRIA GLOBAL DA ROCHA AI
+============================================================
+
+{memoria_global_texto}
+
+
+============================================================
+MEMÓRIA PESSOAL DO USUÁRIO
+============================================================
+
+{memoria_usuario_texto}
+
+
+============================================================
+CONVERSA RECENTE
+============================================================
+
+{historico_texto}
+
+
+============================================================
+NOVA MENSAGEM
+============================================================
 
 Usuário:
 
 {pergunta}
 
-Responda em português do Brasil.
+
+Responda à nova mensagem considerando
+a memória e o contexto acima.
 """
 
-    url = "https://api.groq.com/openai/v1/chat/completions"
+
+    # ========================================================
+    # GROQ
+    # ========================================================
+
+    url = (
+        "https://api.groq.com/openai/v1/"
+        "chat/completions"
+    )
+
 
     headers = {
-        "Authorization": f"Bearer {API_KEY}",
-        "Content-Type": "application/json"
+
+        "Authorization":
+            f"Bearer {API_KEY}",
+
+        "Content-Type":
+            "application/json"
+
     }
 
+
     dados = {
+
         "model": MODELO,
+
         "messages": [
+
             {
                 "role": "system",
                 "content": prompt
             }
+
         ],
+
         "temperature": 0.7
+
     }
 
-    resposta = requests.post(
-        url,
-        headers=headers,
-        json=dados
-    )
+
+    try:
+
+        resposta = requests.post(
+            url,
+            headers=headers,
+            json=dados,
+            timeout=60
+        )
+
+    except requests.RequestException as erro:
+
+        return (
+            "Erro ao conectar com a IA: "
+            f"{erro}"
+        )
+
+
+    # ========================================================
+    # RESPOSTA
+    # ========================================================
 
     if resposta.status_code == 200:
-        return resposta.json()["choices"][0]["message"]["content"]
 
-    return f"Erro Groq: {resposta.status_code} - {resposta.text}"
+        try:
+
+            return (
+                resposta
+                .json()
+                ["choices"][0]
+                ["message"]
+                ["content"]
+            )
+
+        except (
+            KeyError,
+            IndexError,
+            TypeError,
+            ValueError
+        ):
+
+            return (
+                "A IA retornou uma resposta "
+                "em formato inesperado."
+            )
+
+
+    return (
+        f"Erro Groq: "
+        f"{resposta.status_code} - "
+        f"{resposta.text}"
+    )

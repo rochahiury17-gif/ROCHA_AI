@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ROCHA AI Chat</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+<div class="chat-container">
+
+    <!-- CABEÇALHO -->
+
+    <header class="chat-header">
+
+        <img src="../assets/logo_v2.png">
+
+        <div class="chat-header-info">
+
+            <h1>ROCHA AI</h1>
+
+            <span>Online</span>
+
+        </div>
+
+        <button
+            id="novo-chat"
+            class="novo-chat">
+            ＋
+        </button>
+
+    </header>
+
+
+    <!-- ÁREA DE CHATS -->
+
+    <div
+        id="lista-chats"
+        class="lista-chats">
+
+        <div class="lista-chats-titulo">
+            Conversas
+        </div>
+
+    </div>
+
+
+    <!-- CONVERSA -->
+
+    <div
+        class="chat-box"
+        id="chat-box">
+
+        <div class="bot-message">
+
+            🤖 Olá! Eu sou a ROCHA AI.
+            <br>
+            Como posso ajudar?
+
+        </div>
+
+    </div>
+
+
+    <!-- CAMPO DE MENSAGEM -->
+
+    <div class="chat-input">
+
+        <input
+            id="mensagem"
+            type="text"
+            placeholder="Digite sua mensagem..."
+            autocomplete="off">
+
+        <button id="enviar-mensagem">
+            ➤
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="../js/app.js"></script>
+
+</body>
+
+</html>

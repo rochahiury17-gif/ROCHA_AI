@@ -1,0 +1,17 @@
+{
+    "j": [
+        {
+            "usuario": "Ola",
+            "rocha": "Olá Hiury! Como posso ajudar você hoje?"
+        },
+        {
+            "usuario": "Estou com o problema a logo aqui fica muito grande",
+            "rocha": "Hiury, parece que você está tendo um problema com o tamanho de um log. Isso pode ser um desafio, especialmente se estiver lidando com grandes quantidades de dados. Você pode me dar mais detalhes sobre o que está acontecendo? Qual é o contexto desse log e como você está tentando lidar com ele agora? Isso vai me ajudar a entender melhor o problema e encontrar uma solução mais adequada para você."
+        },
+        {
+            "usuario": "E logo (imagem) muito grande do fundo",
+            "rocha": "Hiury, parece que o problema não é apenas com o tamanho do log, mas também com o tamanho de uma imagem de fundo. Você está tendo dificuldade em lidar com uma imagem que está muito grande e está afetando o tamanho do log ou a aparência da página?\n\nVocê pode me dizer em que contexto essa imagem está sendo usada? É em um site, aplicativo ou documento? E qual é o objetivo que você deseja alcançar com essa imagem? Quer reduzir o tamanho dela ou encontrar uma maneira de exibi-la de forma mais eficiente?"
+        }
+    ],
+    "k": []
+}

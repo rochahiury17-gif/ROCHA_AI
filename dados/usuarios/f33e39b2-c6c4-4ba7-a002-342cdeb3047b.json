@@ -1,0 +1,123 @@
+{
+    "conversas": [
+        {
+            "usuario": "Meu nome e hiury",
+            "ia": "Olá, Hiury! É você o criador do projeto ROCHA AI, não é? Qual é o assunto que você gostaria de discutir ou como posso ajudar você hoje?"
+        },
+        {
+            "usuario": "Meu nome e hiury",
+            "ia": "Olá, Hiury! Você é o criador do projeto ROCHA AI, certo? Como posso ajudar você hoje?"
+        },
+        {
+            "usuario": "Qual meu nome ?",
+            "ia": "Seu nome é Hiury."
+        },
+        {
+            "usuario": "Estou criando um projeto chamado ROCHA BET",
+            "ia": "Vou adicionar o projeto ROCHA BET à lista de projetos. Agora, a lista de projetos inclui: ROCHA AI, Spartan BOT e ROCHA BET. Qual é o objetivo do projeto ROCHA BET? Você gostaria de discutir sobre ele?"
+        },
+        {
+            "usuario": "Qual projeto estou criando?",
+            "ia": "De acordo com a memória disponível, você está criando o projeto \"ROCHA AI\", que é um projeto de inteligência artificial. Além disso, há menções a outros projetos, como o \"Spartan BOT\" e um projeto chamado \"rocha bet\", mas não há informações adicionais sobre esses projetos. Se você precisar de ajuda com o projeto \"ROCHA AI\" ou outros projetos, é só me informar."
+        },
+        {
+            "usuario": "Eu prefiro respostas curtas",
+            "ia": "Entendido, vou manter as respostas curtas."
+        },
+        {
+            "usuario": "O que você sabe sobre minhas preferências?",
+            "ia": "Conforme a memória disponível, suas preferências incluem criar bots, utilizar a linguagem de programação Python e respostas curtas. Se precisar de mais informações ou tiver alguma dúvida específica, basta perguntar."
+        },
+        {
+            "usuario": "Hoje estou criando um aplicativo chamado Teste Rocha.",
+            "ia": "Vou adicionar o aplicativo \"Teste Rocha\" à lista de projetos. Agora, a lista inclui: ROCHA AI, Spartan BOT, ROCHA BET e Teste Rocha. Qual é o objetivo do aplicativo Teste Rocha?"
+        },
+        {
+            "usuario": "Ele vai ser um aplicativo de música.",
+            "ia": "Vou adicionar esse detalhe à lista de projetos. O aplicativo \"Teste Rocha\" é um aplicativo de música. Qual é o foco desse aplicativo, como streaming de música ou algo mais específico?"
+        },
+        {
+            "usuario": "Qual aplicativo eu estou criando?",
+            "ia": "Você está criando o aplicativo \"Teste Rocha\", que é um aplicativo de música."
+        },
+        {
+            "usuario": "E qual é a finalidade dele?",
+            "ia": "O aplicativo \"Teste Rocha\" é um aplicativo de música. Não há mais detalhes sobre a finalidade específica, mas mencionou que é relacionado à música. Você gostaria de adicionar mais informações sobre o que o aplicativo vai fazer exatamente?"
+        },
+        {
+            "usuario": "Meu nome e hiury",
+            "ia": "Seu nome é Hiury."
+        }
+    ],
+    "chats": {
+        "9851f24f-420c-41dd-9273-254b313be396": {
+            "titulo": "Qual e meu nome ?",
+            "mensagens": [
+                {
+                    "usuario": "Qual e meu nome ?",
+                    "ia": "Seu nome é Hiury."
+                }
+            ]
+        },
+        "3e23aae4-df16-451b-a9de-f7091055d301": {
+            "titulo": "O que você sabe sobre minhas preferência",
+            "mensagens": [
+                {
+                    "usuario": "O que você sabe sobre minhas preferências?",
+                    "ia": "Conforme a memória disponível, suas preferências incluem criar bots, utilizar a linguagem de programação Python e respostas curtas."
+                }
+            ]
+        },
+        "a3912573-403a-4084-a758-8d727f45cc07": {
+            "titulo": "Ola",
+            "mensagens": [
+                {
+                    "usuario": "Ola",
+                    "ia": "Olá! Como posso ajudar hoje?"
+                }
+            ]
+        },
+        "476e79a2-3b5a-4b06-a3cc-513150748d1d": {
+            "titulo": "Br",
+            "mensagens": [
+                {
+                    "usuario": "Br",
+                    "ia": "Olá, Hiury! Como posso ajudar você hoje?"
+                }
+            ]
+        },
+        "aab6af33-3259-4f8e-9abe-c19b589b0121": {
+            "titulo": "Novo chat",
+            "mensagens": []
+        },
+        "0796e1d7-3aa4-4f05-a615-c98c468138b9": {
+            "titulo": "Ola",
+            "mensagens": [
+                {
+                    "usuario": "Ola",
+                    "ia": "Olá! Como posso ajudar você hoje, Hiury?"
+                }
+            ]
+        },
+        "10005875-ce76-4e1e-942a-c485c4bed5b0": {
+            "titulo": "Novo chat",
+            "mensagens": []
+        },
+        "414fa9c8-67df-403f-b208-3557daa805fd": {
+            "titulo": "Novo chat",
+            "mensagens": []
+        },
+        "09d389af-1df3-4bbe-965c-335893e85a7a": {
+            "titulo": "Novo chat",
+            "mensagens": []
+        },
+        "8bc7db2e-7495-48cc-853b-85c40c47f75a": {
+            "titulo": "Novo chat",
+            "mensagens": []
+        },
+        "9efbaa95-0831-4294-adcf-3e644eeb9927": {
+            "titulo": "Novo chat",
+            "mensagens": []
+        }
+    }
+}

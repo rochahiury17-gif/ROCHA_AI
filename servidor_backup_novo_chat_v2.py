@@ -6,16 +6,13 @@ from ia.cerebro import responder
 
 import json
 import os
-import uuid
 
 
 # ============================================================
 # CONFIGURAÇÃO
 # ============================================================
 
-BASE_DIR = os.path.dirname(
-    os.path.abspath(__file__)
-)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 app = Flask(
     __name__,
@@ -26,10 +23,10 @@ CORS(app)
 
 
 # ============================================================
-# ARQUIVOS DOS USUÁRIOS
+# FUNÇÕES DE ARQUIVOS
 # ============================================================
 
-def caminho_usuario(usuario):
+def carregar_chats(usuario):
 
     pasta = os.path.join(
         BASE_DIR,
@@ -42,54 +39,46 @@ def caminho_usuario(usuario):
         exist_ok=True
     )
 
-    return os.path.join(
+    arquivo = os.path.join(
         pasta,
         f"{usuario}.json"
     )
 
+    if os.path.exists(arquivo):
 
-def carregar_usuario(usuario):
+        try:
 
-    arquivo = caminho_usuario(
-        usuario
-    )
+            with open(
+                arquivo,
+                "r",
+                encoding="utf-8"
+            ) as f:
 
-    if not os.path.exists(arquivo):
+                return json.load(f)
 
-        return {}
+        except (json.JSONDecodeError, OSError):
 
-
-    try:
-
-        with open(
-            arquivo,
-            "r",
-            encoding="utf-8"
-        ) as f:
-
-            dados = json.load(f)
-
-
-        if isinstance(dados, dict):
-
-            return dados
-
-
-    except (
-        json.JSONDecodeError,
-        OSError
-    ):
-
-        pass
-
+            return {}
 
     return {}
 
 
-def salvar_usuario(usuario, dados):
+def salvar_chats(usuario, chats):
 
-    arquivo = caminho_usuario(
-        usuario
+    pasta = os.path.join(
+        BASE_DIR,
+        "dados",
+        "usuarios"
+    )
+
+    os.makedirs(
+        pasta,
+        exist_ok=True
+    )
+
+    arquivo = os.path.join(
+        pasta,
+        f"{usuario}.json"
     )
 
     with open(
@@ -99,48 +88,11 @@ def salvar_usuario(usuario, dados):
     ) as f:
 
         json.dump(
-            dados,
+            chats,
             f,
             indent=4,
             ensure_ascii=False
         )
-
-
-# ============================================================
-# COMPATIBILIDADE COM O SISTEMA ANTIGO
-# ============================================================
-
-def carregar_chats(usuario):
-
-    dados = carregar_usuario(
-        usuario
-    )
-
-    chats = dados.get(
-        "chats",
-        {}
-    )
-
-    if not isinstance(chats, dict):
-
-        chats = {}
-
-
-    return chats
-
-
-def salvar_chats(usuario, chats):
-
-    dados = carregar_usuario(
-        usuario
-    )
-
-    dados["chats"] = chats
-
-    salvar_usuario(
-        usuario,
-        dados
-    )
 
 
 # ============================================================
@@ -151,10 +103,7 @@ def salvar_chats(usuario, chats):
 def inicio():
 
     return send_from_directory(
-        os.path.join(
-            BASE_DIR,
-            "V2"
-        ),
+        os.path.join(BASE_DIR, "V2"),
         "index.html"
     )
 
@@ -163,10 +112,7 @@ def inicio():
 def v2_inicio():
 
     return send_from_directory(
-        os.path.join(
-            BASE_DIR,
-            "V2"
-        ),
+        os.path.join(BASE_DIR, "V2"),
         "index.html"
     )
 
@@ -175,10 +121,7 @@ def v2_inicio():
 def arquivos_v2(arquivo):
 
     return send_from_directory(
-        os.path.join(
-            BASE_DIR,
-            "V2"
-        ),
+        os.path.join(BASE_DIR, "V2"),
         arquivo
     )
 
@@ -197,24 +140,20 @@ def api_registro():
         silent=True
     ) or {}
 
-
     nome = dados.get(
         "nome",
         ""
     ).strip()
-
 
     email = dados.get(
         "email",
         ""
     ).strip()
 
-
     senha = dados.get(
         "senha",
         ""
     )
-
 
     if not nome:
 
@@ -275,12 +214,10 @@ def api_login():
         silent=True
     ) or {}
 
-
     email = dados.get(
         "email",
         ""
     ).strip()
-
 
     senha = dados.get(
         "senha",
@@ -317,89 +254,18 @@ def api_login():
 
 
 # ============================================================
-# CRIAR NOVO CHAT
-# ============================================================
-
-@app.route(
-    "/api/chat/novo",
-    methods=["POST"]
-)
-def novo_chat():
-
-    dados = request.get_json(
-        silent=True
-    ) or {}
-
-
-    usuario = dados.get(
-        "usuario"
-    )
-
-
-    if not usuario:
-
-        return jsonify({
-            "sucesso": False,
-            "erro": "Usuário não informado."
-        }), 400
-
-
-    chats = carregar_chats(
-        usuario
-    )
-
-
-    chat_id = str(
-        uuid.uuid4()
-    )
-
-
-    chats[chat_id] = {
-
-        "titulo": "Novo chat",
-
-        "mensagens": []
-
-    }
-
-
-    salvar_chats(
-        usuario,
-        chats
-    )
-
-
-    return jsonify({
-
-        "sucesso": True,
-
-        "chat": {
-
-            "id": chat_id,
-
-            "titulo": "Novo chat",
-
-            "mensagens": []
-
-        }
-
-    })
-
-
-# ============================================================
 # LISTAR CHATS
 # ============================================================
 
 @app.route(
-    "/api/chats",
+    "/chats",
     methods=["POST"]
 )
-def api_listar_chats():
+def listar_chats():
 
     dados = request.get_json(
         silent=True
     ) or {}
-
 
     usuario = dados.get(
         "usuario"
@@ -416,62 +282,35 @@ def api_listar_chats():
     )
 
 
-    resultado = []
-
-
-    for chat_id, chat in chats.items():
-
-        if not isinstance(
-            chat,
-            dict
-        ):
-
-            continue
-
-
-        resultado.append({
-
-            "id": chat_id,
-
-            "titulo": chat.get(
-                "titulo",
-                "Novo chat"
-            )
-
-        })
-
-
     return jsonify(
-        resultado
+        list(chats.keys())
     )
 
 
 # ============================================================
-# HISTÓRICO DE UM CHAT
+# HISTÓRICO DE CHAT
 # ============================================================
 
 @app.route(
-    "/api/chat/historico",
+    "/historico",
     methods=["POST"]
 )
-def api_historico_chat():
+def historico():
 
     dados = request.get_json(
         silent=True
     ) or {}
 
-
     usuario = dados.get(
         "usuario"
     )
 
-
-    chat_id = dados.get(
+    nome = dados.get(
         "chat"
     )
 
 
-    if not usuario or not chat_id:
+    if not usuario:
 
         return jsonify([])
 
@@ -481,23 +320,9 @@ def api_historico_chat():
     )
 
 
-    chat = chats.get(
-        chat_id,
-        {}
-    )
-
-
-    if not isinstance(
-        chat,
-        dict
-    ):
-
-        return jsonify([])
-
-
     return jsonify(
-        chat.get(
-            "mensagens",
+        chats.get(
+            nome,
             []
         )
     )
@@ -534,11 +359,6 @@ def chat_api():
     )
 
 
-    chat_id = dados.get(
-        "chat_id"
-    )
-
-
     if not mensagem:
 
         return jsonify({
@@ -547,43 +367,7 @@ def chat_api():
 
 
     # --------------------------------------------------------
-    # SE NÃO EXISTIR CHAT, CRIA UM AUTOMATICAMENTE
-    # --------------------------------------------------------
-
-    chats = carregar_chats(
-        usuario
-    )
-
-
-    if not chat_id:
-
-        chat_id = str(
-            uuid.uuid4()
-        )
-
-
-        chats[chat_id] = {
-
-            "titulo": mensagem[:40],
-
-            "mensagens": []
-
-        }
-
-
-    if chat_id not in chats:
-
-        chats[chat_id] = {
-
-            "titulo": mensagem[:40],
-
-            "mensagens": []
-
-        }
-
-
-    # --------------------------------------------------------
-    # IA
+    # ENVIA MENSAGEM PARA A IA
     # --------------------------------------------------------
 
     resposta = responder(
@@ -593,19 +377,58 @@ def chat_api():
 
 
     # --------------------------------------------------------
-    # SALVAR MENSAGEM
+    # SALVA HISTÓRICO DO USUÁRIO
     # --------------------------------------------------------
 
-    chat = chats[chat_id]
+    pasta = os.path.join(
+        BASE_DIR,
+        "dados",
+        "usuarios"
+    )
+
+    os.makedirs(
+        pasta,
+        exist_ok=True
+    )
 
 
-    chat.setdefault(
-        "mensagens",
+    arquivo = os.path.join(
+        pasta,
+        f"{usuario}.json"
+    )
+
+
+    if os.path.exists(arquivo):
+
+        try:
+
+            with open(
+                arquivo,
+                "r",
+                encoding="utf-8"
+            ) as f:
+
+                historico = json.load(f)
+
+        except (
+            json.JSONDecodeError,
+            OSError
+        ):
+
+            historico = {}
+
+    else:
+
+        historico = {}
+
+
+    historico.setdefault(
+        "conversas",
         []
     )
 
 
-    chat["mensagens"].append({
+    historico["conversas"].append({
 
         "usuario": mensagem,
 
@@ -614,49 +437,65 @@ def chat_api():
     })
 
 
-    # --------------------------------------------------------
-    # TÍTULO AUTOMÁTICO
-    # --------------------------------------------------------
+    with open(
+        arquivo,
+        "w",
+        encoding="utf-8"
+    ) as f:
 
-    if chat.get(
-        "titulo"
-    ) == "Novo chat":
-
-        chat["titulo"] = mensagem[:40]
-
-
-    # --------------------------------------------------------
-    # SALVAR CHAT
-    # --------------------------------------------------------
-
-    salvar_chats(
-        usuario,
-        chats
-    )
+        json.dump(
+            historico,
+            f,
+            indent=4,
+            ensure_ascii=False
+        )
 
 
     return jsonify({
 
-        "resposta": resposta,
-
-        "chat_id": chat_id,
-
-        "titulo": chat.get(
-            "titulo",
-            "Novo chat"
-        )
+        "resposta": resposta
 
     })
 
 
 # ============================================================
-# EXECUÇÃO
+# TESTE
+# ============================================================
+
+@app.route(
+    "/api/status",
+    methods=["GET"]
+)
+def status():
+
+    return jsonify({
+
+        "online": True,
+
+        "projeto": "ROCHA AI V2",
+
+        "servidor": "Flask"
+
+    })
+
+
+# ============================================================
+# INICIALIZAÇÃO
 # ============================================================
 
 if __name__ == "__main__":
 
+    print()
+    print("======================================")
+    print("          ROCHA AI V2")
+    print("======================================")
+    print()
+    print("Servidor iniciado.")
+    print("http://127.0.0.1:5000")
+    print()
+
     app.run(
         host="0.0.0.0",
         port=5000,
-        debug=True
+        debug=False
     )

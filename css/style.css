@@ -1,0 +1,541 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+
+html,body{
+
+    width:100%;
+    height:100%;
+
+    overflow:hidden;
+
+    background:#0f172a;
+
+    font-family:Arial,sans-serif;
+
+    color:white;
+
+}
+
+
+
+.app{
+
+    width:100%;
+    height:100dvh;
+
+    display:flex;
+
+}
+
+
+
+/* MENU LATERAL */
+
+.menu{
+
+    position:fixed;
+
+    top:0;
+    left:-280px;
+
+    width:290px;
+
+    height:100%;
+
+    background:#111827;
+
+    padding:25px;
+
+    transition:0.3s;
+
+    z-index:10;
+
+}
+
+
+
+.menu.ativo{
+
+    left:0;
+
+}
+
+
+
+.menu button{
+
+    width:100%;
+
+    padding:14px;
+
+    margin-bottom:25px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-size:26px;
+
+}
+
+
+
+.menu h3{
+
+    margin:30px 0;
+
+}
+
+
+
+#listaChats button{
+
+    background:#1f2937;
+
+    text-align:left;
+
+}
+
+
+
+
+
+/* ÁREA PRINCIPAL */
+
+.principal{
+
+    width:100%;
+
+    height:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+.topo{
+
+    height:85px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:15px;
+
+    position:relative;
+
+    background:#111827;
+
+    border-bottom:1px solid #1f2937;
+
+    padding:0 20px;
+
+    flex-shrink:0;
+
+}
+
+.menu-btn{
+
+    position:absolute;
+
+    left:18px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:58px;
+
+    height:58px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:#1f2937;
+
+    color:white;
+
+    font-size:30px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.menu-btn:hover{
+
+    background:#374151;
+
+}
+
+/* CONVERSA */
+
+#chat{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:25px;
+
+}
+
+
+
+
+.msg{
+
+    max-width:120%;
+
+    padding:12px;
+
+    margin:10px 0;
+
+    border-radius:15px;
+
+    line-height:1.4;
+
+}
+
+
+
+.user{
+
+    margin-left:auto;
+
+    background:#2563eb;
+
+}
+
+
+
+.bot{
+
+    background:#374151;
+
+}
+
+
+
+
+/* DIGITAÇÃO */
+
+.rodape{
+
+    height:60px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    gap:10px;
+
+    padding:10px;
+
+    background:#111827;
+
+}
+
+
+
+input{
+
+    flex:1;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:12px;
+
+    padding:12px;
+
+    font-size:16px;
+
+}
+
+
+
+.rodape button{
+
+    width:50px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#10b981;
+
+    color:white;
+
+    font-size:20px;
+
+}
+
+.pensando{
+
+    opacity:0.7;
+
+    animation:pulsar 1.2s infinite;
+
+}
+
+
+@keyframes pulsar{
+
+    0%{
+        opacity:0.4;
+    }
+
+    50%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:0.4;
+    }
+
+}
+
+.pontos span{
+
+    display:inline-block;
+
+    animation:pontos 1.4s infinite;
+
+    font-weight:bold;
+
+    font-size:22px;
+
+}
+
+
+.pontos span:nth-child(2){
+
+    animation-delay:0.2s;
+
+}
+
+
+.pontos span:nth-child(3){
+
+    animation-delay:0.4s;
+
+}
+
+@keyframes pontos{
+
+    0%{
+
+        transform:translateY(0);
+
+        opacity:0.3;
+
+    }
+
+
+    50%{
+
+        transform:translateY(-5px);
+
+        opacity:1;
+
+    }
+
+
+    100%{
+
+        transform:translateY(0);
+
+        opacity:0.3;
+
+    }
+
+}
+/* LOGOS */
+
+.logo-login {
+    width:140px;
+    height:140px;
+    object-fit:contain;
+    display:block;
+    margin:20px auto;
+}
+
+
+.logo-chat{
+
+    width:56px;
+
+    height:56px;
+
+    object-fit:contain;
+
+    border-radius:50%;
+
+}
+
+/* ========================= */
+/* LOGIN / REGISTRO */
+/* ========================= */
+
+.login{
+
+    width:100%;
+    height:100dvh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:30px;
+
+    background:linear-gradient(180deg,#0f172a,#111827,#1e293b);
+
+}
+
+
+.login h1{
+
+    font-size:42px;
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+
+}
+
+.login p{
+
+    font-size:18px;
+
+    color:#94a3b8;
+
+    margin-bottom:40px;
+
+    text-align:center;
+
+}
+
+.login input{
+
+    width:100%;
+
+    max-width:420px;
+
+    height:56px;
+
+    margin-bottom:18px;
+
+    padding:0 18px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:#1f2937;
+
+    color:white;
+
+    font-size:18px;
+
+}
+
+.login input::placeholder{
+
+    color:#94a3b8;
+
+}
+
+.login button{
+
+    width:100%;
+
+    max-width:420px;
+
+    height:56px;
+
+    border:none;
+
+    border-radius:16px;
+
+    margin-top:10px;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.login button:first-of-type{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+.login button:first-of-type:hover{
+
+    transform:scale(1.03);
+
+}
+
+.login button:last-of-type{
+
+    background:#10b981;
+
+    color:white;
+
+}
+
+.titulo-app{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.titulo-app h2{
+
+    font-size:28px;
+
+    margin:0;
+
+    color:white;
+
+}
+
+.titulo-app small{
+
+    color:#94a3b8;
+
+    font-size:14px;
+
+    margin-top:2px;
+
+}

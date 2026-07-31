@@ -1,0 +1,16 @@
+{
+    "conversas": [
+        {
+            "usuario": "Ola",
+            "ia": "Olá! O que você precisa?"
+        },
+        {
+            "usuario": "Qual meu nome",
+            "ia": "Seu nome é Hiury."
+        },
+        {
+            "usuario": "O que vc sabe sobre mim",
+            "ia": "De acordo com a memória disponível, sei que seu nome é Hiury e que você é o criador do projeto ROCHA AI. Além disso, você parece ter interesse em criar bots e programar em Python, considerando que esses são os projetos e preferências registrados. Você também mencionou que é o criador do projeto ROCHA AI e do Spartan BOT. Se precisar de mais informações ou tiver outras perguntas, estou aqui para fornecer mais detalhes."
+        }
+    ]
+}

@@ -1,60 +1,135 @@
-import json
-import os
+import requests
+from ia.memoria_auto import detectar_memoria
+from ia.memoria_usuario import (
+    carregar_memoria_usuario,
+    adicionar_memoria_usuario
+)
+
+from config import API_KEY, MODELO
+from ia.personalidade import PERSONALIDADE
+from ia.memoria import carregar_memoria, adicionar_memoria
 
 
-ARQUIVO_MEMORIA = "memoria.json"
-
-
-def carregar_memoria():
-    if os.path.exists(ARQUIVO_MEMORIA):
-        with open(ARQUIVO_MEMORIA, "r", encoding="utf-8") as arquivo:
-            return json.load(arquivo)
-
-    return {
-        "nome": "",
-        "informacoes": []
-    }
-
-
-def salvar_memoria(memoria):
-    with open(ARQUIVO_MEMORIA, "w", encoding="utf-8") as arquivo:
-        json.dump(memoria, arquivo, indent=4, ensure_ascii=False)
-
-
-def responder(pergunta):
-
-    memoria = carregar_memoria()
+def verificar_memoria(pergunta):
 
     texto = pergunta.lower()
 
-
     if "meu nome é" in texto:
 
-        nome = pergunta.split("é")[-1].strip()
+        nome = pergunta.lower().split("meu nome é")[-1].strip()
 
-        memoria["nome"] = nome
+        adicionar_memoria(
+            "usuario_nome",
+            nome
+        )
 
-        salvar_memoria(memoria)
+        return f"Prazer, {nome}! Vou lembrar do seu nome."
 
-        return f"Prazer, {nome}! Eu guardei seu nome na minha memória."
+    if "lembre que" in texto:
+
+        info = pergunta.split("lembre que")[-1].strip()
+
+        adicionar_memoria(
+            "informacoes",
+            info
+        )
+
+        return "Entendido. Guardei essa informação."
+
+    if "eu nasci" in texto or "minha criação" in texto:
+
+        adicionar_memoria(
+            "identidade_rocha",
+            pergunta
+        )
+
+        return "Informação da minha identidade registrada."
+
+    return None
 
 
-    elif "qual meu nome" in texto:
+def responder(pergunta, usuario_id=None):
 
-        if memoria["nome"]:
-            return f"Seu nome é {memoria['nome']}."
+    texto = pergunta.lower()
 
-        else:
-            return "Ainda não sei seu nome."
+    if "quem é você" in texto or "quem é a rocha" in texto:
+
+        memoria = carregar_memoria()
+
+        rocha = memoria.get("rocha_ai", {})
+
+        return f"""
+Eu sou {rocha.get('nome', 'ROCHA AI')}.
+
+Fui criada em {rocha.get('criacao', '26/07/2026')}.
+
+Minha origem é {rocha.get('origem', 'Porto Alegre - Rio Grande do Sul')}.
+
+Meu criador é {rocha.get('criador', 'Hiury Rocha')}.
+
+Estou aqui para ajudar, conversar e evoluir junto com meu criador.
+"""
+
+    detectar_memoria(pergunta)
+
+    memoria = carregar_memoria()
+
+    memoria_texto = str(memoria)[:3000]
 
 
-    elif "oi" in texto:
+    memoria_resposta = verificar_memoria(pergunta)
 
-        if memoria["nome"]:
-            return f"Olá {memoria['nome']}! Que bom falar com você novamente."
+    if memoria_resposta:
 
-        return "Olá! Eu sou a ROCHA AI."
+        return memoria_resposta
 
+    prompt = f"""
+{PERSONALIDADE}
 
-    else:
-        return "Ainda estou aprendendo essa informação."
+Você é a ROCHA AI.
+
+Não use frases de abertura como "é um prazer conversar com você" em todas as respostas.
+Não repita sua identidade, criador ou origem, a menos que o usuário pergunte.
+Responda de forma natural como uma conversa real.
+
+Memória permanente:
+
+{memoria_texto}
+
+Use essa memória quando for útil.
+
+Usuário:
+
+{pergunta}
+
+Responda em português do Brasil.
+"""
+
+    url = "https://api.groq.com/openai/v1/chat/completions"
+
+    headers = {
+        "Authorization": f"Bearer {API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    dados = {
+        "model": MODELO,
+        "messages": [
+            {
+                "role": "system",
+                "content": prompt
+            }
+        ],
+        "temperature": 0.7
+    }
+
+    resposta = requests.post(
+        url,
+        headers=headers,
+        json=dados
+    )
+
+    if resposta.status_code == 200:
+        return resposta.json()["choices"][0]["message"]["content"]
+
+    return f"Erro Groq: {resposta.status_code} - {resposta.text}"

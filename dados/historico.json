@@ -1,0 +1,20 @@
+{
+    "conversas": [
+        {
+            "usuario": "Meu nome e Hiury",
+            "ia": "Olá, Hiury! Você é o meu criador, correto? Qual é o assunto que você gostaria de discutir ou como posso ajudá-lo hoje?"
+        },
+        {
+            "usuario": "Ola",
+            "ia": "Olá! O que você precisa hoje?"
+        },
+        {
+            "usuario": "Quem sou eu",
+            "ia": "Você é Hiury, o criador do projeto ROCHA AI."
+        },
+        {
+            "usuario": "Ol",
+            "ia": "Ol! O que você precisa?"
+        }
+    ]
+}
