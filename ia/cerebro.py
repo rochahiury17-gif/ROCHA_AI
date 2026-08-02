@@ -47,6 +47,77 @@ def verificar_memoria(pergunta, usuario_id=None):
 
 
     # --------------------------------------------------------
+    # ANIMAIS FAVORITOS
+    # --------------------------------------------------------
+
+    if (
+        "qual meu animal favorito" in texto
+        or "quais meus animais favoritos" in texto
+        or "qual é meu animal favorito" in texto
+        or "quais são meus animais favoritos" in texto
+    ):
+
+        if usuario_id:
+
+            memoria = carregar_memoria_usuario(
+                usuario_id
+            )
+
+            animais = memoria.get(
+                "animais_favoritos",
+                []
+            )
+
+            if isinstance(animais, list):
+
+                animais = [
+                    str(x).strip()
+                    for x in animais
+                    if str(x).strip()
+                ]
+
+            else:
+
+                animais = [str(animais).strip()]
+
+
+            animais = list(dict.fromkeys(animais))
+
+
+            if animais:
+
+                if len(animais) == 1:
+
+                    return (
+                        f"Seu animal favorito é "
+                        f"{animais[0]}."
+                    )
+
+                if len(animais) == 2:
+
+                    return (
+                        f"Seus animais favoritos "
+                        f"são {animais[0]} e "
+                        f"{animais[1]}."
+                    )
+
+                return (
+                    "Seus animais favoritos são "
+                    + ", ".join(animais[:-1])
+                    + " e "
+                    + animais[-1]
+                    + "."
+                )
+
+
+        return (
+            "Ainda não tenho seus animais "
+            "favoritos registrados na sua "
+            "memória pessoal."
+        )
+
+
+    # --------------------------------------------------------
     # LEMBRETE
     # --------------------------------------------------------
 
@@ -326,7 +397,7 @@ Estou aqui para ajudar, conversar e evoluir junto com meu criador.
     # DETECTAR MEMÓRIA
     # ========================================================
 
-    detectar_memoria(pergunta)
+    detectar_memoria(pergunta, usuario_id)
 
 
     # ========================================================

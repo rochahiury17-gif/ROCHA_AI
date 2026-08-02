@@ -1,21 +1,28 @@
-from ia.memoria import adicionar_memoria
+from ia.memoria_usuario import adicionar_memoria_usuario
 
 
-def detectar_memoria(texto):
+def detectar_memoria(texto, usuario_id=None):
+
+    if not texto:
+        return True
 
     frase = texto.lower().strip()
 
-
     # ========================================================
-    # NOME DO USUÁRIO
+    # NOME
     # ========================================================
 
     if "meu nome é" in frase:
 
-        valor = texto.split("meu nome é", 1)[-1].strip()
+        valor = (
+            texto.split("meu nome é", 1)[-1]
+            .strip()
+        )
 
-        if valor:
-            adicionar_memoria(
+        if usuario_id and valor:
+
+            adicionar_memoria_usuario(
+                usuario_id,
                 "nome",
                 valor
             )
@@ -27,10 +34,15 @@ def detectar_memoria(texto):
 
     if "estou criando" in frase:
 
-        valor = texto.split("estou criando", 1)[-1].strip()
+        valor = (
+            texto.split("estou criando", 1)[-1]
+            .strip()
+        )
 
-        if valor:
-            adicionar_memoria(
+        if usuario_id and valor:
+
+            adicionar_memoria_usuario(
+                usuario_id,
                 "projetos",
                 valor
             )
@@ -38,10 +50,15 @@ def detectar_memoria(texto):
 
     if "meu projeto é" in frase:
 
-        valor = texto.split("meu projeto é", 1)[-1].strip()
+        valor = (
+            texto.split("meu projeto é", 1)[-1]
+            .strip()
+        )
 
-        if valor:
-            adicionar_memoria(
+        if usuario_id and valor:
+
+            adicionar_memoria_usuario(
+                usuario_id,
                 "projetos",
                 valor
             )
@@ -53,10 +70,15 @@ def detectar_memoria(texto):
 
     if "eu gosto de" in frase:
 
-        valor = texto.split("eu gosto de", 1)[-1].strip()
+        valor = (
+            texto.split("eu gosto de", 1)[-1]
+            .strip()
+        )
 
-        if valor:
-            adicionar_memoria(
+        if usuario_id and valor:
+
+            adicionar_memoria_usuario(
+                usuario_id,
                 "preferencias",
                 valor
             )
@@ -64,10 +86,15 @@ def detectar_memoria(texto):
 
     if "eu prefiro" in frase:
 
-        valor = texto.split("eu prefiro", 1)[-1].strip()
+        valor = (
+            texto.split("eu prefiro", 1)[-1]
+            .strip()
+        )
 
-        if valor:
-            adicionar_memoria(
+        if usuario_id and valor:
+
+            adicionar_memoria_usuario(
+                usuario_id,
                 "preferencias",
                 valor
             )
@@ -77,97 +104,116 @@ def detectar_memoria(texto):
     # ANIMAIS FAVORITOS
     # ========================================================
 
-    animais = [
-        "cachorro",
-        "cachorros",
-        "cão",
-        "cães",
-        "hamster",
-        "hamsters",
-        "gato",
-        "gatos",
-        "coelho",
-        "coelhos",
-        "papagaio",
-        "papagaios",
-        "passarinho",
-        "passarinhos",
-        "calopsita",
-        "calopsitas",
-        "peixe",
-        "peixes",
-        "tartaruga",
-        "tartarugas"
-    ]
+    if (
+        "meu animal favorito é" in frase
+        or "meus animais favoritos são" in frase
+        or "meus animais favorito são" in frase
+    ):
 
+        if "meu animal favorito é" in frase:
 
-    frases_animal_favorito = [
-        "meu animal favorito é",
-        "meus animais favoritos são",
-        "meus animais favorito são",
-        "meus favoritos são",
-        "são meus favoritos",
-        "animal favorito",
-        "animais favoritos"
-    ]
+            valor = (
+                texto.split(
+                    "meu animal favorito é",
+                    1
+                )[-1]
+            )
 
+        elif "meus animais favoritos são" in frase:
 
-    fala_sobre_favorito = any(
-        trecho in frase
-        for trecho in frases_animal_favorito
-    )
+            valor = (
+                texto.split(
+                    "meus animais favoritos são",
+                    1
+                )[-1]
+            )
 
+        else:
 
-    if fala_sobre_favorito:
+            valor = (
+                texto.split(
+                    "meus animais favorito são",
+                    1
+                )[-1]
+            )
 
-        encontrados = []
+        animais = _separar_lista(
+            valor
+        )
 
         for animal in animais:
 
-            if animal in frase:
+            if usuario_id:
 
-                animal_normalizado = animal
-
-                if animal_normalizado not in encontrados:
-                    encontrados.append(
-                        animal_normalizado
-                    )
-
-
-        for animal in encontrados:
-
-            adicionar_memoria(
-                "animais_favoritos",
-                animal
-            )
+                adicionar_memoria_usuario(
+                    usuario_id,
+                    "animais_favoritos",
+                    animal
+                )
 
 
     # ========================================================
-    # ANIMAIS FAVORITOS COM "GOSTO DE"
+    # ADICIONAR ANIMAL FAVORITO
     # ========================================================
 
     if (
-        "gosto de" in frase
-        or "adoro" in frase
-        or "amo" in frase
+        "adicionar" in frase
+        and (
+            "animal favorito" in frase
+            or "animais favorito" in frase
+            or "animais favoritos" in frase
+        )
     ):
 
-        encontrados = []
+        valor = frase
+
+        marcadores = [
+            "adicionar também",
+            "adicionar",
+        ]
+
+        for marcador in marcadores:
+
+            if marcador in valor:
+
+                valor = valor.split(
+                    marcador,
+                    1
+                )[-1].strip()
+
+                break
+
+        remover = [
+            "aos meus animais favoritos",
+            "ao meu animal favorito",
+            "nos meus animais favoritos",
+            "meus animais favoritos",
+            "animal favorito",
+            "animais favoritos",
+            "animal favorito",
+            "animais favorito",
+        ]
+
+        for trecho in remover:
+
+            valor = valor.replace(
+                trecho,
+                ""
+            )
+
+        animais = _separar_lista(
+            valor
+        )
 
         for animal in animais:
 
-            if animal in frase:
+            if usuario_id and animal:
 
-                if animal not in encontrados:
-                    encontrados.append(animal)
-
-
-        for animal in encontrados:
-
-            adicionar_memoria(
-                "animais_favoritos",
-                animal
-            )
+                adicionar_memoria_usuario(
+                    usuario_id,
+                    "animais_favoritos",
+                    animal
+                )
 
 
     # ========================================================
@@ -176,13 +222,46 @@ def detectar_memoria(texto):
 
     if "minha meta é" in frase:
 
-        valor = texto.split("minha meta é", 1)[-1].strip()
+        valor = (
+            texto.split("minha meta é", 1)[-1]
+            .strip()
+        )
 
-        if valor:
-            adicionar_memoria(
+        if usuario_id and valor:
+
+            adicionar_memoria_usuario(
+                usuario_id,
                 "objetivos",
                 valor
             )
 
 
     return True
+
+
+def _separar_lista(valor):
+
+    valor = valor.strip()
+
+    for separador in [
+        " e ",
+        ",",
+        ";"
+    ]:
+
+        valor = valor.replace(
+            separador,
+            ","
+        )
+
+    resultado = []
+
+    for item in valor.split(","):
+
+        item = item.strip()
+
+        if item:
+
+            resultado.append(item)
+
+    return resultado
