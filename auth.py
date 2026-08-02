@@ -3,38 +3,74 @@ import os
 import uuid
 import hashlib
 
+import psycopg
+
 
 # ============================================================
 # CONFIGURAÇÃO
 # ============================================================
+
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
 ARQUIVO_USUARIOS = "dados/usuarios.json"
 PASTA_MEMORIAS = "dados/memorias"
 
 
 # ============================================================
-# GARANTIR ESTRUTURA
+# CONEXÃO POSTGRESQL
+# ============================================================
+
+def conectar_banco():
+
+    if not DATABASE_URL:
+
+        raise RuntimeError(
+            "DATABASE_URL não configurada."
+        )
+
+    return psycopg.connect(
+        DATABASE_URL,
+        connect_timeout=10
+    )
+
+
+# ============================================================
+# CRIAR TABELA
+# ============================================================
+
+def garantir_banco():
+
+    with conectar_banco() as conn:
+
+        with conn.cursor() as cur:
+
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS usuarios (
+                    id TEXT PRIMARY KEY,
+                    nome TEXT NOT NULL,
+                    email TEXT NOT NULL UNIQUE,
+                    senha TEXT NOT NULL
+                )
+            """)
+
+        conn.commit()
+
+
+# ============================================================
+# ESTRUTURA DE MEMÓRIAS
 # ============================================================
 
 def _garantir_estrutura():
 
-    os.makedirs("dados", exist_ok=True)
-    os.makedirs(PASTA_MEMORIAS, exist_ok=True)
+    os.makedirs(
+        "dados",
+        exist_ok=True
+    )
 
-    if not os.path.exists(ARQUIVO_USUARIOS):
-
-        with open(
-            ARQUIVO_USUARIOS,
-            "w",
-            encoding="utf-8"
-        ) as f:
-
-            json.dump(
-                [],
-                f,
-                indent=4,
-                ensure_ascii=False
-            )
+    os.makedirs(
+        PASTA_MEMORIAS,
+        exist_ok=True
+    )
 
 
 # ============================================================
@@ -43,47 +79,88 @@ def _garantir_estrutura():
 
 def carregar_usuarios():
 
-    _garantir_estrutura()
+    garantir_banco()
 
-    try:
+    with conectar_banco() as conn:
 
-        with open(
-            ARQUIVO_USUARIOS,
-            "r",
-            encoding="utf-8"
-        ) as f:
+        with conn.cursor() as cur:
 
-            dados = json.load(f)
+            cur.execute("""
+                SELECT
+                    id,
+                    nome,
+                    email,
+                    senha
+                FROM usuarios
+                ORDER BY nome
+            """)
 
-            if isinstance(dados, list):
-                return dados
+            registros = cur.fetchall()
 
-    except (
-        json.JSONDecodeError,
-        OSError
-    ):
+    usuarios = []
 
-        pass
+    for registro in registros:
 
-    return []
+        usuarios.append({
 
+            "id": registro[0],
+
+            "nome": registro[1],
+
+            "email": registro[2],
+
+            "senha": registro[3]
+
+        })
+
+    return usuarios
+
+
+# ============================================================
+# SALVAR USUÁRIOS
+# ============================================================
 
 def salvar_usuarios(usuarios):
 
-    _garantir_estrutura()
+    garantir_banco()
 
-    with open(
-        ARQUIVO_USUARIOS,
-        "w",
-        encoding="utf-8"
-    ) as f:
+    with conectar_banco() as conn:
 
-        json.dump(
-            usuarios,
-            f,
-            indent=4,
-            ensure_ascii=False
-        )
+        with conn.cursor() as cur:
+
+            for usuario in usuarios:
+
+                cur.execute("""
+                    INSERT INTO usuarios (
+                        id,
+                        nome,
+                        email,
+                        senha
+                    )
+                    VALUES (
+                        %s,
+                        %s,
+                        %s,
+                        %s
+                    )
+                    ON CONFLICT (id)
+                    DO UPDATE SET
+                        nome = EXCLUDED.nome,
+                        email = EXCLUDED.email,
+                        senha = EXCLUDED.senha
+                """, (
+
+                    usuario["id"],
+
+                    usuario["nome"],
+
+                    usuario["email"],
+
+                    usuario["senha"]
+
+                ))
+
+        conn.commit()
 
 
 # ============================================================
@@ -106,14 +183,14 @@ def criar_memoria_usuario(
     nome
 ):
 
-    os.makedirs(
-        PASTA_MEMORIAS,
-        exist_ok=True
-    )
+    _garantir_estrutura()
 
     arquivo = os.path.join(
+
         PASTA_MEMORIAS,
+
         f"{usuario_id}.json"
+
     )
 
     memoria = {
@@ -162,10 +239,13 @@ def registrar(
     senha
 ):
 
-    usuarios = carregar_usuarios()
+    nome = str(
+        nome
+    ).strip()
 
-    nome = str(nome).strip()
-    email = str(email).strip()
+    email = str(
+        email
+    ).strip()
 
     if not nome:
 
@@ -180,18 +260,32 @@ def registrar(
         return False, "Digite sua senha."
 
 
+    garantir_banco()
+
+
     # --------------------------------------------------------
-    # VERIFICAR E-MAIL EXISTENTE
+    # VERIFICAR E-MAIL
     # --------------------------------------------------------
 
-    for usuario in usuarios:
+    with conectar_banco() as conn:
 
-        if (
-            usuario.get("email", "").lower()
-            == email.lower()
-        ):
+        with conn.cursor() as cur:
 
-            return False, "E-mail já cadastrado."
+            cur.execute("""
+                SELECT id
+                FROM usuarios
+                WHERE LOWER(email) = LOWER(%s)
+                LIMIT 1
+            """, (
+                email,
+            ))
+
+            existente = cur.fetchone()
+
+
+    if existente:
+
+        return False, "E-mail já cadastrado."
 
 
     # --------------------------------------------------------
@@ -200,34 +294,73 @@ def registrar(
 
     novo = {
 
-        "id": str(uuid.uuid4()),
+        "id": str(
+            uuid.uuid4()
+        ),
 
         "nome": nome,
 
         "email": email,
 
-        "senha": hash_senha(senha)
+        "senha": hash_senha(
+            senha
+        )
 
     }
 
 
-    usuarios.append(
-        novo
-    )
+    # --------------------------------------------------------
+    # SALVAR NO POSTGRESQL
+    # --------------------------------------------------------
 
+    try:
 
-    salvar_usuarios(
-        usuarios
-    )
+        with conectar_banco() as conn:
+
+            with conn.cursor() as cur:
+
+                cur.execute("""
+                    INSERT INTO usuarios (
+                        id,
+                        nome,
+                        email,
+                        senha
+                    )
+                    VALUES (
+                        %s,
+                        %s,
+                        %s,
+                        %s
+                    )
+                """, (
+
+                    novo["id"],
+
+                    novo["nome"],
+
+                    novo["email"],
+
+                    novo["senha"]
+
+                ))
+
+            conn.commit()
+
+    except psycopg.errors.UniqueViolation:
+
+        return False, "E-mail já cadastrado."
 
 
     # --------------------------------------------------------
-    # CRIAR MEMÓRIA PESSOAL
+    # CRIAR MEMÓRIA
     # --------------------------------------------------------
 
     criar_memoria_usuario(
+
         novo["id"],
+
         nome
+
     )
 
 
@@ -243,67 +376,90 @@ def login(
     senha
 ):
 
-    usuarios = carregar_usuarios()
-
-    email = str(email).strip()
+    email = str(
+        email
+    ).strip()
 
     senha_hash = hash_senha(
         senha
     )
 
 
-    for usuario in usuarios:
+    garantir_banco()
 
-        if (
+
+    with conectar_banco() as conn:
+
+        with conn.cursor() as cur:
+
+            cur.execute("""
+                SELECT
+                    id,
+                    nome,
+                    email,
+                    senha
+                FROM usuarios
+                WHERE LOWER(email) = LOWER(%s)
+                AND senha = %s
+                LIMIT 1
+            """, (
+
+                email,
+
+                senha_hash
+
+            ))
+
+            registro = cur.fetchone()
+
+
+    if not registro:
+
+        return False, "E-mail ou senha inválidos."
+
+
+    usuario = {
+
+        "id": registro[0],
+
+        "nome": registro[1],
+
+        "email": registro[2],
+
+        "senha": registro[3]
+
+    }
+
+
+    # --------------------------------------------------------
+    # GARANTIR MEMÓRIA
+    # --------------------------------------------------------
+
+    _garantir_estrutura()
+
+    arquivo_memoria = os.path.join(
+
+        PASTA_MEMORIAS,
+
+        f"{usuario['id']}.json"
+
+    )
+
+
+    if not os.path.exists(
+        arquivo_memoria
+    ):
+
+        criar_memoria_usuario(
+
+            usuario["id"],
 
             usuario.get(
-                "email",
-                ""
-            ).lower()
-
-            == email.lower()
-
-            and
-
-            usuario.get(
-                "senha",
+                "nome",
                 ""
             )
 
-            == senha_hash
-
-        ):
-
-            # ------------------------------------------------
-            # GARANTIR MEMÓRIA DO USUÁRIO
-            # ------------------------------------------------
-
-            arquivo_memoria = os.path.join(
-
-                PASTA_MEMORIAS,
-
-                f"{usuario['id']}.json"
-
-            )
+        )
 
 
-            if not os.path.exists(
-                arquivo_memoria
-            ):
-
-                criar_memoria_usuario(
-
-                    usuario["id"],
-
-                    usuario.get(
-                        "nome",
-                        ""
-                    )
-
-                )
-
-
-            return True, usuario
-
-
-    return False, "E-mail ou senha inválidos."
+    return True, usuario
