@@ -1,62 +1,144 @@
-import json
 import os
+import json
+import psycopg
 
 
-PASTA = "dados/memorias"
+# ============================================================
+# CONFIGURAÇÃO
+# ============================================================
+
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 
-def caminho_memoria(usuario_id):
+# ============================================================
+# CONEXÃO
+# ============================================================
 
-    os.makedirs(PASTA, exist_ok=True)
+def conectar():
 
-    return os.path.join(
-        PASTA,
-        f"{usuario_id}.json"
+    if not DATABASE_URL:
+        raise RuntimeError(
+            "DATABASE_URL não configurada."
+        )
+
+    return psycopg.connect(
+        DATABASE_URL
     )
 
 
-def carregar_memoria_usuario(usuario_id):
+# ============================================================
+# GARANTIR TABELA
+# ============================================================
 
-    arquivo = caminho_memoria(usuario_id)
+def garantir_tabela():
 
-    if not os.path.exists(arquivo):
+    with conectar() as conn:
+
+        with conn.cursor() as cur:
+
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS memorias_usuario (
+
+                    usuario_id TEXT PRIMARY KEY,
+
+                    memoria JSONB NOT NULL DEFAULT '{}'::jsonb
+
+                )
+            """)
+
+        conn.commit()
+
+
+# ============================================================
+# CARREGAR MEMÓRIA
+# ============================================================
+
+def carregar_memoria_usuario(
+    usuario_id
+):
+
+    garantir_tabela()
+
+    with conectar() as conn:
+
+        with conn.cursor() as cur:
+
+            cur.execute("""
+                SELECT memoria
+                FROM memorias_usuario
+                WHERE usuario_id = %s
+            """, (
+                str(usuario_id),
+            ))
+
+            resultado = cur.fetchone()
+
+
+    if not resultado:
+
         return {}
+
+
+    memoria = resultado[0]
+
+    if isinstance(memoria, dict):
+
+        return memoria
+
 
     try:
 
-        with open(
-            arquivo,
-            "r",
-            encoding="utf-8"
-        ) as f:
+        return json.loads(memoria)
 
-            return json.load(f)
-
-    except (json.JSONDecodeError, OSError):
+    except Exception:
 
         return {}
 
+
+# ============================================================
+# SALVAR MEMÓRIA
+# ============================================================
 
 def salvar_memoria_usuario(
     usuario_id,
     memoria
 ):
 
-    arquivo = caminho_memoria(usuario_id)
+    garantir_tabela()
 
-    with open(
-        arquivo,
-        "w",
-        encoding="utf-8"
-    ) as f:
+    with conectar() as conn:
 
-        json.dump(
-            memoria,
-            f,
-            indent=4,
-            ensure_ascii=False
-        )
+        with conn.cursor() as cur:
 
+            cur.execute("""
+                INSERT INTO memorias_usuario (
+                    usuario_id,
+                    memoria
+                )
+
+                VALUES (
+                    %s,
+                    %s
+                )
+
+                ON CONFLICT (usuario_id)
+
+                DO UPDATE SET
+                    memoria = EXCLUDED.memoria
+            """, (
+                str(usuario_id),
+                json.dumps(
+                    memoria,
+                    ensure_ascii=False
+                )
+            ))
+
+        conn.commit()
+
+
+# ============================================================
+# ADICIONAR MEMÓRIA
+# ============================================================
 
 def adicionar_memoria_usuario(
     usuario_id,
@@ -95,6 +177,10 @@ def adicionar_memoria_usuario(
         memoria
     )
 
+
+# ============================================================
+# OBTER MEMÓRIA
+# ============================================================
 
 def obter_memoria_usuario(
     usuario_id
