@@ -1,48 +1,42 @@
-import os
-import json
 import psycopg
+import os
 
 
 # ============================================================
-# CONFIGURAÇÃO
+# BANCO
 # ============================================================
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
 
-# ============================================================
-# CONEXÃO
-# ============================================================
-
-def conectar():
+def conectar_banco():
 
     if not DATABASE_URL:
+
         raise RuntimeError(
             "DATABASE_URL não configurada."
         )
 
     return psycopg.connect(
-        DATABASE_URL
+        DATABASE_URL,
+        connect_timeout=10
     )
 
 
 # ============================================================
-# GARANTIR TABELA
+# TABELA DE MEMÓRIA
 # ============================================================
 
 def garantir_tabela():
 
-    with conectar() as conn:
+    with conectar_banco() as conn:
 
         with conn.cursor() as cur:
 
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS memorias_usuario (
-
                     usuario_id TEXT PRIMARY KEY,
-
                     memoria JSONB NOT NULL DEFAULT '{}'::jsonb
-
                 )
             """)
 
@@ -53,13 +47,11 @@ def garantir_tabela():
 # CARREGAR MEMÓRIA
 # ============================================================
 
-def carregar_memoria_usuario(
-    usuario_id
-):
+def carregar_memoria_usuario(usuario_id):
 
     garantir_tabela()
 
-    with conectar() as conn:
+    with conectar_banco() as conn:
 
         with conn.cursor() as cur:
 
@@ -67,32 +59,20 @@ def carregar_memoria_usuario(
                 SELECT memoria
                 FROM memorias_usuario
                 WHERE usuario_id = %s
+                LIMIT 1
             """, (
-                str(usuario_id),
+                usuario_id,
             ))
 
-            resultado = cur.fetchone()
+            registro = cur.fetchone()
 
 
-    if not resultado:
-
-        return {}
-
-
-    memoria = resultado[0]
-
-    if isinstance(memoria, dict):
-
-        return memoria
-
-
-    try:
-
-        return json.loads(memoria)
-
-    except Exception:
+    if not registro:
 
         return {}
+
+
+    return registro[0]
 
 
 # ============================================================
@@ -106,7 +86,7 @@ def salvar_memoria_usuario(
 
     garantir_tabela()
 
-    with conectar() as conn:
+    with conectar_banco() as conn:
 
         with conn.cursor() as cur:
 
@@ -115,22 +95,21 @@ def salvar_memoria_usuario(
                     usuario_id,
                     memoria
                 )
-
                 VALUES (
                     %s,
                     %s
                 )
-
                 ON CONFLICT (usuario_id)
-
                 DO UPDATE SET
                     memoria = EXCLUDED.memoria
             """, (
-                str(usuario_id),
-                json.dumps(
-                    memoria,
-                    ensure_ascii=False
+
+                usuario_id,
+
+                psycopg.types.json.Jsonb(
+                    memoria
                 )
+
             ))
 
         conn.commit()
@@ -149,6 +128,14 @@ def adicionar_memoria_usuario(
     memoria = carregar_memoria_usuario(
         usuario_id
     )
+
+
+    if not isinstance(
+        memoria,
+        dict
+    ):
+
+        memoria = {}
 
 
     if categoria not in memoria:
