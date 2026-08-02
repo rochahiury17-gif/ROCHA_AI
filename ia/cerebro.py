@@ -50,12 +50,19 @@ def verificar_memoria(pergunta, usuario_id=None):
     # ANIMAIS FAVORITOS
     # --------------------------------------------------------
 
-    if (
-        "qual meu animal favorito" in texto
-        or "quais meus animais favoritos" in texto
-        or "qual é meu animal favorito" in texto
-        or "quais são meus animais favoritos" in texto
+    perguntas_animais = (
+        "qual meu animal favorito",
+        "qual é meu animal favorito",
+        "quais meus animais favoritos",
+        "quais são meus animais favoritos",
+    )
+
+    if any(
+        frase in texto
+        for frase in perguntas_animais
     ):
+
+        animais = []
 
         if usuario_id:
 
@@ -63,52 +70,51 @@ def verificar_memoria(pergunta, usuario_id=None):
                 usuario_id
             )
 
-            animais = memoria.get(
-                "animais_favoritos",
-                []
-            )
+            if isinstance(memoria, dict):
 
-            if isinstance(animais, list):
-
-                animais = [
-                    str(x).strip()
-                    for x in animais
-                    if str(x).strip()
-                ]
-
-            else:
-
-                animais = [str(animais).strip()]
-
-
-            animais = list(dict.fromkeys(animais))
-
-
-            if animais:
-
-                if len(animais) == 1:
-
-                    return (
-                        f"Seu animal favorito é "
-                        f"{animais[0]}."
-                    )
-
-                if len(animais) == 2:
-
-                    return (
-                        f"Seus animais favoritos "
-                        f"são {animais[0]} e "
-                        f"{animais[1]}."
-                    )
-
-                return (
-                    "Seus animais favoritos são "
-                    + ", ".join(animais[:-1])
-                    + " e "
-                    + animais[-1]
-                    + "."
+                animais = memoria.get(
+                    "animais_favoritos",
+                    []
                 )
 
+        if not isinstance(animais, list):
+
+            animais = [animais]
+
+        animais = [
+            str(animal).strip()
+            for animal in animais
+            if str(animal).strip()
+        ]
+
+        animais = list(
+            dict.fromkeys(animais)
+        )
+
+        if len(animais) == 1:
+
+            return (
+                f"Seu animal favorito é "
+                f"{animais[0]}."
+            )
+
+        if len(animais) == 2:
+
+            return (
+                f"Seus animais favoritos "
+                f"são {animais[0]} e "
+                f"{animais[1]}."
+            )
+
+        if len(animais) > 2:
+
+            return (
+                "Seus animais favoritos são "
+                + ", ".join(animais[:-1])
+                + " e "
+                + animais[-1]
+                + "."
+            )
 
         return (
             "Ainda não tenho seus animais "

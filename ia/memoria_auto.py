@@ -104,52 +104,35 @@ def detectar_memoria(texto, usuario_id=None):
     # ANIMAIS FAVORITOS
     # ========================================================
 
-    if (
-        "meu animal favorito é" in frase
-        or "meus animais favoritos são" in frase
-        or "meus animais favorito são" in frase
-    ):
+    marcadores_animais = [
+        "meu animal favorito é",
+        "meus animais favoritos são",
+        "meus animais favorito são",
+    ]
 
-        if "meu animal favorito é" in frase:
+    for marcador in marcadores_animais:
 
-            valor = (
-                texto.split(
-                    "meu animal favorito é",
-                    1
-                )[-1]
-            )
+        if marcador in frase:
 
-        elif "meus animais favoritos são" in frase:
+            posicao = frase.find(marcador)
 
-            valor = (
-                texto.split(
-                    "meus animais favoritos são",
-                    1
-                )[-1]
-            )
+            valor = texto[posicao + len(marcador):].strip()
 
-        else:
+            animais = _separar_lista(valor)
 
-            valor = (
-                texto.split(
-                    "meus animais favorito são",
-                    1
-                )[-1]
-            )
+            for animal in animais:
 
-        animais = _separar_lista(
-            valor
-        )
+                animal = animal.strip(" .,!?:;")
 
-        for animal in animais:
+                if usuario_id and animal:
 
-            if usuario_id:
+                    adicionar_memoria_usuario(
+                        usuario_id,
+                        "animais_favoritos",
+                        animal
+                    )
 
-                adicionar_memoria_usuario(
-                    usuario_id,
-                    "animais_favoritos",
-                    animal
-                )
+            break
 
 
     # ========================================================
