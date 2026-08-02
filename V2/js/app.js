@@ -1109,3 +1109,185 @@ if (botaoCriarConta) {
 
 }
 
+// ============================================================
+// GERADOR DE IMAGENS - CLOUDFLARE
+// ============================================================
+
+async function gerarImagem() {
+
+    const botao = document.getElementById("gerar-imagem");
+
+    if (!botao) {
+        return;
+    }
+
+    const prompt = window.prompt(
+        "Descreva a imagem que você quer gerar:"
+    );
+
+    if (!prompt || !prompt.trim()) {
+        return;
+    }
+
+    botao.disabled = true;
+    botao.innerText = "⏳ Gerando...";
+
+    adicionarMensagem(
+        "🖼️ Gerando imagem:\n" + prompt,
+        "user-message"
+    );
+
+    const carregando = document.createElement("div");
+
+    carregando.className = "bot-message";
+    carregando.innerText = "🤖 Criando sua imagem...";
+
+    chatBox.appendChild(carregando);
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try {
+
+        const resposta = await fetch(
+            "/api/gerar-imagem",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    prompt: prompt.trim()
+                })
+            }
+        );
+
+        const dados = await resposta.json();
+
+        carregando.remove();
+
+        if (!resposta.ok || !dados.sucesso) {
+
+            adicionarMensagem(
+                "❌ " +
+                (
+                    dados.erro ||
+                    "Não foi possível gerar a imagem."
+                ),
+                "bot-message"
+            );
+
+            console.error(
+                "Erro ao gerar imagem:",
+                dados
+            );
+
+            return;
+        }
+
+        // ----------------------------------------------------
+        // CRIAR CONTAINER DA IMAGEM
+        // ----------------------------------------------------
+
+        const container =
+            document.createElement("div");
+
+        container.className =
+            "bot-message";
+
+        // ----------------------------------------------------
+        // TEXTO
+        // ----------------------------------------------------
+
+        const texto =
+            document.createElement("div");
+
+        texto.className =
+            "imagem-prompt";
+
+        texto.innerText =
+            "🤖 Imagem gerada";
+
+        container.appendChild(texto);
+
+        // ----------------------------------------------------
+        // IMAGEM
+        // ----------------------------------------------------
+
+        const imagem =
+            document.createElement("img");
+
+        imagem.className =
+            "imagem-gerada";
+
+        imagem.src =
+            dados.imagem;
+
+        imagem.alt =
+            prompt;
+
+        imagem.loading =
+            "lazy";
+
+        container.appendChild(imagem);
+
+        // ----------------------------------------------------
+        // ADICIONAR AO CHAT
+        // ----------------------------------------------------
+
+        chatBox.appendChild(container);
+
+        chatBox.scrollTop =
+            chatBox.scrollHeight;
+
+    } catch (erro) {
+
+        console.error(
+            "Erro no gerador:",
+            erro
+        );
+
+        if (carregando) {
+            carregando.remove();
+        }
+
+        adicionarMensagem(
+            "❌ Erro ao conectar com o gerador de imagens.",
+            "bot-message"
+        );
+
+    } finally {
+
+        botao.disabled = false;
+
+        botao.innerText =
+            "🖼️ Gerar imagem";
+    }
+}
+
+
+// ============================================================
+// BOTÃO GERAR IMAGEM
+// ============================================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const botao =
+            document.getElementById(
+                "gerar-imagem"
+            );
+
+        if (!botao) {
+            return;
+        }
+
+        botao.addEventListener(
+            "click",
+            gerarImagem
+        );
+
+    }
+);

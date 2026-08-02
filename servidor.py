@@ -7,7 +7,7 @@ from ia.cerebro import responder
 import json
 import os
 import uuid
-
+import requests
 
 # ============================================================
 # CONFIGURAÇÃO
@@ -649,6 +649,317 @@ def chat_api():
     })
 
 
+
+    # --------------------------------------------------------
+    # TOKEN HUGGING FACE
+    # --------------------------------------------------------
+
+    token = os.environ.get(
+        "HUGGINGFACE_TOKEN"
+    )
+
+    if not token:
+
+        return jsonify({
+            "sucesso": False,
+            "erro": "Token do Hugging Face não configurado."
+        }), 500
+
+
+# ============================================================
+# GERADOR DE IMAGENS - CLOUDFLARE WORKERS AI
+# ============================================================
+
+@app.route(
+    "/api/gerar-imagem",
+    methods=["POST"]
+)
+def gerar_imagem():
+
+    dados = request.get_json(
+        silent=True
+    ) or {}
+
+    prompt = dados.get(
+        "prompt",
+        ""
+    ).strip()
+
+    if not prompt:
+
+        return jsonify({
+            "sucesso": False,
+            "erro": "Digite uma descrição para a imagem."
+        }), 400
+
+    token = os.environ.get(
+        "CLOUDFLARE_API_TOKEN"
+    )
+
+    account_id = os.environ.get(
+        "CLOUDFLARE_ACCOUNT_ID"
+    )
+
+    if not token:
+
+        return jsonify({
+            "sucesso": False,
+            "erro": "Token da Cloudflare não configurado."
+        }), 500
+
+    if not account_id:
+
+        return jsonify({
+            "sucesso": False,
+            "erro": "Account ID da Cloudflare não configurado."
+        }), 500
+
+    try:
+
+        # ----------------------------------------------------
+        # CLOUDFLARE WORKERS AI
+        # ----------------------------------------------------
+
+        url = (
+            "https://api.cloudflare.com/client/v4/accounts/"
+            f"{account_id}"
+            "/ai/run/@cf/black-forest-labs/flux-2-klein-4b"
+        )
+
+        resposta = requests.post(
+
+            url,
+
+            headers={
+                "Authorization":
+                    f"Bearer {token}"
+            },
+
+            files={
+                "prompt":
+                    (None, prompt),
+
+                "width":
+                    (None, "512"),
+
+                "height":
+                    (None, "512")
+            },
+
+            timeout=180
+        )
+
+        # ----------------------------------------------------
+        # VERIFICAR RESPOSTA HTTP
+        # ----------------------------------------------------
+
+        if resposta.status_code != 200:
+
+            try:
+
+                detalhes = resposta.json()
+
+            except ValueError:
+
+                detalhes = resposta.text[:1000]
+
+            return jsonify({
+
+                "sucesso": False,
+
+                "erro":
+                    "Erro ao gerar imagem na Cloudflare.",
+
+                "detalhes":
+                    detalhes
+
+            }), resposta.status_code
+
+        # ----------------------------------------------------
+        # JSON
+        # ----------------------------------------------------
+
+        try:
+
+            dados_imagem = resposta.json()
+
+        except ValueError:
+
+            return jsonify({
+
+                "sucesso": False,
+
+                "erro":
+                    "A Cloudflare retornou uma resposta inválida.",
+
+                "detalhes":
+                    resposta.text[:1000]
+
+            }), 500
+
+        # ----------------------------------------------------
+        # VERIFICAR RESULTADO
+        # ----------------------------------------------------
+
+        if not dados_imagem.get("success", False):
+
+            return jsonify({
+
+                "sucesso": False,
+
+                "erro":
+                    "A Cloudflare não conseguiu gerar a imagem.",
+
+                "detalhes":
+                    dados_imagem.get(
+                        "errors",
+                        dados_imagem
+                    )
+
+            }), 500
+
+        resultado = dados_imagem.get(
+            "result"
+        )
+
+        if not resultado:
+
+            return jsonify({
+
+                "sucesso": False,
+
+                "erro":
+                    "A Cloudflare não retornou a imagem."
+
+            }), 500
+
+        imagem_base64 = resultado.get(
+            "image"
+        )
+
+        if not imagem_base64:
+
+            return jsonify({
+
+                "sucesso": False,
+
+                "erro":
+                    "A resposta não contém a imagem."
+
+            }), 500
+
+        # ----------------------------------------------------
+        # DECODIFICAR BASE64
+        # ----------------------------------------------------
+
+        import base64
+
+        try:
+
+            imagem_bytes = base64.b64decode(
+                imagem_base64
+            )
+
+        except Exception as erro:
+
+            return jsonify({
+
+                "sucesso": False,
+
+                "erro":
+                    "Não foi possível decodificar a imagem.",
+
+                "detalhes":
+                    str(erro)
+
+            }), 500
+
+        # ----------------------------------------------------
+        # PASTA DE IMAGENS
+        # ----------------------------------------------------
+
+        pasta = os.path.join(
+            BASE_DIR,
+            "V2",
+            "imagens_geradas"
+        )
+
+        os.makedirs(
+            pasta,
+            exist_ok=True
+        )
+
+        # ----------------------------------------------------
+        # NOME DO ARQUIVO
+        # ----------------------------------------------------
+
+        nome = (
+            f"imagem_{uuid.uuid4().hex}.jpg"
+        )
+
+        caminho = os.path.join(
+            pasta,
+            nome
+        )
+
+        # ----------------------------------------------------
+        # SALVAR
+        # ----------------------------------------------------
+
+        with open(
+            caminho,
+            "wb"
+        ) as arquivo:
+
+            arquivo.write(
+                imagem_bytes
+            )
+
+        # ----------------------------------------------------
+        # RESPOSTA
+        # ----------------------------------------------------
+
+        return jsonify({
+
+            "sucesso": True,
+
+            "imagem":
+                f"/V2/imagens_geradas/{nome}",
+
+            "prompt":
+                prompt
+
+        })
+
+    except requests.RequestException as erro:
+
+        return jsonify({
+
+            "sucesso": False,
+
+            "erro":
+                "Erro de conexão com a Cloudflare.",
+
+            "detalhes":
+                str(erro)
+
+        }), 500
+
+    except Exception as erro:
+
+        return jsonify({
+
+            "sucesso": False,
+
+            "erro":
+                "Erro ao gerar imagem.",
+
+            "detalhes":
+                str(erro)
+
+        }), 500
+
+
 # ============================================================
 # EXECUÇÃO
 # ============================================================
@@ -657,6 +968,5 @@ if __name__ == "__main__":
 
     app.run(
         host="0.0.0.0",
-        port=5000,
-        debug=True
+        port=5000
     )
