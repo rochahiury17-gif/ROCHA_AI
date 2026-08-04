@@ -739,161 +739,8 @@ async function criarNovoChat() {
 }
 
 
-
-// ============================================================
-// DETECTOR AUTOMÁTICO DE IMAGEM
-// ============================================================
-
-function pedidoDeImagem(texto) {
-
-    if (!texto) {
-        return false;
-    }
-
-    const frase = texto
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
-
-    const padroes = [
-        "gere uma imagem",
-        "gera uma imagem",
-        "gerar uma imagem",
-        "crie uma imagem",
-        "cria uma imagem",
-        "criar uma imagem",
-        "faca uma imagem",
-        "faz uma imagem",
-        "fazer uma imagem",
-        "desenhe uma imagem",
-        "desenha uma imagem",
-        "desenhar uma imagem",
-        "crie uma foto",
-        "criar uma foto",
-        "gere uma foto",
-        "gerar uma foto",
-        "faca uma foto",
-        "fazer uma foto",
-        "imagem de ",
-        "foto de "
-    ];
-
-    return padroes.some(function (padrao) {
-        return frase.includes(padrao);
-    });
-}
-
-
-// Extrai o pedido que será enviado ao gerador
-function extrairPromptImagem(texto) {
-
-    let prompt = texto.trim();
-
-    const remover = [
-        /^gere uma imagem\s*(de)?\s*/i,
-        /^gera uma imagem\s*(de)?\s*/i,
-        /^gerar uma imagem\s*(de)?\s*/i,
-        /^crie uma imagem\s*(de)?\s*/i,
-        /^cria uma imagem\s*(de)?\s*/i,
-        /^criar uma imagem\s*(de)?\s*/i,
-        /^faca uma imagem\s*(de)?\s*/i,
-        /^faz uma imagem\s*(de)?\s*/i,
-        /^fazer uma imagem\s*(de)?\s*/i,
-        /^desenhe uma imagem\s*(de)?\s*/i,
-        /^desenha uma imagem\s*(de)?\s*/i,
-        /^desenhar uma imagem\s*(de)?\s*/i,
-        /^gere uma foto\s*(de)?\s*/i,
-        /^gerar uma foto\s*(de)?\s*/i,
-        /^crie uma foto\s*(de)?\s*/i,
-        /^criar uma foto\s*(de)?\s*/i,
-        /^faca uma foto\s*(de)?\s*/i
-    ];
-
-    remover.forEach(function (regex) {
-        prompt = prompt.replace(regex, "");
-    });
-
-    return prompt.trim() || texto.trim();
-}
-
-
-
-// ============================================================
-// FORMATADOR DE RESPOSTAS — ROCHA AI
-// ============================================================
-
-function escaparHTML(texto) {
-
-    return texto
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-}
-
-
-function formatarResposta(texto) {
-
-    if (!texto) {
-        return "";
-    }
-
-    let resposta = escaparHTML(String(texto));
-
-    // Blocos de código
-    resposta = resposta.replace(
-        /```([\s\S]*?)```/g,
-        '<pre class="codigo-bloco"><code>$1</code></pre>'
-    );
-
-    // Código inline
-    resposta = resposta.replace(
-        /`([^`]+)`/g,
-        '<code class="codigo-inline">$1</code>'
-    );
-
-    // Negrito
-    resposta = resposta.replace(
-        /\*\*(.*?)\*\*/g,
-        "<strong>$1</strong>"
-    );
-
-    // Títulos simples
-    resposta = resposta.replace(
-        /^### (.*?)$/gm,
-        '<h4 class="resposta-titulo">$1</h4>'
-    );
-
-    resposta = resposta.replace(
-        /^## (.*?)$/gm,
-        '<h3 class="resposta-titulo">$1</h3>'
-    );
-
-    resposta = resposta.replace(
-        /^# (.*?)$/gm,
-        '<h2 class="resposta-titulo">$1</h2>'
-    );
-
-    // Listas
-    resposta = resposta.replace(
-        /^\s*[-*]\s+(.*?)$/gm,
-        '<li>$1</li>'
-    );
-
-    resposta = resposta.replace(
-        /(<li>.*?<\/li>)(?:\s*<li>)/gs,
-        "$1<li>"
-    );
-
-    // Quebras de linha
-    resposta = resposta.replace(/\n/g, "<br>");
-
-    return resposta;
-}
-
-
 // ============================================================
 // ENVIAR MENSAGEM
-
 // ============================================================
 
 async function enviarMensagem() {
@@ -902,13 +749,16 @@ async function enviarMensagem() {
         return;
     }
 
+
     const mensagem = input.value.trim();
 
     if (!mensagem) {
         return;
     }
 
+
     const usuario = obterUsuario();
+
 
     if (!usuario || !usuario.id) {
 
@@ -921,54 +771,21 @@ async function enviarMensagem() {
     }
 
 
-    // ========================================================
-    // DETECÇÃO AUTOMÁTICA DE IMAGEM
-    // ========================================================
-
-    if (pedidoDeImagem(mensagem)) {
-
-        adicionarMensagem(
-            "👤 " + mensagem,
-            "user-message"
-        );
-
-        input.value = "";
-
-        await gerarImagemAutomaticamente(
-            extrairPromptImagem(mensagem)
-        );
-
-        return;
-    }
-
-
-    // ========================================================
-    // CHAT NORMAL
-    // ========================================================
-
+    // Mostra mensagem do usuário
     adicionarMensagem(
         "👤 " + mensagem,
         "user-message"
     );
 
+
     input.value = "";
 
 
+    // Indicador
     const carregando = document.createElement("div");
 
-    carregando.className = "bot-message digitando";
-
-    carregando.innerHTML = `
-        <span class="digitando-logo">🤖</span>
-        <span class="digitando-texto">
-            ROCHA AI está digitando
-        </span>
-        <span class="pontos">
-            <span>.</span>
-            <span>.</span>
-            <span>.</span>
-        </span>
-    `;
+    carregando.className = "bot-message";
+    carregando.innerText = "🤖 Digitando...";
 
     chatBox.appendChild(carregando);
 
@@ -1016,9 +833,11 @@ async function enviarMensagem() {
         const dados = await resposta.json();
 
 
+        // Remove "Digitando..."
         carregando.remove();
 
 
+        // Guarda chat atual
         if (dados.chat_id) {
 
             chatAtual =
@@ -1026,29 +845,18 @@ async function enviarMensagem() {
         }
 
 
-        const respostaFormatada =
-            formatarResposta(
+        // Resposta da IA
+        adicionarMensagem(
+            "🤖 " +
+            (
                 dados.resposta ||
                 "Não consegui responder."
-            );
-
-        const mensagemBot =
-            document.createElement("div");
-
-        mensagemBot.className =
-            "bot-message";
-
-        mensagemBot.innerHTML =
-            "🤖 " + respostaFormatada;
-
-        chatBox.appendChild(
-            mensagemBot
+            ),
+            "bot-message"
         );
 
-        chatBox.scrollTop =
-            chatBox.scrollHeight;
 
-
+        // Atualiza lista
         await carregarChats();
 
 
@@ -1061,171 +869,6 @@ async function enviarMensagem() {
 
         carregando.innerText =
             "🤖 Erro ao conectar com a IA.";
-    }
-}
-
-
-// ============================================================
-// GERAR IMAGEM AUTOMATICAMENTE
-// ============================================================
-
-async function gerarImagemAutomaticamente(prompt) {
-
-    if (!prompt || !prompt.trim()) {
-
-        adicionarMensagem(
-            "🤖 Descreva qual imagem você quer gerar.",
-            "bot-message"
-        );
-
-        return;
-    }
-
-
-    const carregando =
-        document.createElement("div");
-
-    carregando.className =
-        "bot-message";
-
-    carregando.innerText =
-        "🤖 Criando sua imagem...";
-
-    chatBox.appendChild(carregando);
-
-    chatBox.scrollTop =
-        chatBox.scrollHeight;
-
-
-    try {
-
-        const resposta =
-            await fetch(
-                "/api/gerar-imagem",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        prompt: prompt.trim()
-                    })
-                }
-            );
-
-
-        const dados =
-            await resposta.json();
-
-
-        carregando.remove();
-
-
-        if (
-            !resposta.ok ||
-            !dados.sucesso
-        ) {
-
-            adicionarMensagem(
-                "❌ " +
-                (
-                    dados.erro ||
-                    "Não foi possível gerar a imagem."
-                ),
-                "bot-message"
-            );
-
-            console.error(
-                "Erro no gerador:",
-                dados
-            );
-
-            return;
-        }
-
-
-        // ====================================================
-        // CONTAINER DA IMAGEM
-        // ====================================================
-
-        const container =
-            document.createElement("div");
-
-        container.className =
-            "bot-message";
-
-
-        // ====================================================
-        // TEXTO
-        // ====================================================
-
-        const texto =
-            document.createElement("div");
-
-        texto.className =
-            "imagem-prompt";
-
-        texto.innerText =
-            "🤖 Imagem gerada";
-
-        container.appendChild(
-            texto
-        );
-
-
-        // ====================================================
-        // IMAGEM
-        // ====================================================
-
-        const imagem =
-            document.createElement("img");
-
-        imagem.className =
-            "imagem-gerada";
-
-        imagem.src =
-            dados.imagem;
-
-        imagem.alt =
-            prompt;
-
-        imagem.loading =
-            "lazy";
-
-
-        container.appendChild(
-            imagem
-        );
-
-
-        chatBox.appendChild(
-            container
-        );
-
-        chatBox.scrollTop =
-            chatBox.scrollHeight;
-
-
-    } catch (erro) {
-
-        console.error(
-            "Erro ao gerar imagem:",
-            erro
-        );
-
-
-        if (carregando) {
-            carregando.remove();
-        }
-
-
-        adicionarMensagem(
-            "❌ Erro ao conectar com o gerador de imagens.",
-            "bot-message"
-        );
     }
 }
 

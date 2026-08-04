@@ -330,9 +330,11 @@ def novo_chat():
         silent=True
     ) or {}
 
-    usuario = str(
-        dados.get("usuario", "")
-    ).strip()
+
+    usuario = dados.get(
+        "usuario"
+    )
+
 
     if not usuario:
 
@@ -341,30 +343,31 @@ def novo_chat():
             "erro": "Usuário não informado."
         }), 400
 
-    chats = carregar_chats(usuario)
 
-    chat_id = str(uuid.uuid4())
+    chats = carregar_chats(
+        usuario
+    )
 
-    agora = __import__("datetime").datetime.now().isoformat()
+
+    chat_id = str(
+        uuid.uuid4()
+    )
+
 
     chats[chat_id] = {
 
         "titulo": "Novo chat",
 
-        "fixado": False,
-
-        "criado_em": agora,
-
-        "atualizado_em": agora,
-
         "mensagens": []
 
     }
+
 
     salvar_chats(
         usuario,
         chats
     )
+
 
     return jsonify({
 
@@ -376,12 +379,6 @@ def novo_chat():
 
             "titulo": "Novo chat",
 
-            "fixado": False,
-
-            "criado_em": agora,
-
-            "atualizado_em": agora,
-
             "mensagens": []
 
         }
@@ -390,7 +387,7 @@ def novo_chat():
 
 
 # ============================================================
-# LISTAR CHATS DO USUÁRIO
+# LISTAR CHATS
 # ============================================================
 
 @app.route(
@@ -403,22 +400,34 @@ def api_listar_chats():
         silent=True
     ) or {}
 
-    usuario = str(
-        dados.get("usuario", "")
-    ).strip()
+
+    usuario = dados.get(
+        "usuario"
+    )
+
 
     if not usuario:
 
         return jsonify([])
 
-    chats = carregar_chats(usuario)
+
+    chats = carregar_chats(
+        usuario
+    )
+
 
     resultado = []
 
+
     for chat_id, chat in chats.items():
 
-        if not isinstance(chat, dict):
+        if not isinstance(
+            chat,
+            dict
+        ):
+
             continue
+
 
         resultado.append({
 
@@ -427,46 +436,14 @@ def api_listar_chats():
             "titulo": chat.get(
                 "titulo",
                 "Novo chat"
-            ),
-
-            "fixado": bool(
-                chat.get(
-                    "fixado",
-                    False
-                )
-            ),
-
-            "criado_em": chat.get(
-                "criado_em",
-                ""
-            ),
-
-            "atualizado_em": chat.get(
-                "atualizado_em",
-                ""
-            ),
-
-            "mensagens": len(
-                chat.get(
-                    "mensagens",
-                    []
-                )
             )
 
         })
 
-    # Chats fixados primeiro.
-    # Dentro de cada grupo, os mais recentes primeiro.
 
-    resultado.sort(
-        key=lambda x: (
-            not x["fixado"],
-            x["atualizado_em"]
-        ),
-        reverse=True
+    return jsonify(
+        resultado
     )
-
-    return jsonify(resultado)
 
 
 # ============================================================
@@ -483,31 +460,40 @@ def api_historico_chat():
         silent=True
     ) or {}
 
-    usuario = str(
-        dados.get("usuario", "")
-    ).strip()
 
-    chat_id = str(
-        dados.get(
-            "chat_id",
-            dados.get("chat", "")
-        )
-    ).strip()
+    usuario = dados.get(
+        "usuario"
+    )
+
+
+    chat_id = dados.get(
+        "chat"
+    )
+
 
     if not usuario or not chat_id:
 
         return jsonify([])
 
-    chats = carregar_chats(usuario)
+
+    chats = carregar_chats(
+        usuario
+    )
+
 
     chat = chats.get(
         chat_id,
         {}
     )
 
-    if not isinstance(chat, dict):
+
+    if not isinstance(
+        chat,
+        dict
+    ):
 
         return jsonify([])
+
 
     return jsonify(
         chat.get(
@@ -515,183 +501,6 @@ def api_historico_chat():
             []
         )
     )
-
-
-# ============================================================
-# RENOMEAR CHAT
-# ============================================================
-
-@app.route(
-    "/api/chat/renomear",
-    methods=["POST"]
-)
-def renomear_chat():
-
-    dados = request.get_json(
-        silent=True
-    ) or {}
-
-    usuario = str(
-        dados.get("usuario", "")
-    ).strip()
-
-    chat_id = str(
-        dados.get("chat_id", "")
-    ).strip()
-
-    titulo = str(
-        dados.get("titulo", "")
-    ).strip()
-
-    if not usuario or not chat_id or not titulo:
-
-        return jsonify({
-            "sucesso": False,
-            "erro": "Dados incompletos."
-        }), 400
-
-    chats = carregar_chats(usuario)
-
-    if chat_id not in chats:
-
-        return jsonify({
-            "sucesso": False,
-            "erro": "Chat não encontrado."
-        }), 404
-
-    agora = __import__("datetime").datetime.now().isoformat()
-
-    chats[chat_id]["titulo"] = titulo[:80]
-
-    chats[chat_id]["atualizado_em"] = agora
-
-    salvar_chats(
-        usuario,
-        chats
-    )
-
-    return jsonify({
-        "sucesso": True,
-        "titulo": chats[chat_id]["titulo"]
-    })
-
-
-# ============================================================
-# FIXAR / DESAFIXAR CHAT
-# ============================================================
-
-@app.route(
-    "/api/chat/fixar",
-    methods=["POST"]
-)
-def fixar_chat():
-
-    dados = request.get_json(
-        silent=True
-    ) or {}
-
-    usuario = str(
-        dados.get("usuario", "")
-    ).strip()
-
-    chat_id = str(
-        dados.get("chat_id", "")
-    ).strip()
-
-    if not usuario or not chat_id:
-
-        return jsonify({
-            "sucesso": False,
-            "erro": "Dados incompletos."
-        }), 400
-
-    chats = carregar_chats(usuario)
-
-    if chat_id not in chats:
-
-        return jsonify({
-            "sucesso": False,
-            "erro": "Chat não encontrado."
-        }), 404
-
-    chat = chats[chat_id]
-
-    chat["fixado"] = not bool(
-        chat.get(
-            "fixado",
-            False
-        )
-    )
-
-    chat["atualizado_em"] = (
-        __import__("datetime")
-        .datetime
-        .now()
-        .isoformat()
-    )
-
-    salvar_chats(
-        usuario,
-        chats
-    )
-
-    return jsonify({
-
-        "sucesso": True,
-
-        "fixado": chat["fixado"]
-
-    })
-
-
-# ============================================================
-# EXCLUIR CHAT
-# ============================================================
-
-@app.route(
-    "/api/chat/excluir",
-    methods=["POST"]
-)
-def excluir_chat():
-
-    dados = request.get_json(
-        silent=True
-    ) or {}
-
-    usuario = str(
-        dados.get("usuario", "")
-    ).strip()
-
-    chat_id = str(
-        dados.get("chat_id", "")
-    ).strip()
-
-    if not usuario or not chat_id:
-
-        return jsonify({
-            "sucesso": False,
-            "erro": "Dados incompletos."
-        }), 400
-
-    chats = carregar_chats(usuario)
-
-    if chat_id not in chats:
-
-        return jsonify({
-            "sucesso": False,
-            "erro": "Chat não encontrado."
-        }), 404
-
-    del chats[chat_id]
-
-    salvar_chats(
-        usuario,
-        chats
-    )
-
-    return jsonify({
-        "sucesso": True
-    })
 
 
 # ============================================================

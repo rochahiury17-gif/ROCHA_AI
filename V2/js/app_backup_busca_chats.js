@@ -120,30 +120,23 @@ function mostrarHistorico(mensagens) {
 
 async function carregarChats() {
 
-    if (!listaChats) {
-        return;
-    }
+    if (!listaChats) return;
 
     const usuario = obterUsuario();
 
-    if (!usuario || !usuario.id) {
-        return;
-    }
+    if (!usuario || !usuario.id) return;
 
     try {
 
-        const resposta = await fetch(
-            "/api/chats",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    usuario: usuario.id
-                })
-            }
-        );
+        const resposta = await fetch("/api/chats", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                usuario: usuario.id
+            })
+        });
 
         if (!resposta.ok) {
             console.error("Erro ao carregar chats:", resposta.status);
@@ -155,6 +148,7 @@ async function carregarChats() {
         listaChats.innerHTML = "";
 
         const titulo = document.createElement("div");
+
         titulo.className = "lista-chats-titulo";
         titulo.innerText = "Conversas";
 
@@ -163,6 +157,7 @@ async function carregarChats() {
         if (!Array.isArray(chats) || chats.length === 0) {
 
             const vazio = document.createElement("div");
+
             vazio.className = "chat-vazio";
             vazio.innerText = "Nenhuma conversa ainda.";
 
@@ -178,22 +173,22 @@ async function carregarChats() {
                 return a.fixado ? -1 : 1;
             }
 
-            return String(b.atualizado_em || "")
-                .localeCompare(String(a.atualizado_em || ""));
+            return 0;
         });
 
         chats.forEach(function(chat) {
 
             const item = document.createElement("div");
+
             item.className = "chat-item";
 
             if (chat.id === chatAtual) {
                 item.classList.add("chat-item-ativo");
             }
 
-            // ------------------------------------------------
-            // CONTEÚDO
-            // ------------------------------------------------
+            const conteudo = document.createElement("div");
+
+            conteudo.className = "chat-item-conteudo";
 
             const nome = document.createElement("span");
 
@@ -203,44 +198,30 @@ async function carregarChats() {
                 (chat.fixado ? "📌 " : "") +
                 (chat.titulo || "Novo chat");
 
-            item.appendChild(nome);
+            conteudo.appendChild(nome);
 
-            // ------------------------------------------------
-            // BOTÃO DE OPÇÕES
-            // ------------------------------------------------
+            const menu = document.createElement("button");
 
-            const opcoes = document.createElement("button");
+            menu.className = "chat-menu-btn";
+            menu.type = "button";
+            menu.innerText = "⋮";
 
-            opcoes.className = "chat-opcoes";
-            opcoes.type = "button";
-            opcoes.innerText = "⋮";
-            opcoes.title = "Opções";
+            menu.addEventListener("click", function(event) {
 
-            opcoes.addEventListener(
-                "click",
-                function(event) {
+                event.stopPropagation();
 
-                    event.stopPropagation();
+                abrirMenuChat(chat, menu);
 
-                    mostrarOpcoesChat(
-                        chat,
-                        item
-                    );
-                }
-            );
+            });
 
-            item.appendChild(opcoes);
+            item.appendChild(conteudo);
+            item.appendChild(menu);
 
-            // ------------------------------------------------
-            // ABRIR CHAT
-            // ------------------------------------------------
+            item.addEventListener("click", function() {
 
-            item.addEventListener(
-                "click",
-                function() {
-                    abrirChat(chat.id);
-                }
-            );
+                abrirChat(chat.id);
+
+            });
 
             listaChats.appendChild(item);
 
@@ -248,270 +229,127 @@ async function carregarChats() {
 
     } catch (erro) {
 
-        console.error(
-            "Erro ao carregar chats:",
-            erro
-        );
+        console.error("Erro ao carregar chats:", erro);
+
     }
 }
 
 
 // ============================================================
-// MENU DE OPÇÕES DO CHAT
+// MENU DO CHAT
 // ============================================================
 
-function mostrarOpcoesChat(chat, item) {
+function abrirMenuChat(chat, botao) {
 
-    // Remove menus anteriores
-    document
-        .querySelectorAll(".chat-menu")
-        .forEach(function(menu) {
-            menu.remove();
-        });
+    const antigo =
+        document.querySelector(".chat-menu-popup");
 
-    const menu = document.createElement("div");
+    if (antigo) {
+        antigo.remove();
+    }
 
-    menu.className = "chat-menu";
+    const popup =
+        document.createElement("div");
 
-    // --------------------------------------------------------
-    // FIXAR
-    // --------------------------------------------------------
+    popup.className =
+        "chat-menu-popup";
 
-    const fixar = document.createElement("button");
+    const renomear =
+        document.createElement("button");
 
-    fixar.type = "button";
+    renomear.innerText =
+        "✏️ Renomear";
+
+    renomear.onclick =
+        function(event) {
+
+            event.stopPropagation();
+
+            popup.remove();
+
+            renomearChat(chat);
+
+        };
+
+
+    const fixar =
+        document.createElement("button");
 
     fixar.innerText =
         chat.fixado
             ? "📌 Desafixar"
             : "📌 Fixar";
 
-    fixar.addEventListener(
-        "click",
-        async function() {
+    fixar.onclick =
+        function(event) {
 
-            menu.remove();
+            event.stopPropagation();
 
-            await executarAcaoChat(
-                "/api/chat/fixar",
-                chat.id
-            );
-        }
-    );
+            popup.remove();
 
-    menu.appendChild(fixar);
+            alternarFixarChat(chat);
 
-    // --------------------------------------------------------
-    // RENOMEAR
-    // --------------------------------------------------------
+        };
 
-    const renomear = document.createElement("button");
 
-    renomear.type = "button";
-    renomear.innerText = "✏️ Renomear";
+    const excluir =
+        document.createElement("button");
 
-    renomear.addEventListener(
-        "click",
-        async function() {
+    excluir.innerText =
+        "🗑️ Excluir";
 
-            menu.remove();
+    excluir.className =
+        "chat-menu-excluir";
 
-            const novoTitulo = window.prompt(
-                "Novo nome da conversa:",
-                chat.titulo || "Novo chat"
-            );
+    excluir.onclick =
+        function(event) {
 
-            if (!novoTitulo || !novoTitulo.trim()) {
-                return;
-            }
+            event.stopPropagation();
 
-            try {
+            popup.remove();
 
-                const resposta = await fetch(
-                    "/api/chat/renomear",
-                    {
-                        method: "POST",
+            excluirChat(chat);
 
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
+        };
 
-                        body: JSON.stringify({
-                            usuario:
-                                obterUsuario().id,
 
-                            chat_id:
-                                chat.id,
+    popup.appendChild(renomear);
+    popup.appendChild(fixar);
+    popup.appendChild(excluir);
 
-                            titulo:
-                                novoTitulo.trim()
-                        })
-                    }
-                );
+    document.body.appendChild(popup);
 
-                const dados =
-                    await resposta.json();
+    const rect =
+        botao.getBoundingClientRect();
 
-                if (!resposta.ok || !dados.sucesso) {
+    popup.style.top =
+        (rect.bottom + 5) + "px";
 
-                    alert(
-                        dados.erro ||
-                        "Não foi possível renomear."
-                    );
+    popup.style.left =
+        Math.max(
+            8,
+            rect.right - 170
+        ) + "px";
 
-                    return;
-                }
-
-                await carregarChats();
-
-            } catch (erro) {
-
-                console.error(
-                    "Erro ao renomear:",
-                    erro
-                );
-
-                alert(
-                    "Erro ao conectar com o servidor."
-                );
-            }
-        }
-    );
-
-    menu.appendChild(renomear);
-
-    // --------------------------------------------------------
-    // EXCLUIR
-    // --------------------------------------------------------
-
-    const excluir = document.createElement("button");
-
-    excluir.type = "button";
-    excluir.className = "chat-menu-excluir";
-    excluir.innerText = "🗑️ Excluir";
-
-    excluir.addEventListener(
-        "click",
-        async function() {
-
-            menu.remove();
-
-            const confirmar =
-                window.confirm(
-                    "Excluir esta conversa?\n\nEssa ação não pode ser desfeita."
-                );
-
-            if (!confirmar) {
-                return;
-            }
-
-            try {
-
-                const resposta = await fetch(
-                    "/api/chat/excluir",
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body: JSON.stringify({
-                            usuario:
-                                obterUsuario().id,
-
-                            chat_id:
-                                chat.id
-                        })
-                    }
-                );
-
-                const dados =
-                    await resposta.json();
-
-                if (!resposta.ok || !dados.sucesso) {
-
-                    alert(
-                        dados.erro ||
-                        "Não foi possível excluir."
-                    );
-
-                    return;
-                }
-
-                if (chatAtual === chat.id) {
-
-                    chatAtual = null;
-
-                    limparChat();
-
-                    mensagemInicial();
-                }
-
-                await carregarChats();
-
-            } catch (erro) {
-
-                console.error(
-                    "Erro ao excluir:",
-                    erro
-                );
-
-                alert(
-                    "Erro ao conectar com o servidor."
-                );
-            }
-        }
-    );
-
-    menu.appendChild(excluir);
-
-    document.body.appendChild(menu);
-
-    const rect = item.getBoundingClientRect();
-
-    menu.style.position = "fixed";
-    menu.style.zIndex = "99999";
-
-    let top = rect.bottom - 5;
-    let left = rect.right - 175;
-
-    if (left < 10) {
-        left = 10;
-    }
-
-    if (top + 160 > window.innerHeight) {
-        top = rect.top - 155;
-    }
-
-    if (top < 10) {
-        top = 10;
-    }
-
-    menu.style.top = top + "px";
-    menu.style.left = left + "px";
 
     setTimeout(function() {
 
         document.addEventListener(
             "click",
-            function fecharMenu(event) {
+            function fechar(event) {
 
-                if (!menu.contains(event.target) &&
-                    event.target !== opcoes) {
+                if (!popup.contains(event.target)) {
 
-                    menu.remove();
+                    popup.remove();
 
                     document.removeEventListener(
                         "click",
-                        fecharMenu
+                        fechar
                     );
+
                 }
 
-            },
-            { once: true }
+            }
         );
 
     }, 0);
@@ -519,35 +357,48 @@ function mostrarOpcoesChat(chat, item) {
 
 
 // ============================================================
-// EXECUTAR AÇÃO DO CHAT
+// RENOMEAR CHAT
 // ============================================================
 
-async function executarAcaoChat(endpoint, chatId) {
+async function renomearChat(chat) {
 
-    const usuario = obterUsuario();
+    const novoNome =
+        window.prompt(
+            "Novo nome do chat:",
+            chat.titulo || "Novo chat"
+        );
 
-    if (!usuario || !usuario.id || !chatId) {
+    if (!novoNome || !novoNome.trim()) {
         return;
     }
 
     try {
 
-        const resposta = await fetch(
-            endpoint,
-            {
-                method: "POST",
+        const resposta =
+            await fetch(
+                "/api/chat/renomear",
+                {
+                    method: "POST",
 
-                headers: {
-                    "Content-Type":
-                        "application/json"
-                },
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-                body: JSON.stringify({
-                    usuario: usuario.id,
-                    chat_id: chatId
-                })
-            }
-        );
+                    body: JSON.stringify({
+
+                        usuario:
+                            obterUsuario().id,
+
+                        chat_id:
+                            chat.id,
+
+                        titulo:
+                            novoNome.trim()
+
+                    })
+                }
+            );
 
         const dados =
             await resposta.json();
@@ -556,7 +407,7 @@ async function executarAcaoChat(endpoint, chatId) {
 
             alert(
                 dados.erro ||
-                "Não foi possível realizar a ação."
+                "Não foi possível renomear o chat."
             );
 
             return;
@@ -567,13 +418,155 @@ async function executarAcaoChat(endpoint, chatId) {
     } catch (erro) {
 
         console.error(
-            "Erro na ação do chat:",
+            "Erro ao renomear chat:",
             erro
         );
 
         alert(
-            "Erro ao conectar com o servidor."
+            "Erro ao comunicar com o servidor."
         );
+
+    }
+}
+
+
+// ============================================================
+// FIXAR CHAT
+// ============================================================
+
+async function alternarFixarChat(chat) {
+
+    try {
+
+        const resposta =
+            await fetch(
+                "/api/chat/fixar",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        usuario:
+                            obterUsuario().id,
+
+                        chat_id:
+                            chat.id
+
+                    })
+                }
+            );
+
+        const dados =
+            await resposta.json();
+
+        if (!resposta.ok || !dados.sucesso) {
+
+            alert(
+                dados.erro ||
+                "Não foi possível alterar o chat."
+            );
+
+            return;
+        }
+
+        await carregarChats();
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao fixar chat:",
+            erro
+        );
+
+        alert(
+            "Erro ao comunicar com o servidor."
+        );
+
+    }
+}
+
+
+// ============================================================
+// EXCLUIR CHAT
+// ============================================================
+
+async function excluirChat(chat) {
+
+    const confirmar =
+        window.confirm(
+            'Excluir o chat "' +
+            (chat.titulo || "Novo chat") +
+            '"?'
+        );
+
+    if (!confirmar) {
+        return;
+    }
+
+    try {
+
+        const resposta =
+            await fetch(
+                "/api/chat/excluir",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        usuario:
+                            obterUsuario().id,
+
+                        chat_id:
+                            chat.id
+
+                    })
+                }
+            );
+
+        const dados =
+            await resposta.json();
+
+        if (!resposta.ok || !dados.sucesso) {
+
+            alert(
+                dados.erro ||
+                "Não foi possível excluir o chat."
+            );
+
+            return;
+        }
+
+        if (chatAtual === chat.id) {
+
+            chatAtual = null;
+
+            mensagemInicial();
+
+        }
+
+        await carregarChats();
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao excluir chat:",
+            erro
+        );
+
+        alert(
+            "Erro ao comunicar com o servidor."
+        );
+
     }
 }
 
@@ -739,161 +732,8 @@ async function criarNovoChat() {
 }
 
 
-
-// ============================================================
-// DETECTOR AUTOMÁTICO DE IMAGEM
-// ============================================================
-
-function pedidoDeImagem(texto) {
-
-    if (!texto) {
-        return false;
-    }
-
-    const frase = texto
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
-
-    const padroes = [
-        "gere uma imagem",
-        "gera uma imagem",
-        "gerar uma imagem",
-        "crie uma imagem",
-        "cria uma imagem",
-        "criar uma imagem",
-        "faca uma imagem",
-        "faz uma imagem",
-        "fazer uma imagem",
-        "desenhe uma imagem",
-        "desenha uma imagem",
-        "desenhar uma imagem",
-        "crie uma foto",
-        "criar uma foto",
-        "gere uma foto",
-        "gerar uma foto",
-        "faca uma foto",
-        "fazer uma foto",
-        "imagem de ",
-        "foto de "
-    ];
-
-    return padroes.some(function (padrao) {
-        return frase.includes(padrao);
-    });
-}
-
-
-// Extrai o pedido que será enviado ao gerador
-function extrairPromptImagem(texto) {
-
-    let prompt = texto.trim();
-
-    const remover = [
-        /^gere uma imagem\s*(de)?\s*/i,
-        /^gera uma imagem\s*(de)?\s*/i,
-        /^gerar uma imagem\s*(de)?\s*/i,
-        /^crie uma imagem\s*(de)?\s*/i,
-        /^cria uma imagem\s*(de)?\s*/i,
-        /^criar uma imagem\s*(de)?\s*/i,
-        /^faca uma imagem\s*(de)?\s*/i,
-        /^faz uma imagem\s*(de)?\s*/i,
-        /^fazer uma imagem\s*(de)?\s*/i,
-        /^desenhe uma imagem\s*(de)?\s*/i,
-        /^desenha uma imagem\s*(de)?\s*/i,
-        /^desenhar uma imagem\s*(de)?\s*/i,
-        /^gere uma foto\s*(de)?\s*/i,
-        /^gerar uma foto\s*(de)?\s*/i,
-        /^crie uma foto\s*(de)?\s*/i,
-        /^criar uma foto\s*(de)?\s*/i,
-        /^faca uma foto\s*(de)?\s*/i
-    ];
-
-    remover.forEach(function (regex) {
-        prompt = prompt.replace(regex, "");
-    });
-
-    return prompt.trim() || texto.trim();
-}
-
-
-
-// ============================================================
-// FORMATADOR DE RESPOSTAS — ROCHA AI
-// ============================================================
-
-function escaparHTML(texto) {
-
-    return texto
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-}
-
-
-function formatarResposta(texto) {
-
-    if (!texto) {
-        return "";
-    }
-
-    let resposta = escaparHTML(String(texto));
-
-    // Blocos de código
-    resposta = resposta.replace(
-        /```([\s\S]*?)```/g,
-        '<pre class="codigo-bloco"><code>$1</code></pre>'
-    );
-
-    // Código inline
-    resposta = resposta.replace(
-        /`([^`]+)`/g,
-        '<code class="codigo-inline">$1</code>'
-    );
-
-    // Negrito
-    resposta = resposta.replace(
-        /\*\*(.*?)\*\*/g,
-        "<strong>$1</strong>"
-    );
-
-    // Títulos simples
-    resposta = resposta.replace(
-        /^### (.*?)$/gm,
-        '<h4 class="resposta-titulo">$1</h4>'
-    );
-
-    resposta = resposta.replace(
-        /^## (.*?)$/gm,
-        '<h3 class="resposta-titulo">$1</h3>'
-    );
-
-    resposta = resposta.replace(
-        /^# (.*?)$/gm,
-        '<h2 class="resposta-titulo">$1</h2>'
-    );
-
-    // Listas
-    resposta = resposta.replace(
-        /^\s*[-*]\s+(.*?)$/gm,
-        '<li>$1</li>'
-    );
-
-    resposta = resposta.replace(
-        /(<li>.*?<\/li>)(?:\s*<li>)/gs,
-        "$1<li>"
-    );
-
-    // Quebras de linha
-    resposta = resposta.replace(/\n/g, "<br>");
-
-    return resposta;
-}
-
-
 // ============================================================
 // ENVIAR MENSAGEM
-
 // ============================================================
 
 async function enviarMensagem() {
@@ -902,13 +742,16 @@ async function enviarMensagem() {
         return;
     }
 
+
     const mensagem = input.value.trim();
 
     if (!mensagem) {
         return;
     }
 
+
     const usuario = obterUsuario();
+
 
     if (!usuario || !usuario.id) {
 
@@ -921,54 +764,21 @@ async function enviarMensagem() {
     }
 
 
-    // ========================================================
-    // DETECÇÃO AUTOMÁTICA DE IMAGEM
-    // ========================================================
-
-    if (pedidoDeImagem(mensagem)) {
-
-        adicionarMensagem(
-            "👤 " + mensagem,
-            "user-message"
-        );
-
-        input.value = "";
-
-        await gerarImagemAutomaticamente(
-            extrairPromptImagem(mensagem)
-        );
-
-        return;
-    }
-
-
-    // ========================================================
-    // CHAT NORMAL
-    // ========================================================
-
+    // Mostra mensagem do usuário
     adicionarMensagem(
         "👤 " + mensagem,
         "user-message"
     );
 
+
     input.value = "";
 
 
+    // Indicador
     const carregando = document.createElement("div");
 
-    carregando.className = "bot-message digitando";
-
-    carregando.innerHTML = `
-        <span class="digitando-logo">🤖</span>
-        <span class="digitando-texto">
-            ROCHA AI está digitando
-        </span>
-        <span class="pontos">
-            <span>.</span>
-            <span>.</span>
-            <span>.</span>
-        </span>
-    `;
+    carregando.className = "bot-message";
+    carregando.innerText = "🤖 Digitando...";
 
     chatBox.appendChild(carregando);
 
@@ -1016,9 +826,11 @@ async function enviarMensagem() {
         const dados = await resposta.json();
 
 
+        // Remove "Digitando..."
         carregando.remove();
 
 
+        // Guarda chat atual
         if (dados.chat_id) {
 
             chatAtual =
@@ -1026,29 +838,18 @@ async function enviarMensagem() {
         }
 
 
-        const respostaFormatada =
-            formatarResposta(
+        // Resposta da IA
+        adicionarMensagem(
+            "🤖 " +
+            (
                 dados.resposta ||
                 "Não consegui responder."
-            );
-
-        const mensagemBot =
-            document.createElement("div");
-
-        mensagemBot.className =
-            "bot-message";
-
-        mensagemBot.innerHTML =
-            "🤖 " + respostaFormatada;
-
-        chatBox.appendChild(
-            mensagemBot
+            ),
+            "bot-message"
         );
 
-        chatBox.scrollTop =
-            chatBox.scrollHeight;
 
-
+        // Atualiza lista
         await carregarChats();
 
 
@@ -1061,171 +862,6 @@ async function enviarMensagem() {
 
         carregando.innerText =
             "🤖 Erro ao conectar com a IA.";
-    }
-}
-
-
-// ============================================================
-// GERAR IMAGEM AUTOMATICAMENTE
-// ============================================================
-
-async function gerarImagemAutomaticamente(prompt) {
-
-    if (!prompt || !prompt.trim()) {
-
-        adicionarMensagem(
-            "🤖 Descreva qual imagem você quer gerar.",
-            "bot-message"
-        );
-
-        return;
-    }
-
-
-    const carregando =
-        document.createElement("div");
-
-    carregando.className =
-        "bot-message";
-
-    carregando.innerText =
-        "🤖 Criando sua imagem...";
-
-    chatBox.appendChild(carregando);
-
-    chatBox.scrollTop =
-        chatBox.scrollHeight;
-
-
-    try {
-
-        const resposta =
-            await fetch(
-                "/api/gerar-imagem",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        prompt: prompt.trim()
-                    })
-                }
-            );
-
-
-        const dados =
-            await resposta.json();
-
-
-        carregando.remove();
-
-
-        if (
-            !resposta.ok ||
-            !dados.sucesso
-        ) {
-
-            adicionarMensagem(
-                "❌ " +
-                (
-                    dados.erro ||
-                    "Não foi possível gerar a imagem."
-                ),
-                "bot-message"
-            );
-
-            console.error(
-                "Erro no gerador:",
-                dados
-            );
-
-            return;
-        }
-
-
-        // ====================================================
-        // CONTAINER DA IMAGEM
-        // ====================================================
-
-        const container =
-            document.createElement("div");
-
-        container.className =
-            "bot-message";
-
-
-        // ====================================================
-        // TEXTO
-        // ====================================================
-
-        const texto =
-            document.createElement("div");
-
-        texto.className =
-            "imagem-prompt";
-
-        texto.innerText =
-            "🤖 Imagem gerada";
-
-        container.appendChild(
-            texto
-        );
-
-
-        // ====================================================
-        // IMAGEM
-        // ====================================================
-
-        const imagem =
-            document.createElement("img");
-
-        imagem.className =
-            "imagem-gerada";
-
-        imagem.src =
-            dados.imagem;
-
-        imagem.alt =
-            prompt;
-
-        imagem.loading =
-            "lazy";
-
-
-        container.appendChild(
-            imagem
-        );
-
-
-        chatBox.appendChild(
-            container
-        );
-
-        chatBox.scrollTop =
-            chatBox.scrollHeight;
-
-
-    } catch (erro) {
-
-        console.error(
-            "Erro ao gerar imagem:",
-            erro
-        );
-
-
-        if (carregando) {
-            carregando.remove();
-        }
-
-
-        adicionarMensagem(
-            "❌ Erro ao conectar com o gerador de imagens.",
-            "bot-message"
-        );
     }
 }
 
@@ -2010,57 +1646,3 @@ document.addEventListener(
 
     }
 );
-
-/* ============================================================
-   BUSCA DE CONVERSAS
-   ============================================================ */
-
-document.addEventListener("DOMContentLoaded", function() {
-
-    const busca =
-        document.getElementById("buscar-chats");
-
-    const novoSecundario =
-        document.getElementById("novo-chat-secundario");
-
-    if (novoSecundario) {
-
-        novoSecundario.addEventListener(
-            "click",
-            criarNovoChat
-        );
-
-    }
-
-    if (!busca) return;
-
-    busca.addEventListener(
-        "input",
-        function() {
-
-            const termo =
-                busca.value
-                    .trim()
-                    .toLowerCase();
-
-            document
-                .querySelectorAll(".chat-item")
-                .forEach(function(item) {
-
-                    const texto =
-                        item.innerText
-                            .toLowerCase();
-
-                    item.style.display =
-                        !termo ||
-                        texto.includes(termo)
-                            ? "flex"
-                            : "none";
-
-                });
-
-        }
-    );
-
-});
-

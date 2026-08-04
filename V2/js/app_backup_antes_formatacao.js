@@ -817,83 +817,8 @@ function extrairPromptImagem(texto) {
 }
 
 
-
-// ============================================================
-// FORMATADOR DE RESPOSTAS — ROCHA AI
-// ============================================================
-
-function escaparHTML(texto) {
-
-    return texto
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-}
-
-
-function formatarResposta(texto) {
-
-    if (!texto) {
-        return "";
-    }
-
-    let resposta = escaparHTML(String(texto));
-
-    // Blocos de código
-    resposta = resposta.replace(
-        /```([\s\S]*?)```/g,
-        '<pre class="codigo-bloco"><code>$1</code></pre>'
-    );
-
-    // Código inline
-    resposta = resposta.replace(
-        /`([^`]+)`/g,
-        '<code class="codigo-inline">$1</code>'
-    );
-
-    // Negrito
-    resposta = resposta.replace(
-        /\*\*(.*?)\*\*/g,
-        "<strong>$1</strong>"
-    );
-
-    // Títulos simples
-    resposta = resposta.replace(
-        /^### (.*?)$/gm,
-        '<h4 class="resposta-titulo">$1</h4>'
-    );
-
-    resposta = resposta.replace(
-        /^## (.*?)$/gm,
-        '<h3 class="resposta-titulo">$1</h3>'
-    );
-
-    resposta = resposta.replace(
-        /^# (.*?)$/gm,
-        '<h2 class="resposta-titulo">$1</h2>'
-    );
-
-    // Listas
-    resposta = resposta.replace(
-        /^\s*[-*]\s+(.*?)$/gm,
-        '<li>$1</li>'
-    );
-
-    resposta = resposta.replace(
-        /(<li>.*?<\/li>)(?:\s*<li>)/gs,
-        "$1<li>"
-    );
-
-    // Quebras de linha
-    resposta = resposta.replace(/\n/g, "<br>");
-
-    return resposta;
-}
-
-
 // ============================================================
 // ENVIAR MENSAGEM
-
 // ============================================================
 
 async function enviarMensagem() {
@@ -1026,27 +951,14 @@ async function enviarMensagem() {
         }
 
 
-        const respostaFormatada =
-            formatarResposta(
+        adicionarMensagem(
+            "🤖 " +
+            (
                 dados.resposta ||
                 "Não consegui responder."
-            );
-
-        const mensagemBot =
-            document.createElement("div");
-
-        mensagemBot.className =
-            "bot-message";
-
-        mensagemBot.innerHTML =
-            "🤖 " + respostaFormatada;
-
-        chatBox.appendChild(
-            mensagemBot
+            ),
+            "bot-message"
         );
-
-        chatBox.scrollTop =
-            chatBox.scrollHeight;
 
 
         await carregarChats();
