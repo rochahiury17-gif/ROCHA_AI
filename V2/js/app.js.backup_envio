@@ -2540,7 +2540,7 @@ document.addEventListener("DOMContentLoaded", function() {
 // ============================================================
 
 const botaoVoz =
-    document.getElementById("botao-microfone");
+    document.getElementById("botao-voz");
 
 const botaoArquivo =
     document.getElementById("botao-arquivo");
@@ -3245,104 +3245,6 @@ if (inputImagem) {
 
             }
         );
-
-    }
-
-})();
-
-
-// ============================================================
-// CORREÇÃO FINAL — ENVIO DE MENSAGEM
-// ============================================================
-
-(function corrigirEnvioMensagem() {
-
-    function iniciarEnvio() {
-
-        const campo =
-            document.getElementById("mensagem");
-
-        const botaoOriginal =
-            document.getElementById("enviar-mensagem");
-
-        if (!campo || !botaoOriginal) {
-            console.warn(
-                "ROCHA AI: campo ou botão de envio não encontrado."
-            );
-            return;
-        }
-
-        // Remove listeners antigos do botão
-        // sem alterar o HTML visual.
-        const botao =
-            botaoOriginal.cloneNode(true);
-
-        botaoOriginal.parentNode.replaceChild(
-            botao,
-            botaoOriginal
-        );
-
-        // Clique no botão Enviar
-        botao.addEventListener(
-            "click",
-            function (evento) {
-
-                evento.preventDefault();
-                evento.stopPropagation();
-
-                if (
-                    typeof enviarMensagem ===
-                    "function"
-                ) {
-                    enviarMensagem();
-                }
-
-            }
-        );
-
-        // Enter envia a mensagem
-        campo.addEventListener(
-            "keydown",
-            function (evento) {
-
-                if (
-                    evento.key === "Enter" &&
-                    !evento.shiftKey
-                ) {
-
-                    evento.preventDefault();
-
-                    if (
-                        typeof enviarMensagem ===
-                        "function"
-                    ) {
-                        enviarMensagem();
-                    }
-
-                }
-
-            }
-        );
-
-        console.log(
-            "ROCHA AI: sistema de envio corrigido."
-        );
-    }
-
-
-    if (
-        document.readyState ===
-        "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            iniciarEnvio
-        );
-
-    } else {
-
-        iniciarEnvio();
 
     }
 

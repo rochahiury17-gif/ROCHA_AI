@@ -177,74 +177,15 @@
 
     <div class="chat-input">
 
-        <!-- BOTÃO + -->
+        <button
+            id="gerar-imagem"
+            type="button"
+            title="Gerar imagem">
 
-        <div class="chat-plus-wrapper">
+            🖼️
 
-            <button
-                id="botao-plus"
-                class="chat-action-plus"
-                type="button"
-                title="Adicionar">
+        </button>
 
-                ＋
-
-            </button>
-
-
-            <!-- MENU DO + -->
-
-            <div
-                id="menu-anexos"
-                class="menu-anexos">
-
-                <button
-                    id="menu-gerar-imagem"
-                    type="button"
-                    class="menu-anexo-item">
-
-                    <span class="menu-anexo-icone">🖼️</span>
-
-                    <span>
-                        Gerar imagem
-                    </span>
-
-                </button>
-
-
-                <button
-                    id="menu-enviar-imagem"
-                    type="button"
-                    class="menu-anexo-item">
-
-                    <span class="menu-anexo-icone">📷</span>
-
-                    <span>
-                        Enviar imagem
-                    </span>
-
-                </button>
-
-
-                <button
-                    id="menu-arquivo"
-                    type="button"
-                    class="menu-anexo-item">
-
-                    <span class="menu-anexo-icone">📎</span>
-
-                    <span>
-                        Anexar arquivo
-                    </span>
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- INPUT -->
 
         <input
             id="mensagem"
@@ -253,45 +194,13 @@
             autocomplete="off">
 
 
-        <!-- MICROFONE -->
-
-        <button
-            id="botao-microfone"
-            class="chat-action-microfone"
-            type="button"
-            title="Falar">
-
-            🎙️
-
-        </button>
-
-
-        <!-- ENVIAR -->
-
         <button
             id="enviar-mensagem"
-            class="chat-action-enviar"
-            type="button"
-            title="Enviar">
+            type="button">
 
             ➤
 
         </button>
-
-
-        <!-- INPUTS INVISÍVEIS -->
-
-        <input
-            id="input-imagem"
-            type="file"
-            accept="image/*"
-            hidden>
-
-
-        <input
-            id="input-arquivo"
-            type="file"
-            hidden>
 
     </div>
 

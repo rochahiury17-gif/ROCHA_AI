@@ -275,6 +275,26 @@
                 {
                     "usuario": "Quem sou eu ? O que sabe sobre mim?",
                     "ia": "Erro ao conectar com a IA: HTTPSConnectionPool(host='api.groq.com', port=443): Max retries exceeded with url: /openai/v1/chat/completions (Caused by SSLError(SSLError(1, '[SSL: SHUTDOWN_WHILE_IN_INIT] shutdown while in init (_ssl.c:2658)')))"
+                },
+                {
+                    "usuario": "Olá boa tarde",
+                    "ia": "Boa tarde! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Ola",
+                    "ia": "Olá! Como posso ajudar hoje?"
+                },
+                {
+                    "usuario": "Editar melhorar essa imagem",
+                    "ia": "Para editar e melhorar a imagem, você precisará de um software de edição de imagem. Existem muitas opções disponíveis, como o Adobe Photoshop, GIMP, entre outros. Qual é o tipo de edição que você precisa fazer na imagem? Você tem um software específico em mente ou precisa de recomendações? Além disso, qual é o formato da imagem que você está trabalhando?"
+                },
+                {
+                    "usuario": "Modificar",
+                    "ia": "O que você gostaria de modificar? O projeto, o aplicativo ou alguma informação específica?"
+                },
+                {
+                    "usuario": "Olá boa noite",
+                    "ia": "Boa noite! Como posso ajudar você hoje?"
                 }
             ]
         }

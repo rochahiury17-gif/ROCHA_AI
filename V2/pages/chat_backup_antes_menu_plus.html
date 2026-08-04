@@ -177,74 +177,52 @@
 
     <div class="chat-input">
 
-        <!-- BOTÃO + -->
+        <button
+            id="botao-voz"
+            class="chat-tool-btn"
+            type="button"
+            title="Falar com a ROCHA AI">
+            🎙️
+        </button>
 
-        <div class="chat-plus-wrapper">
+        <button
+            id="botao-arquivo"
+            class="chat-tool-btn"
+            type="button"
+            title="Anexar arquivo">
+            📎
+        </button>
 
-            <button
-                id="botao-plus"
-                class="chat-action-plus"
-                type="button"
-                title="Adicionar">
+        <button
+            id="botao-imagem"
+            class="chat-tool-btn"
+            type="button"
+            title="Enviar imagem">
+            🖼️
+        </button>
 
-                ＋
+        <input
+            id="arquivo-chat"
+            type="file"
+            hidden>
 
-            </button>
-
-
-            <!-- MENU DO + -->
-
-            <div
-                id="menu-anexos"
-                class="menu-anexos">
-
-                <button
-                    id="menu-gerar-imagem"
-                    type="button"
-                    class="menu-anexo-item">
-
-                    <span class="menu-anexo-icone">🖼️</span>
-
-                    <span>
-                        Gerar imagem
-                    </span>
-
-                </button>
-
-
-                <button
-                    id="menu-enviar-imagem"
-                    type="button"
-                    class="menu-anexo-item">
-
-                    <span class="menu-anexo-icone">📷</span>
-
-                    <span>
-                        Enviar imagem
-                    </span>
-
-                </button>
+        <input
+            id="imagem-chat"
+            type="file"
+            accept="image/*"
+            hidden>
 
 
-                <button
-                    id="menu-arquivo"
-                    type="button"
-                    class="menu-anexo-item">
 
-                    <span class="menu-anexo-icone">📎</span>
+        <button
+            id="gerar-imagem"
+            type="button"
+            title="Gerar imagem">
 
-                    <span>
-                        Anexar arquivo
-                    </span>
+            🖼️
 
-                </button>
+        </button>
 
-            </div>
-
-        </div>
-
-
-        <!-- INPUT -->
 
         <input
             id="mensagem"
@@ -253,45 +231,13 @@
             autocomplete="off">
 
 
-        <!-- MICROFONE -->
-
-        <button
-            id="botao-microfone"
-            class="chat-action-microfone"
-            type="button"
-            title="Falar">
-
-            🎙️
-
-        </button>
-
-
-        <!-- ENVIAR -->
-
         <button
             id="enviar-mensagem"
-            class="chat-action-enviar"
-            type="button"
-            title="Enviar">
+            type="button">
 
             ➤
 
         </button>
-
-
-        <!-- INPUTS INVISÍVEIS -->
-
-        <input
-            id="input-imagem"
-            type="file"
-            accept="image/*"
-            hidden>
-
-
-        <input
-            id="input-arquivo"
-            type="file"
-            hidden>
 
     </div>
 

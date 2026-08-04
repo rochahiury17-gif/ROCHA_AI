@@ -2540,7 +2540,7 @@ document.addEventListener("DOMContentLoaded", function() {
 // ============================================================
 
 const botaoVoz =
-    document.getElementById("botao-microfone");
+    document.getElementById("botao-voz");
 
 const botaoArquivo =
     document.getElementById("botao-arquivo");
@@ -3055,173 +3055,33 @@ console.log(
 
     // IMAGEM SELECIONADA
 
-if (inputImagem) {
+    if (inputImagem) {
 
-    inputImagem.addEventListener(
-        "change",
-        async function () {
+        inputImagem.addEventListener(
+            "change",
+            function () {
 
-            const arquivo =
-                inputImagem.files[0];
+                const arquivo =
+                    inputImagem.files[0];
 
-
-            if (!arquivo) {
-                return;
-            }
-
-
-            if (
-                !arquivo.type ||
-                !arquivo.type.startsWith("image/")
-            ) {
-
-                adicionarMensagem(
-                    "🤖 O arquivo selecionado não é uma imagem.",
-                    "bot-message"
-                );
-
-                inputImagem.value = "";
-
-                return;
-            }
-
-
-            if (
-                arquivo.size >
-                10 * 1024 * 1024
-            ) {
-
-                adicionarMensagem(
-                    "🤖 A imagem deve ter no máximo 10 MB.",
-                    "bot-message"
-                );
-
-                inputImagem.value = "";
-
-                return;
-            }
-
-
-            const urlLocal =
-                URL.createObjectURL(
-                    arquivo
-                );
-
-
-            const mensagemImagem =
-                document.createElement(
-                    "div"
-                );
-
-
-            mensagemImagem.className =
-                "user-message imagem-enviada";
-
-
-            mensagemImagem.innerHTML = `
-
-                <div class="imagem-chat-preview">
-
-                    <img
-                        src="${urlLocal}"
-                        alt="Imagem enviada">
-
-                </div>
-
-                <div class="imagem-chat-nome">
-
-                    🖼️ ${arquivo.name}
-
-                </div>
-
-            `;
-
-
-            chatBox.appendChild(
-                mensagemImagem
-            );
-
-
-            chatBox.scrollTop =
-                chatBox.scrollHeight;
-
-
-            const formulario =
-                new FormData();
-
-
-            formulario.append(
-                "imagem",
-                arquivo
-            );
-
-
-            try {
-
-                const resposta =
-                    await fetch(
-                        "/api/enviar-imagem",
-                        {
-                            method: "POST",
-                            body: formulario
-                        }
-                    );
-
-
-                const dados =
-                    await resposta.json();
-
-
-                if (
-                    !resposta.ok ||
-                    !dados.sucesso
-                ) {
-
-                    throw new Error(
-                        dados.erro ||
-                        "Erro ao enviar imagem."
-                    );
-
+                if (!arquivo) {
+                    return;
                 }
 
 
-                console.log(
-                    "✅ Imagem enviada:",
-                    dados.imagem
-                );
-
-
                 adicionarMensagem(
-                    "🤖 Imagem recebida com sucesso.",
-                    "bot-message"
-                );
-
-
-            } catch (erro) {
-
-                console.error(
-                    "❌ Erro ao enviar imagem:",
-                    erro
-                );
-
-
-                adicionarMensagem(
-                    "🤖 Não consegui enviar a imagem.",
-                    "bot-message"
+                    "🖼️ Imagem selecionada: " +
+                    arquivo.name,
+                    "user-message"
                 );
 
             }
+        );
+
+    }
 
 
-            inputImagem.value = "";
-
-        }
-    );
-
-}
-
-
-// ARQUIVO SELECIONADO
+    // ARQUIVO SELECIONADO
 
     if (inputArquivo) {
 
@@ -3245,104 +3105,6 @@ if (inputImagem) {
 
             }
         );
-
-    }
-
-})();
-
-
-// ============================================================
-// CORREÇÃO FINAL — ENVIO DE MENSAGEM
-// ============================================================
-
-(function corrigirEnvioMensagem() {
-
-    function iniciarEnvio() {
-
-        const campo =
-            document.getElementById("mensagem");
-
-        const botaoOriginal =
-            document.getElementById("enviar-mensagem");
-
-        if (!campo || !botaoOriginal) {
-            console.warn(
-                "ROCHA AI: campo ou botão de envio não encontrado."
-            );
-            return;
-        }
-
-        // Remove listeners antigos do botão
-        // sem alterar o HTML visual.
-        const botao =
-            botaoOriginal.cloneNode(true);
-
-        botaoOriginal.parentNode.replaceChild(
-            botao,
-            botaoOriginal
-        );
-
-        // Clique no botão Enviar
-        botao.addEventListener(
-            "click",
-            function (evento) {
-
-                evento.preventDefault();
-                evento.stopPropagation();
-
-                if (
-                    typeof enviarMensagem ===
-                    "function"
-                ) {
-                    enviarMensagem();
-                }
-
-            }
-        );
-
-        // Enter envia a mensagem
-        campo.addEventListener(
-            "keydown",
-            function (evento) {
-
-                if (
-                    evento.key === "Enter" &&
-                    !evento.shiftKey
-                ) {
-
-                    evento.preventDefault();
-
-                    if (
-                        typeof enviarMensagem ===
-                        "function"
-                    ) {
-                        enviarMensagem();
-                    }
-
-                }
-
-            }
-        );
-
-        console.log(
-            "ROCHA AI: sistema de envio corrigido."
-        );
-    }
-
-
-    if (
-        document.readyState ===
-        "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            iniciarEnvio
-        );
-
-    } else {
-
-        iniciarEnvio();
 
     }
 
