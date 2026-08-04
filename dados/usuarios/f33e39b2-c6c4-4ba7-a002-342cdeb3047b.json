@@ -245,6 +245,38 @@
                     "ia": "Aqui está um exemplo simples de código Python que imprime \"Olá, Mundo!\" na tela:\n\n```python\nprint(\"Olá, Mundo!\")\n```\n\nSe você precisar de algo mais específico, como um exemplo relacionado a um projeto que está desenvolvendo, por favor, forneça mais detalhes para que eu possa ajudar melhor."
                 }
             ]
+        },
+        "de84cde6-7ec1-4a2c-9572-eb7003844117": {
+            "titulo": "Ola boa noite",
+            "fixado": false,
+            "criado_em": "2026-08-03T23:21:01.684863",
+            "atualizado_em": "2026-08-03T23:21:01.684863",
+            "mensagens": [
+                {
+                    "usuario": "Ola boa noite",
+                    "ia": "Boa noite! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Ola boa noite",
+                    "ia": "Boa noite! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Bia noite",
+                    "ia": "Boa noite! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Como você está ?",
+                    "ia": "Não tenho condições físicas ou emocionais, sou apenas um programa de inteligência artificial. Estou funcionando corretamente e pronto para ajudar. Como posso ajudar você, Hiury?"
+                },
+                {
+                    "usuario": "Como você está ?",
+                    "ia": "Estou funcionando corretamente. Como posso ajudar você, Hiury, com seus projetos hoje?"
+                },
+                {
+                    "usuario": "Quem sou eu ? O que sabe sobre mim?",
+                    "ia": "Erro ao conectar com a IA: HTTPSConnectionPool(host='api.groq.com', port=443): Max retries exceeded with url: /openai/v1/chat/completions (Caused by SSLError(SSLError(1, '[SSL: SHUTDOWN_WHILE_IN_INIT] shutdown while in init (_ssl.c:2658)')))"
+                }
+            ]
         }
     }
 }
