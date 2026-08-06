@@ -1,13 +1,33 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
-from auth import registrar, login
-from ia.cerebro import responder
+from dotenv import load_dotenv
+from voz.falar import falar as gerar_audio
+from voz.transcrever import transcrever
+import tempfile
 
 import json
 import os
 import uuid
+import time
+import threading
 import requests
+
+
+# ============================================================
+# CARREGAR VARIÁVEIS DO .ENV
+# ============================================================
+
+load_dotenv(
+    "/data/data/com.termux/files/home/ROCHA_AI/.env"
+)
+
+# ============================================================
+# IMPORTS QUE DEPENDEM DO .ENV
+# ============================================================
+
+from auth import registrar, login
+from ia.cerebro import responder
 
 # ============================================================
 # CONFIGURAÇÃO
@@ -24,6 +44,38 @@ app = Flask(
 
 CORS(app)
 
+
+@app.route("/css/<path:arquivo>")
+def css(arquivo):
+    return send_from_directory(
+        os.path.join(BASE_DIR, "css"),
+        arquivo
+    )
+
+
+@app.route("/js/<path:arquivo>")
+def js(arquivo):
+    return send_from_directory(
+        os.path.join(BASE_DIR, "js"),
+        arquivo
+    )
+
+
+
+@app.route("/static/audios/<path:arquivo>")
+def servir_audio(arquivo):
+    return send_from_directory(
+        "static/audios",
+        arquivo
+    )
+
+
+@app.route("/assets/<path:arquivo>")
+def assets(arquivo):
+    return send_from_directory(
+        os.path.join(BASE_DIR, "assets"),
+        arquivo
+    )
 
 # ============================================================
 # ARQUIVOS DOS USUÁRIOS
@@ -147,14 +199,17 @@ def salvar_chats(usuario, chats):
 # PÁGINAS DA V2
 # ============================================================
 
+V2_DIR = os.path.join(
+    BASE_DIR,
+    "V2"
+)
+
+
 @app.route("/")
 def inicio():
 
     return send_from_directory(
-        os.path.join(
-            BASE_DIR,
-            "V2"
-        ),
+        V2_DIR,
         "index.html"
     )
 
@@ -163,11 +218,44 @@ def inicio():
 def v2_inicio():
 
     return send_from_directory(
-        os.path.join(
-            BASE_DIR,
-            "V2"
-        ),
+        V2_DIR,
         "index.html"
+    )
+
+
+@app.route("/js/<path:arquivo>")
+def arquivos_js(arquivo):
+
+    return send_from_directory(
+        os.path.join(
+            V2_DIR,
+            "js"
+        ),
+        arquivo
+    )
+
+
+@app.route("/css/<path:arquivo>")
+def arquivos_css(arquivo):
+
+    return send_from_directory(
+        os.path.join(
+            V2_DIR,
+            "css"
+        ),
+        arquivo
+    )
+
+
+@app.route("/assets/<path:arquivo>")
+def arquivos_assets(arquivo):
+
+    return send_from_directory(
+        os.path.join(
+            V2_DIR,
+            "assets"
+        ),
+        arquivo
     )
 
 
@@ -175,10 +263,7 @@ def v2_inicio():
 def arquivos_v2(arquivo):
 
     return send_from_directory(
-        os.path.join(
-            BASE_DIR,
-            "V2"
-        ),
+        V2_DIR,
         arquivo
     )
 
@@ -777,11 +862,28 @@ def chat_api():
     # IA
     # --------------------------------------------------------
 
+    inicio_ia = time.time()
+
     resposta = responder(
         mensagem,
         usuario
     )
 
+    print(
+        "⏱️ TEMPO IA:",
+        round(time.time()-inicio_ia,2),
+        "segundos"
+    )
+
+
+    audio = gerar_audio(
+        resposta
+    )
+
+    print(
+        "DEBUG AUDIO:",
+        audio
+    )
 
     # --------------------------------------------------------
     # SALVAR MENSAGEM
@@ -827,18 +929,14 @@ def chat_api():
 
 
     return jsonify({
-
         "resposta": resposta,
-
+        "audio": audio,
         "chat_id": chat_id,
-
         "titulo": chat.get(
             "titulo",
             "Novo chat"
         )
-
     })
-
 
 
     # --------------------------------------------------------
@@ -1280,18 +1378,6 @@ def enviar_imagem():
 
 
 # ============================================================
-# EXECUÇÃO
-# ============================================================
-
-if __name__ == "__main__":
-
-    app.run(
-        host="0.0.0.0",
-        port=5000
-    )
-
-
-# ============================================================
 # CONTINUAR RESPOSTA
 # ============================================================
 
@@ -1430,3 +1516,85 @@ def continuar_resposta():
     })
 
 
+
+
+# ============================================================
+# ÁUDIO DA ROCHA AI
+# ============================================================
+
+@app.route(
+    "/api/audio",
+    methods=["POST"]
+)
+def receber_audio():
+
+    usuario = request.form.get(
+        "usuario",
+        "usuario"
+    )
+
+    if "audio" not in request.files:
+
+        return jsonify({
+            "erro": "Nenhum áudio enviado"
+        }), 400
+
+
+    arquivo_audio = request.files["audio"]
+
+
+    caminho = tempfile.mktemp(
+        suffix=".webm"
+    )
+
+
+    arquivo_audio.save(
+        caminho
+    )
+
+
+    texto = transcrever(
+        caminho
+    )
+
+
+    if not texto:
+
+        return jsonify({
+            "erro": "Não consegui entender o áudio"
+        }), 400
+
+
+    resposta = responder(
+        texto,
+        usuario
+    )
+
+
+#    audio = gerar_audio(
+#        resposta
+#    )
+
+
+    return jsonify({
+
+        "texto": texto,
+
+        "resposta": resposta,
+
+        "audio": audio
+
+    })
+
+
+
+# ============================================================
+# EXECUÇÃO
+# ============================================================
+
+if __name__ == "__main__":
+
+    app.run(
+        host="0.0.0.0",
+        port=5000
+    )

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ROCHA AI V2</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- LOGIN -->
+
+<div class="login-container" id="loginScreen">
+
+<img src="assets/logo_v2.png" class="logo">
+
+<h1>ROCHA AI</h1>
+
+<p class="subtitle">
+Sua inteligência pessoal
+</p>
+
+
+<input 
+id="login-email"
+type="email"
+placeholder="E-mail">
+
+
+<input 
+id="login-senha"
+type="password"
+placeholder="Senha">
+
+
+<button id="entrar">
+ENTRAR
+</button>
+
+
+<button id="abrirRegistro">
+CRIAR CONTA</button>
+
+
+</div>
+
+
+
+<!-- REGISTRO -->
+
+<div class="login-container" id="registroScreen" style="display:none;">
+
+<img src="assets/logo_v2.png" class="logo">
+
+
+<h1>
+CRIAR CONTA
+</h1>
+
+
+<input
+id="nome"
+placeholder="Nome">
+
+
+<input
+id="email"
+placeholder="E-mail">
+
+
+<input
+id="senha"
+type="password"
+placeholder="Senha">
+
+
+<input
+placeholder="Confirmar senha"
+type="password">
+
+
+<button id="criar-conta">
+CADASTRAR
+</button>
+
+
+<button id="voltarLogin">
+VOLTAR
+</button>
+
+
+</div>
+
+
+
+
+<!-- CHAT -->
+
+<div class="app" id="chatScreen" style="display:none;">
+
+
+<div id="menu" class="menu">
+
+
+<button class="novo" onclick="novoChat()">
+➕ Nova conversa
+</button>
+
+
+<h3>
+Conversas
+</h3>
+
+
+<div id="listaChats"></div>
+
+
+</div>
+
+
+
+<div class="principal">
+
+
+<div class="topo">
+
+
+<button class="menu-btn" onclick="abrirMenu()">
+☰
+</button>
+
+
+<img src="assets/logo_v2.png" class="logo-chat">
+
+
+<div class="titulo-app">
+
+<h2>ROCHA AI</h2>
+
+<small>
+Sua inteligência pessoal
+</small>
+
+</div>
+
+
+</div>
+
+
+<div id="chat"></div>
+
+
+
+<div class="rodape">
+
+
+<input
+id="pergunta"
+placeholder="Mensagem...">
+
+
+<button onclick="enviar()">
+➤
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+
+<script src="js/app.js?v=999999999"></script>
+
+
+
+</body>
+
+</html>

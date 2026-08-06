@@ -1,0 +1,28 @@
+{
+    "chats": {
+        "1c97232c-581f-4ffa-a336-f51298a03eff": {
+            "titulo": "Ola",
+            "fixado": false,
+            "criado_em": "2026-08-06T12:43:56.079245",
+            "atualizado_em": "2026-08-06T12:43:56.079245",
+            "mensagens": [
+                {
+                    "usuario": "Ola",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                }
+            ]
+        },
+        "aaf3cf12-223d-4045-8404-8c28a6889b4f": {
+            "titulo": "Ola",
+            "fixado": false,
+            "criado_em": "2026-08-06T12:45:54.955354",
+            "atualizado_em": "2026-08-06T12:45:54.955354",
+            "mensagens": [
+                {
+                    "usuario": "Ola",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                }
+            ]
+        }
+    }
+}

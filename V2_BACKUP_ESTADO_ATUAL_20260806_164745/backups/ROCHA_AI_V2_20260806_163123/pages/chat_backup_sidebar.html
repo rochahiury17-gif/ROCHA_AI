@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ROCHA AI Chat</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+<style>
+
+/* ============================================================
+   GERADOR DE IMAGENS
+   ============================================================ */
+
+.imagem-area {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 8px;
+}
+
+#gerar-imagem {
+    border: none;
+    border-radius: 12px;
+    padding: 10px 14px;
+    background: #222;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#gerar-imagem:hover {
+    opacity: 0.85;
+}
+
+.imagem-gerada {
+    max-width: 85%;
+    border-radius: 16px;
+    margin: 10px 0;
+    display: block;
+}
+
+.imagem-prompt {
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="chat-container">
+
+    <!-- CABEÇALHO -->
+
+    <header class="chat-header">
+
+        <img src="../assets/logo_v2.png">
+
+        <div class="chat-header-info">
+
+            <h1>ROCHA AI</h1>
+
+            <span>Online</span>
+
+        </div>
+
+        <button
+            id="novo-chat"
+            class="novo-chat">
+            ＋
+        </button>
+
+    </header>
+
+
+    <!-- ÁREA DE CHATS -->
+
+    <div class="area-conversas">
+
+        <div class="conversas-topo">
+
+            <div class="conversas-titulo">
+                💬 Conversas
+            </div>
+
+            <button
+                id="novo-chat-secundario"
+                type="button">
+                ＋ Novo
+            </button>
+
+        </div>
+
+        <div class="busca-chats">
+
+            <span>🔎</span>
+
+            <input
+                id="buscar-chats"
+                type="text"
+                placeholder="Buscar conversa..."
+                autocomplete="off">
+
+        </div>
+
+        <div
+            id="lista-chats"
+            class="lista-chats">
+
+            <div class="lista-chats-titulo">
+                Conversas
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CONVERSA -->
+
+    <div
+        class="chat-box"
+        id="chat-box">
+
+        <div class="bot-message">
+
+            🤖 Olá! Eu sou a ROCHA AI.
+            <br>
+            Como posso ajudar?
+
+        </div>
+
+    </div>
+
+
+    <!-- CAMPO DE MENSAGEM -->
+
+    <div class="chat-input">
+
+        <button
+            id="gerar-imagem"
+            type="button"
+            title="Gerar imagem">
+            🖼️
+        </button>
+
+        <input
+            id="mensagem"
+            type="text"
+            placeholder="Digite sua mensagem..."
+            autocomplete="off">
+
+        <button
+            id="enviar-mensagem"
+            type="button">
+            ➤
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="../js/app.js"></script>
+
+</body>
+
+</html>

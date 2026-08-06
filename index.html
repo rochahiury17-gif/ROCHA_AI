@@ -2,12 +2,10 @@
 <html lang="pt-BR">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ROCHA AI</title>
+<title>ROCHA AI V2</title>
 
 <link rel="stylesheet" href="css/style.css">
 
@@ -19,35 +17,36 @@
 
 <!-- LOGIN -->
 
-<div id="loginScreen" class="login">
+<div class="login-container" id="loginScreen">
 
-<img src="assets/rocha.png" style="width:28px;height:28px;object-fit:contain;">
+<img src="assets/logo_v2.png" class="logo">
 
-    <h1>ROCHA AI</h1>
+<h1>ROCHA AI</h1>
 
-    <p>Entre na sua inteligência pessoal</p>
-
-
-    <input
-    id="loginEmail"
-    type="email"
-    placeholder="E-mail">
+<p class="subtitle">
+Sua inteligência pessoal
+</p>
 
 
-    <input
-    id="loginSenha"
-    type="password"
-    placeholder="Senha">
+<input 
+id="login-email"
+type="email"
+placeholder="E-mail">
 
 
-    <button onclick="fazerLogin()">
-        ENTRAR
-    </button>
+<input 
+id="login-senha"
+type="password"
+placeholder="Senha">
 
 
-    <button onclick="mostrarRegistro()">
-        CRIAR CONTA
-    </button>
+<button id="entrar">
+ENTRAR
+</button>
+
+
+<button id="abrirRegistro">
+CRIAR CONTA</button>
 
 
 </div>
@@ -56,40 +55,45 @@
 
 <!-- REGISTRO -->
 
-<div id="registroScreen" class="login" style="display:none;">
+<div class="login-container" id="registroScreen" style="display:none;">
+
+<img src="assets/logo_v2.png" class="logo">
 
 
-    <img src="assets/rocha.png" class="logo-login">
+<h1>
+CRIAR CONTA
+</h1>
 
 
-    <h1>Criar conta</h1>
+<input
+id="nome"
+placeholder="Nome">
 
 
-    <input
-    id="registroNome"
-    placeholder="Nome">
+<input
+id="email"
+placeholder="E-mail">
 
 
-    <input
-    id="registroEmail"
-    type="email"
-    placeholder="E-mail">
+<input
+id="senha"
+type="password"
+placeholder="Senha">
 
 
-    <input
-    id="registroSenha"
-    type="password"
-    placeholder="Senha">
+<input
+placeholder="Confirmar senha"
+type="password">
 
 
-    <button onclick="registrarUsuario()">
-        CADASTRAR
-    </button>
+<button id="criar-conta">
+CADASTRAR
+</button>
 
 
-    <button onclick="voltarLogin()">
-        VOLTAR
-    </button>
+<button id="voltarLogin">
+VOLTAR
+</button>
 
 
 </div>
@@ -102,7 +106,6 @@
 <div class="app" id="chatScreen" style="display:none;">
 
 
-
 <div id="menu" class="menu">
 
 
@@ -111,15 +114,15 @@
 </button>
 
 
-<h3>Conversas</h3>
+<h3>
+Conversas
+</h3>
 
 
 <div id="listaChats"></div>
 
 
 </div>
-
-
 
 
 
@@ -134,21 +137,24 @@
 </button>
 
 
-<img src="assets/rocha.png" class="logo-chat">
+<img src="assets/logo_v2.png" class="logo-chat">
+
 
 <div class="titulo-app">
 
-    <h2>ROCHA AI</h2>
+<h2>ROCHA AI</h2>
 
-    <small>Sua inteligência pessoal</small>
+<small>
+Sua inteligência pessoal
+</small>
 
 </div>
 
 
+</div>
+
 
 <div id="chat"></div>
-
-
 
 
 
@@ -158,7 +164,6 @@
 <input
 id="pergunta"
 placeholder="Mensagem...">
-
 
 
 <button onclick="enviar()">
@@ -173,12 +178,12 @@ placeholder="Mensagem...">
 </div>
 
 
-
 </div>
 
 
 
-<script src="js/app.js"></script>
+<script src="js/app.js?v=voz$(date +%s)
+
 
 
 </body>

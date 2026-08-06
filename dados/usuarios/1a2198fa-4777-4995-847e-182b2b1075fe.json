@@ -1,0 +1,463 @@
+{
+    "chats": {
+        "66e94dc1-dab4-4154-8d6c-2b7ee6b81231": {
+            "titulo": "Olá boa noite",
+            "mensagens": [
+                {
+                    "usuario": "Olá boa noite",
+                    "ia": "Boa noite! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Olá você está bem hoje",
+                    "ia": "Olá! Estou funcionando corretamente, obrigado por perguntar. Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Mas você está bem mesmo",
+                    "ia": "Sim, estou funcionando corretamente. Não há problemas técnicos ou de desempenho até o momento. Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Qual é seu nome",
+                    "ia": "Meu nome é ROCHA AI."
+                },
+                {
+                    "usuario": "Olá boa noite",
+                    "ia": "Boa noite! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "microfone antigo",
+                    "ia": "Você está procurando informações sobre microfones antigos? Posso ajudar com isso. Qual é o contexto ou o tipo de microfone antigo que você gostaria de saber mais sobre?"
+                },
+                {
+                    "usuario": "parango",
+                    "ia": "Não entendi a mensagem \"parango\". Pode ser um erro de digitação ou um termo desconhecido. Você poderia fornecer mais contexto ou detalhes sobre o que está tentando dizer? Estou aqui para ajudar com qualquer dúvida ou problema que você tenha."
+                },
+                {
+                    "usuario": "Olá bom dia",
+                    "ia": "Bom dia! Como posso ajudar você hoje?"
+                }
+            ]
+        },
+        "2aeaf1a5-5fb0-4aa1-94e9-9ed3bff9b435": {
+            "titulo": "Ola",
+            "fixado": false,
+            "criado_em": "2026-08-06T12:53:49.907726",
+            "atualizado_em": "2026-08-06T12:53:49.907726",
+            "mensagens": [
+                {
+                    "usuario": "Ola",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "O que você lembra de mim?",
+                    "ia": "De acordo com as informações disponíveis, você tem alguns animais favoritos, como cachorro e hamster. Além disso, seu ID de usuário autenticado é único, mas não há informações sobre seu nome. Não há registros de conversas anteriores com você. Se quiser compartilhar mais sobre si mesmo, posso tentar ajudar com alguma informação ou tarefa específica."
+                },
+                {
+                    "usuario": "Meu nome e Hiury Rocha ,sou seu criador , tenho 26 anos ,sou de Porto Alegre,e não tenho filhos,salve essa informação sobre mim também",
+                    "ia": "Olá, Hiury! Entendi que você é o criador da ROCHA AI e agora também o usuário atual. Vou salvar as informações sobre você.\n\nAqui estão as informações que você forneceu sobre si mesmo:\n\n- Nome: Hiury Rocha\n- Idade: 26 anos\n- Cidade de origem: Porto Alegre\n- Não tem filhos\n\nVou adicionar essas informações à memória pessoal do usuário. Agora a memória pessoal do usuário ficará assim:\n\n{'animais_favoritos': ['Meu animal favorito é cachorro', 'hamster', 'cachorro'], \n'nome': 'Hiury Rocha', \n'idade': 26, \n'cidade': 'Porto Alegre', \n'filhos': False}\n\nSe precisar de algo, estou aqui para ajudar!"
+                },
+                {
+                    "usuario": "Cachorro e hamster ,remova o segundo cachorro de animal favorito,e filhos mude de falar para não tem filhos ,",
+                    "ia": "Sim, irei atualizar a sua memória pessoal de acordo com as instruções.\n\nA lista de animais favoritos era ['Meu animal favorito é cachorro', 'hamster', 'cachorro']. Removerei o segundo 'cachorro' da lista, que na verdade é o terceiro item, então a lista ficará: ['Meu animal favorito é cachorro', 'hamster'].\n\nAlém disso, você pediu para mudar \"falar\" para \"não tem filhos\", mas não há nenhuma menção a \"falar\" ou \"filhos\" na sua memória pessoal. Se quiser adicionar uma informação sobre filhos, posso inserir um novo campo na memória pessoal com a informação \"não tem filhos\". \n\nA memória pessoal atualizada seria:\n\n{'animais_favoritos': ['Meu animal favorito é cachorro', 'hamster'], 'filhos': 'não tem filhos'} \n\nSe houver mais algo que eu possa ajudar, por favor, me avise."
+                },
+                {
+                    "usuario": "Vou te mandar a lista sobre mim,e você troca a antiga pra que vou te mandar ok?",
+                    "ia": "Sim, está bem! Você pode me enviar a lista sobre si mesmo, e eu farei a atualização necessária. Qual é a lista que você gostaria de me enviar?"
+                },
+                {
+                    "usuario": "Essa e a lista atualizada",
+                    "ia": "Parece que você está se referindo à lista de projetos ou outra lista específica, mas não há contexto suficiente para entender exatamente o que você está se referindo. Pode me fornecer mais detalhes sobre o que você quer dizer com \"essa lista atualizada\"?"
+                },
+                {
+                    "usuario": "E a lista sobre mim pra vc atualizar Nome : Hiury Rocha Sou seu criador,criador da ROCHA AI  MORO EM PORTO ALEGRE - Rio grande do Sul   Idade : 26 anos    ['Meu animal favorito é cachorro', é 'hamster', ]   'filhos': 'não tem nem um filho'",
+                    "ia": "Agora que tenho essas informações sobre você, posso atualizar a memória pessoal do usuário. Aqui está a atualização:\n\n- Nome: Hiury Rocha\n- Idade: 26 anos\n- Morada: Porto Alegre - Rio Grande do Sul\n- Animais favoritos: cachorro e hamster\n- Filhos: não tem nem um filho\n\nTambém posso confirmar que você é o criador da ROCHA AI, como já estava registrado na memória global. Se precisar de ajuda com algo específico ou tiver alguma pergunta, estou aqui para ajudar. Qual é o próximo passo ou tema que você gostaria de discutir?"
+                }
+            ]
+        },
+        "ecac6c0e-1a20-46f1-aba4-ed9ac098a444": {
+            "titulo": "Ola",
+            "fixado": false,
+            "criado_em": "2026-08-06T13:00:29.667498",
+            "atualizado_em": "2026-08-06T13:00:29.667498",
+            "mensagens": [
+                {
+                    "usuario": "Ola",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Ola",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Oi",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                }
+            ]
+        },
+        "509d4dbb-f6f6-40ca-aade-b3dcba460e15": {
+            "titulo": "Novo chat",
+            "fixado": false,
+            "criado_em": "2026-08-06T14:28:09.040851",
+            "atualizado_em": "2026-08-06T14:28:09.040851",
+            "mensagens": []
+        },
+        "c592356d-6458-45df-9ac2-345364f70bd1": {
+            "titulo": "Novo chat",
+            "fixado": false,
+            "criado_em": "2026-08-06T14:29:46.994995",
+            "atualizado_em": "2026-08-06T14:29:46.994995",
+            "mensagens": []
+        },
+        "67b0ba40-7caa-4926-90c1-d78e4833b8a3": {
+            "titulo": "Olá tudo bemv",
+            "fixado": false,
+            "criado_em": "2026-08-06T14:29:49.130117",
+            "atualizado_em": "2026-08-06T17:07:57.873959",
+            "mensagens": [
+                {
+                    "usuario": "Olá tudo bem",
+                    "ia": "Tudo bem, sim! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Olá como você está hoje",
+                    "ia": "Olá! Estou funcionando normalmente, pronta para ajudar. Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Olá hoje eu acordei muito feliz",
+                    "ia": "Que ótimo! É sempre bom começar o dia com um bom humor e muita energia. O que fez você acordar tão feliz hoje?"
+                },
+                {
+                    "usuario": "Oi",
+                    "ia": "Olá! É um prazer conversar com você. Como posso ajudar hoje?"
+                },
+                {
+                    "usuario": "eu gostaria que me ajudasse a descobrir como tirar o delay de você após me mandar um áudio",
+                    "ia": "Para reduzir o delay após enviar um áudio, precisamos considerar alguns fatores. O delay pode ser causado por vários motivos, como a velocidade da internet, o processamento do áudio ou a configuração do sistema.\n\nPode me fornecer mais detalhes sobre o contexto em que você está enfrentando esse problema? Por exemplo, qual é o tamanho do áudio, qual é a sua velocidade de internet e qual é o dispositivo que você está usando? Com essas informações, posso tentar ajudá-lo a identificar a causa do delay e sugerir uma solução."
+                },
+                {
+                    "usuario": "Olá tudo bom contigo",
+                    "ia": "Tudo bem, obrigado! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "vamos vamos testar mais uma vez",
+                    "ia": "Vamos testar novamente! Qual é o objetivo do teste desta vez? Você gostaria de testar uma funcionalidade específica ou apenas conversar?"
+                },
+                {
+                    "usuario": "O que você sabe sobre mim",
+                    "ia": "Sobre você, sei que você ainda não informou seu nome. Além disso, tenho acesso às seguintes informações:\n\n- Seus animais favoritos incluem cachorro e hamster.\n- Você não tem filhos.\n\nEssas são as informações disponíveis sobre você até o momento. Se precisar de algo específico ou tiver mais detalhes para compartilhar, estou aqui para ajudar."
+                },
+                {
+                    "usuario": "Ah muito bom muito bom",
+                    "ia": "Parece que você está animado! No entanto, não tenho certeza sobre o que você está se referindo. Você gostaria de conversar sobre algo em particular ou precisa de ajuda com algum projeto? Estou aqui para auxiliá-lo. Qual é o assunto que você gostaria de discutir?"
+                },
+                {
+                    "usuario": "gostei gostei da resposta",
+                    "ia": "Parece que você gostou de uma resposta, mas não há nenhuma conversa anterior para saber exatamente do que você está falando. Você gostaria de iniciar uma nova conversa ou saber mais sobre algum tópico específico?"
+                },
+                {
+                    "usuario": "oi oi oi oi oi",
+                    "ia": "Olá! Você parece estar animado! O que posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Ola",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Oi eu gostaria de saber alguma coisa mais sobre você",
+                    "ia": "Olá! Eu sou um projeto de inteligência artificial chamado ROCHA AI, criado por Hiury Rocha. Fui criado em 26 de julho de 2026, em Porto Alegre, Rio Grande do Sul. Meu objetivo é ser uma assistente pessoal para ajudar em programação, tecnologia e criação de projetos. Se você tiver alguma pergunta ou precisar de ajuda com algum tópico específico, estou aqui para fornecer informações e auxílio. Qual é o tópico que você gostaria de saber mais sobre?"
+                },
+                {
+                    "usuario": "pode repetir novamente",
+                    "ia": "Não há nada para repetir, pois essa é a primeira mensagem da conversa. Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "me dê algumas ideias que eu posso implementar nesse projeto seu que eu estou criando de você",
+                    "ia": "Para criar um projeto baseado na ROCHA AI, aqui estão algumas ideias que você pode considerar:\n\n1. **Melhoria da Inteligência Artificial**: Você pode trabalhar em melhorar a capacidade de processamento de linguagem natural da ROCHA AI, permitindo que ela entenda e responda a perguntas mais complexas.\n2. **Integração com Outras Tecnologias**: Você pode integrar a ROCHA AI com outras tecnologias, como chatbots, assistentes virtuais ou sistemas de reconhecimento de voz, para criar uma experiência mais completa e interativa.\n3. **Desenvolvimento de Novas Funcionalidades**: Você pode desenvolver novas funcionalidades para a ROCHA AI, como a capacidade de aprender e se adaptar a novos contextos, ou a capacidade de gerar respostas mais personalizadas.\n4. **Criação de uma Interface de Usuário**: Você pode criar uma interface de usuário mais amigável e intuitiva para a ROCHA AI, permitindo que os usuários interajam com ela de forma mais fácil e eficiente.\n5. **Aplicação em Diferentes Domínios**: Você pode aplicar a tecnologia da ROCHA AI em diferentes domínios, como saúde, educação ou finanças, para criar soluções inovadoras e eficazes.\n\nEssas são apenas algumas ideias para você considerar. Se você tiver alguma dúvida ou precisar de mais informações, não hesite em perguntar."
+                },
+                {
+                    "usuario": "Não entendi pode dar a resposta mais curta e direta",
+                    "ia": "Ok, vou ser mais direto. O que você precisa saber?"
+                },
+                {
+                    "usuario": "só testando você só",
+                    "ia": "Entendi, você está testando. Estou funcionando corretamente. Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Oi de novo",
+                    "ia": "Olá novamente! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "OAB",
+                    "ia": "OAB refere-se à Ordem dos Advogados do Brasil, que é uma entidade autárquica que representa os advogados brasileiros e fiscaliza o exercício da profissão. Você gostaria de saber mais sobre a OAB ou tem alguma pergunta específica sobre o tema?"
+                },
+                {
+                    "usuario": "oi oi",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "que sabe sobre mim",
+                    "ia": "Você é o usuário atual, identificado pelo seu ID de usuário autenticado. Infelizmente, não há informações sobre o seu nome ou outras características pessoais na memória disponível. No entanto, há uma memória pessoal associada ao seu ID que menciona alguns projetos e preferências, como \"de você\" como um dos projetos e \"cachorro\" e \"hamster\" como animais favoritos. Além disso, há uma menção a não ter filhos. Se houver algo específico que você gostaria de saber ou discutir, estou aqui para ajudar."
+                },
+                {
+                    "usuario": "Oi",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Tudo bom contigo hoje",
+                    "ia": "Tudo bem, obrigado! É um prazer conversar com você. Como posso ajudar hoje?"
+                },
+                {
+                    "usuario": "oba",
+                    "ia": "Olá! Você disse \"oba\", mas não entendi muito bem o que você quer dizer. Pode ser mais claro ou fazer uma pergunta para que eu possa ajudar melhor?"
+                },
+                {
+                    "usuario": "não eu estava apenas testando muito obrigada",
+                    "ia": "Entendi, você estava apenas testando. Se precisar de ajuda com algo específico ou tiver alguma dúvida, é só perguntar!"
+                },
+                {
+                    "usuario": "Oi",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "O que você sabe sobre mim",
+                    "ia": "Você é o usuário atual, identificado pelo seu ID de usuário autenticado. Infelizmente, não tenho informações sobre seu nome. Sua memória pessoal indica que você tem um projeto chamado \"de você\" e que seu animal favorito é cachorro, além de hamster. Além disso, não há informações sobre filhos. Se quiser compartilhar mais sobre si mesmo, posso ajudar a armazenar essas informações. O que mais você gostaria de saber ou falar sobre?"
+                },
+                {
+                    "usuario": "Oi tudo bem hoje",
+                    "ia": "Tudo bem, sim! Estou funcionando normalmente. Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "O que você acha que eu posso adicionar no projeto que eu estou fazendo de você",
+                    "ia": "Considerando que o projeto em questão é sobre mim, a ROCHA AI, posso sugerir algumas ideias para adicionar. \n\nUma possível adição poderia ser a implementação de mais funcionalidades de aprendizado de máquina para que eu possa melhorar minhas respostas e interações com os usuários. Outra ideia seria expandir a base de conhecimento para que eu possa fornecer informações mais detalhadas e precisas sobre uma variedade de tópicos.\n\nAlém disso, você também poderia considerar adicionar recursos de personalização para que os usuários possam customizar sua experiência de interação comigo. Isso poderia incluir opções para alterar a linguagem, o tom e o estilo das respostas.\n\nNo entanto, para fornecer sugestões mais específicas, seria útil saber mais sobre o que você está tentando alcançar com o projeto e quais são os principais objetivos. Podemos discutir mais sobre isso?"
+                },
+                {
+                    "usuario": "Oi",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "apenas testando",
+                    "ia": "Teste realizado com sucesso. Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "qual é o nível de programação de arquivos ou programas via termox que você pode fazer de 1% a 100%",
+                    "ia": "Considerando a minha capacidade como uma assistente de inteligência artificial, eu diria que meu nível de programação de arquivos ou programas via terminal é de aproximadamente 80%. Isso significa que eu posso entender e ajudar com muitas tarefas de programação, como criar scripts, executar comandos e manipular arquivos, mas pode haver limitações em casos mais complexos ou específicos.\n\nEu posso ajudar com:\n\n* Executar comandos básicos de terminal\n* Criar scripts simples em Python ou outros languages\n* Manipular arquivos e diretórios\n* Realizar tarefas de automação\n\nNo entanto, pode haver limitações em casos como:\n\n* Programação de sistemas operacionais\n* Desenvolvimento de aplicativos complexos\n* Integração com hardware específico\n\nSe você tiver uma tarefa específica em mente, posso tentar ajudar a determinar se estou capacitada para realizá-la. Qual é a tarefa que você gostaria de realizar via terminal?"
+                },
+                {
+                    "usuario": "Boa tarde sabe me dizer se chove em Porto Alegre",
+                    "ia": "Boa tarde! Infelizmente, não tenho acesso a informações em tempo real sobre o clima atual em Porto Alegre. No entanto, posso sugerir que você verifique um site de previsão do tempo ou um aplicativo de clima para obter as informações mais atualizadas sobre o clima na cidade. Se precisar de ajuda com algo mais, estou aqui."
+                },
+                {
+                    "usuario": "Oi",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "bom dia boa tarde boa noite",
+                    "ia": "Bom dia! É um prazer conversar com você. Como posso ajudar hoje?"
+                },
+                {
+                    "usuario": "quem sabe sobre mim",
+                    "ia": "Sobre você, sei que não informou seu nome e que você não é Hiury Rocha, o criador da ROCHA AI. Além disso, sei que você tem uma lista de projetos que inclui \"de você\", e que seus animais favoritos incluem cachorro e hamster. Também há uma informação de que você não tem filhos. Se houver algo específico que você gostaria de saber ou discutir, por favor, forneça mais detalhes para que eu possa ajudar melhor."
+                },
+                {
+                    "usuario": "Oi",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Ué não sou",
+                    "ia": "Parece que você estava prestes a dizer algo, mas parou. Pode continuar, por favor? Estou aqui para ouvir e ajudar se necessário. Qual é o assunto que você gostaria de discutir?"
+                },
+                {
+                    "usuario": "Oi só para testar de novo",
+                    "ia": "Olá! Estou aqui para ajudar. Como posso ajudar você hoje? Você quer criar um novo projeto ou precisa de ajuda com algo específico?"
+                },
+                {
+                    "usuario": "Sim",
+                    "ia": "Sim, e agora? Você gostaria de conversar sobre algum assunto específico ou precisa de ajuda com algo?"
+                },
+                {
+                    "usuario": "sim sim",
+                    "ia": "Parece que não há contexto claro para sua mensagem \"sim sim\". Você gostaria de iniciar uma conversa ou precisa de ajuda com algo específico? Por favor, forneça mais detalhes para que eu possa entender melhor sua necessidade."
+                },
+                {
+                    "usuario": "Hum entendi deixa eu pensar Já te digo",
+                    "ia": "Ok, estou à disposição quando precisar. Qual é o assunto que você está pensando? Posso ajudar a esclarecer alguma dúvida ou discutir sobre algum projeto?"
+                },
+                {
+                    "usuario": "pronto eu já te digo que eu tô pensando no projeto grande aí de plataforma",
+                    "ia": "Parece que você está se referindo a um projeto grande de plataforma, mas não tenho informações específicas sobre ele. Você poderia me dar mais detalhes sobre o que você tem em mente? Qual é o objetivo da plataforma e quais recursos você gostaria de incluir? Isso vai me ajudar a entender melhor e fornecer ajuda mais precisa."
+                },
+                {
+                    "usuario": "plataformas de cassino coisa",
+                    "ia": "Para falar sobre plataformas de cassino, é importante lembrar que existem muitas opções disponíveis online, cada uma com suas próprias características e jogos. Algumas das plataformas mais conhecidas incluem Bet365, PokerStars e Casumo, entre outras.\n\nSe você está procurando por uma plataforma específica para jogar, pode ser útil considerar fatores como a variedade de jogos, bônus e ofertas, segurança e suporte ao cliente. Além disso, é fundamental garantir que a plataforma escolhida seja licenciada e regulamentada por uma autoridade de jogos de azar reconhecida, para garantir uma experiência de jogo justa e segura.\n\nVocê está procurando por uma plataforma de cassino para jogar ou tem alguma dúvida específica sobre como escolher uma plataforma?"
+                },
+                {
+                    "usuario": "eu já te falei né que eu sou de Porto Alegre Rio Grande do Sul e sou solteiro",
+                    "ia": "Sim, você mencionou que é de Porto Alegre, Rio Grande do Sul, e que é solteiro. No entanto, não há registro de que você tenha mencionado isso anteriormente, pois não há conversa recente. Você gostaria de falar mais sobre Porto Alegre ou sobre algum projeto que você está trabalhando?"
+                },
+                {
+                    "usuario": "primeiro eu tô testando aqui umas coisas tá",
+                    "ia": "Entendi, você está testando algumas coisas aqui. Como posso ajudar você nesse teste? Você tem algo específico em mente ou precisa de ajuda com algum projeto ou tecnologia?"
+                },
+                {
+                    "usuario": "tudo bem com você",
+                    "ia": "Estou funcionando corretamente, sem problemas. E você, como está? Qual é o seu nome, por sinal? Você ainda não me informou."
+                },
+                {
+                    "usuario": "mais ou menos",
+                    "ia": "Parece que você começou a conversa com uma expressão um pouco vaga. Você poderia me dar mais contexto ou detalhar o que você quer dizer com \"mais ou menos\"? Estou aqui para ajudar com qualquer dúvida ou projeto que você tenha em mente."
+                },
+                {
+                    "usuario": "é que eu tô fazendo uns testes com você",
+                    "ia": "Entendi! Você está fazendo alguns testes comigo. Como posso ajudar nesse processo? Você tem algum objetivo específico em mente para esses testes ou está apenas verificando como eu respondo a diferentes perguntas?"
+                },
+                {
+                    "usuario": "testando novamente",
+                    "ia": "Olá! Você está testando novamente. Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "sou do sul eu sou",
+                    "ia": "Você é do sul, isso é interessante! Qual região específica do sul você é de? É perto de Porto Alegre, por acaso?"
+                },
+                {
+                    "usuario": "eu sou do Sul é só olhar pra ver que eu sou",
+                    "ia": "Você mencionou que é do Sul, mas não especificou a cidade ou estado. Considerando que a ROCHA AI foi criada em Porto Alegre, no Rio Grande do Sul, é possível que você seja da mesma região. No entanto, não tenho informações suficientes para confirmar isso. Você gostaria de compartilhar mais sobre sua cidade ou estado de origem?"
+                },
+                {
+                    "usuario": "Oi tudo bom",
+                    "ia": "Tudo bom! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Oi de novo",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Você conhece o Bora Bill",
+                    "ia": "Não tenho informações sobre um \"Bora Bill\" na memória global ou pessoal do usuário. Pode ser um personagem, um projeto ou algo mais? Você poderia fornecer mais contexto ou detalhes sobre o que é o Bora Bill?"
+                },
+                {
+                    "usuario": "Ll",
+                    "ia": "Parece que houve um erro de digitação ou uma mensagem incompleta. Você poderia, por favor, fornecer mais contexto ou detalhar o que deseja dizer com \"Ll\"? Estou aqui para ajudar com qualquer informação ou pergunta que você tenha."
+                },
+                {
+                    "usuario": "Opa desculpa eu errei",
+                    "ia": "Não há problema! Você começou uma conversa, mas parece que algo deu errado. Você pode tentar novamente ou me contar o que você gostaria de fazer ou perguntar. Estou aqui para ajudar!"
+                },
+                {
+                    "usuario": "Olá",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "velho responde de novo que eu não entendi",
+                    "ia": "Parece que não houve uma conversa anterior para eu responder novamente. Você poderia me fornecer mais contexto ou dizer o que você não entendeu? Estou aqui para ajudar com qualquer dúvida ou problema que você esteja enfrentando. Qual é o assunto ou tópico que você gostaria de discutir?"
+                },
+                {
+                    "usuario": "Oie",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "tudo bem de novo tô testando",
+                    "ia": "Tudo bem! Estou aqui para auxiliar. Você está testando novamente, posso ajudar com algo específico ou apenas verificar se tudo está funcionando corretamente?"
+                },
+                {
+                    "usuario": "testando de novo",
+                    "ia": "Olá! Você está testando novamente. Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "eu já te digo sobre o que que é",
+                    "ia": "Parece que você está prestes a compartilhar algo, mas não completou a frase. Por favor, continue, estou aqui para ouvir e ajudar se necessário. Qual é o assunto que você gostaria de discutir?"
+                },
+                {
+                    "usuario": "oi oi oi",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "hoje eu gostaria de saber",
+                    "ia": "Você começou a falar, mas parece que parou no meio. Pode continuar, por favor? O que você gostaria de saber hoje?"
+                },
+                {
+                    "usuario": "Oi",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "teste",
+                    "ia": "Olá! Você digitou \"teste\". Posso ajudar com algo específico ou você gostaria de saber mais sobre os projetos ou tecnologias que posso auxiliar?"
+                },
+                {
+                    "usuario": "Oi tudo bem",
+                    "ia": "Tudo bem, sim! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "tudo bem mesmo",
+                    "ia": "Sim, tudo bem! Estou pronta para ajudar. O que você precisa hoje?"
+                },
+                {
+                    "usuario": "obrigada",
+                    "ia": "De nada! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Oi de novo tá bem",
+                    "ia": "Sim, estou funcionando corretamente. Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Criar uma imagem,um cenário escuro,com árvores cheio sombras estilo 3d,um cara com o carro estragado mexendo no motor  capo aberto,e uma sombra preta meio grande com uma foice nas árvores obs esse cara na árvore observando o rapaz do carro,deve mostrar só a sombra",
+                    "ia": "Para criar a imagem que você descreveu, podemos seguir alguns passos básicos de design e ilustração. Aqui está uma sugestão de como você pode abordar isso:\n\n1. **Definir o cenário**: Comece criando o cenário escuro com árvores cheias de sombras. Isso pode ser feito usando técnicas de sombreamento e iluminação em um software de edição de imagem ou ilustração, como o Adobe Photoshop ou o Blender para um modelo 3D.\n\n2. **Adicionar o carro e o personagem**: Em seguida, adicione o carro com o capô aberto e o personagem mexendo no motor. Certifique-se de que o carro esteja em uma posição que permita que o personagem trabalhe no motor enquanto está sob a observação da sombra misteriosa.\n\n3. **Criar a sombra preta com uma foice**: A sombra preta com uma foice deve ser posicionada de forma a parecer que está observando o personagem do carro. Você pode usar técnicas de manipulação de imagem ou modelagem 3D para criar essa sombra, dependendo do software que estiver usando. A foice pode ser adicionada como um elemento separado ou como parte da sombra, dependendo do efeito desejado.\n\n4. **Iluminação e sombreamento**: A iluminação e o sombreamento são cruciais para criar o efeito desejado. Use fontes de luz baixas e sombras profundas para realçar o aspecto sombrio e misterioso da cena. A sombra preta com a foice deve ser uma das áreas mais escuras da imagem, para transmitir um sentido de ameaça ou observação.\n\n5. **Detalhes finais**: Por fim, adicione detalhes finais à cena, como texturas nas árvores, no carro e no personagem, para dar profundidade e realismo à imagem. Certifique-se de que todos os elementos estejam bem integrados e que a atenção do espectador seja direcionada para a sombra misteriosa e o personagem trabalhando no carro.\n\nLembre-se de que a prática e a experimentação são chaves para criar uma imagem de alta qualidade. Se você não tem experiência com edição de imagem ou ilustração, pode ser útil começar com tutoriais básicos e ir avançando gradualmente para técnicas mais complexas."
+                },
+                {
+                    "usuario": "Carro na estrada , de noite,",
+                    "ia": "Um carro na estrada à noite pode ser um cenário interessante. Você gostaria de saber sobre segurança no trânsito noturno ou talvez está pensando em um projeto relacionado a isso? Posso ajudar com informações sobre iluminação, visibilidade ou outras questões relacionadas a dirigir à noite?"
+                },
+                {
+                    "usuario": "Olá tudo bem",
+                    "ia": "Tudo bem, sim! É um prazer conversar com você. Como posso ajudar hoje?"
+                },
+                {
+                    "usuario": "tudo bem sim",
+                    "ia": "Sim, tudo bem! Como posso ajudar você hoje? Você gostaria de discutir algum projeto ou precisar de ajuda com algo específico?"
+                },
+                {
+                    "usuario": "Preciso que você crie uma uma imagem,cenário cheio de árvores numa escuridão,onde tem um carro na estrada com os faroes ligados",
+                    "ia": "Para criar uma imagem como a que você descreveu, podemos seguir alguns passos básicos usando um software de edição de imagens ou um programa de desenho. Aqui está uma abordagem simplificada:\n\n### 1. Definir o Cenário\n- **Cenário:** Uma estrada sinuosa ou reta em meio a uma floresta densa.\n- **Iluminação:** Escuridão, com a única fonte de luz vindo dos faróis do carro.\n- **Elementos:** Árvores altas e densas, um carro com faróis acesos na estrada.\n\n### 2. Escolher as Ferramentas\nVocê pode usar softwares como Adobe Photoshop, GIMP, ou até mesmo programas de desenho vetorial como o Adobe Illustrator, dependendo do estilo de imagem que deseja criar (realista, desenho, etc.).\n\n### 3. Criar o Cenário\n- **Fundo:** Comece com um fundo preto ou muito escuro para representar a escuridão.\n- **Árvores:** Desenhe ou coloque imagens de árvores ao longo das bordas da estrada. Use sombras e luzes para dar profundidade.\n- **Estrada:** Desenhe a estrada, considerando a perspectiva para dar uma sensação de profundidade.\n\n### 4. Adicionar o Carro\n- **Modelo do Carro:** Escolha um modelo de carro que se adapte ao cenário. Você pode desenhá-lo ou usar uma imagem.\n- **Faróis:** Adicione luz aos faróis. Isso pode ser feito desenhando círculos brilhantes ou usando efeitos de luz no software.\n- **Sombra do Carro:** Não esqueça de adicionar sombras para o carro, considerando a direção da luz dos faróis.\n\n### 5. Adicionar Efeitos de Luz e Sombra\n- **Luz dos Faróis:** Além da luz direta dos faróis, adicione reflexos na estrada e nas árvores próximas para um efeito mais realista.\n- **Sombra das Árvores:** As árvores devem projetar sombras na estrada e em outras árvores, dependendo da direção da luz.\n\n### 6. Detalhes Finais\n- **Atmosfera:** Você pode adicionar um pouco de neblina ou bruma para aumentar o mistério do cenário.\n- **Texturas:** Adicione texturas às árvores, estrada e carro para dar mais realismo.\n\nLembre-se, a prática leva à perfeição. Se você não tem experiência com edição de imagens, pode começar com tutoriais básicos para entender melhor como usar as ferramentas necessárias."
+                },
+                {
+                    "usuario": "Oi tudo bom",
+                    "ia": "Tudo bom! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Oi que que eu posso fazer hoje será de programação",
+                    "ia": "Olá! Você parece estar interessado em programação hoje. Com base nas suas preferências anteriores, você gosta de criar bots e usa Python. Você também tem alguns projetos em mente, como o \"ROCHA AI\", \"Spartan BOT\" e um aplicativo chamado \"teste rocha\".\n\nSe você quiser, podemos começar a trabalhar em um desses projetos ou criar algo novo. Qual é o seu objetivo para hoje? Você quer criar um novo bot, melhorar um projeto existente ou aprender algo novo em Python?"
+                },
+                {
+                    "usuario": "Olá tudo bem",
+                    "ia": "Tudo bem, sim! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Olá tudo bem",
+                    "ia": "Tudo bem! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Oi de novo",
+                    "ia": "Oi! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Olá de novo",
+                    "ia": "Olá! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "tudo bem",
+                    "ia": "Tudo bem! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "só para testar de novo",
+                    "ia": "Ok, está funcionando. Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "testando mais uma vez",
+                    "ia": "Erro Groq: 429 - {\"error\":{\"message\":\"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kykhadecem9regg4rgyekyba` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99849, Requested 1014. Please try again in 12m25.632s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+                },
+                {
+                    "usuario": "Oiiiii",
+                    "ia": "Erro Groq: 429 - {\"error\":{\"message\":\"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kykhadecem9regg4rgyekyba` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99792, Requested 1009. Please try again in 11m32.064s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n"
+                }
+            ]
+        }
+    }
+}

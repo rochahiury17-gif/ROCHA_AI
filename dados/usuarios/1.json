@@ -1,0 +1,76 @@
+{
+    "chats": {
+        "a4e55ad3-8082-4781-912d-ef057571b67b": {
+            "titulo": "Olá boa noite",
+            "mensagens": [
+                {
+                    "usuario": "Olá boa noite",
+                    "ia": "Boa noite! Como posso ajudar você hoje?"
+                }
+            ]
+        },
+        "bc4553db-2191-4bcc-81e0-1bd89bf3a43b": {
+            "titulo": "fale teste",
+            "mensagens": [
+                {
+                    "usuario": "fale teste",
+                    "ia": "Teste realizado com sucesso. Estou funcionando corretamente. Como posso ajudar você hoje?"
+                }
+            ]
+        },
+        "cef42336-94be-4d80-9d6d-8dd097e9cefd": {
+            "titulo": "teste voz",
+            "mensagens": [
+                {
+                    "usuario": "teste voz",
+                    "ia": "Você digitou \"teste voz\". Você gostaria de saber mais sobre como a ROCHA AI pode ser utilizada com comandos de voz ou como criar um sistema de teste de voz? Por favor, forneça mais detalhes sobre o que você está procurando."
+                }
+            ]
+        },
+        "c0770208-86eb-4a79-8b73-255b1c112932": {
+            "titulo": "teste voz",
+            "mensagens": [
+                {
+                    "usuario": "teste voz",
+                    "ia": "Não há informações suficientes sobre como proceder com o comando \"teste voz\". Pode me fornecer mais detalhes sobre o que você gostaria de testar ou realizar com a voz?"
+                }
+            ]
+        },
+        "94eaad9a-7c4d-4705-9b20-579939b10610": {
+            "titulo": "teste voz",
+            "mensagens": [
+                {
+                    "usuario": "teste voz",
+                    "ia": "Olá! Você digitou \"teste voz\". Posso ajudar com algo relacionado a tecnologia de voz ou talvez você queira saber sobre como criar um sistema de teste de voz? Por favor, forneça mais detalhes sobre o que você precisa."
+                }
+            ]
+        },
+        "fea670eb-2068-4a13-ade5-083c1951faef": {
+            "titulo": "teste voz",
+            "mensagens": [
+                {
+                    "usuario": "teste voz",
+                    "ia": "Para testar a funcionalidade de voz, precisamos saber se você está se referindo a um projeto específico ou a uma integração de voz em geral. Pode me fornecer mais detalhes sobre o que você deseja testar ou realizar com a voz?"
+                }
+            ]
+        },
+        "fb9072a4-fe00-475d-91e9-8ea1a0c09f32": {
+            "titulo": "teste voz",
+            "mensagens": [
+                {
+                    "usuario": "teste voz",
+                    "ia": "Não há informações sobre como o sistema de voz funciona ou como ele está configurado. Você gostaria de saber mais sobre como criar um sistema de voz ou configurar um assistente de voz?"
+                }
+            ]
+        },
+        "b0efd0e0-cce6-4aa6-ae77-cfabbb49116d": {
+            "titulo": "teste voz",
+            "mensagens": [
+                {
+                    "usuario": "teste voz",
+                    "ia": "Você digitou \"teste voz\". Gostaria de testar o recurso de voz ou precisa de ajuda com algo relacionado à tecnologia de voz? Por favor, forneça mais detalhes para que eu possa ajudá-lo melhor."
+                }
+            ]
+        }
+    }
+}

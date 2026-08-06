@@ -297,6 +297,114 @@
                     "ia": "Boa noite! Como posso ajudar você hoje?"
                 }
             ]
+        },
+        "2890b2f1-d8de-48cf-870d-999615eee75a": {
+            "titulo": "Olá boa noite você está bem hoje",
+            "fixado": false,
+            "criado_em": "2026-08-05T23:35:26.165950",
+            "atualizado_em": "2026-08-05T23:35:26.165950",
+            "mensagens": [
+                {
+                    "usuario": "Olá boa noite você está bem hoje",
+                    "ia": "Boa noite! Estou funcionando normalmente. Como posso ajudar você hoje, Hiury?"
+                },
+                {
+                    "usuario": "quero saber qual sua personalidade atualmente hoje você tem você consegue isso ver isso",
+                    "ia": "Minha personalidade é definida como inteligente, natural e objetiva. Estou programada para ser uma assistente real, explicando de forma simples e clara, e auxiliando nos projetos quando necessário, mantendo respostas objetivas. Não tenho personalidade no sentido de gostos ou interesses pessoais, mas sim uma abordagem focada em fornecer informações precisas e úteis."
+                },
+                {
+                    "usuario": "me responda essa personalidade de hoje em voz",
+                    "ia": "Desculpe, mas não entendi a pergunta. Você gostaria de saber sobre a personalidade de quem ou de quê? Pode fornecer mais contexto ou detalhes?"
+                },
+                {
+                    "usuario": "gostaria de saber o tempo em Porto Alegre hoje você tem acesso a isso",
+                    "ia": "Não tenho acesso em tempo real a informações como o tempo em Porto Alegre. Posso sugerir verificar em sites de previsão do tempo ou aplicativos para obter as informações mais atualizadas."
+                },
+                {
+                    "usuario": "Olá boa noite você está bem",
+                    "ia": "Boa noite! Estou funcionando corretamente. Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Olá tudo bem com você e a Oi",
+                    "ia": "Olá, tudo bem! A Oi é uma empresa de telecomunicações, não uma pessoa, então não posso dizer se está bem ou não com ela. Quer conversar sobre algo específico ou precisa de ajuda com algum dos seus projetos, como o aplicativo \"Teste Rocha\"?"
+                },
+                {
+                    "usuario": "Olá tudo bem com você hoje",
+                    "ia": "Tudo bem, obrigada! Estou funcionando normalmente e pronta para ajudar. Como posso ajudar você hoje, Hiury?"
+                },
+                {
+                    "usuario": "O que que você sabe sobre mim",
+                    "ia": "De acordo com a memória disponível, seu nome é Hiury. Além disso, você está criando alguns projetos, como o \"ROCHA AI\", \"Spartan BOT\", \"ROCHA BET\" e um aplicativo chamado \"Teste Rocha\", que é um aplicativo de música. Você também mencionou que gosta de criar bots e prefere respostas curtas. Se precisar de mais informações ou tiver alguma dúvida específica, basta perguntar."
+                },
+                {
+                    "usuario": "Olá boa noite",
+                    "ia": "Boa noite! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "sobre férias",
+                    "ia": "Não há informações sobre férias na nossa conversa até agora. Você gostaria de planejar algo relacionado a férias ou precisa de ajuda com alguma coisa específica sobre o assunto?"
+                },
+                {
+                    "usuario": "Olá O que você sabe sobre mim",
+                    "ia": "Seu nome é Hiury. Além disso, você está criando alguns projetos, como o ROCHA AI, Spartan BOT, ROCHA BET e o aplicativo Teste Rocha, que é um aplicativo de música. Suas preferências incluem criar bots, utilizar a linguagem de programação Python e respostas curtas. Se precisar de mais informações ou tiver alguma dúvida específica, basta perguntar."
+                }
+            ]
+        },
+        "25ed6dfd-c395-4de6-b56b-270913f11238": {
+            "titulo": "Olá boa noite",
+            "fixado": false,
+            "criado_em": "2026-08-06T00:06:34.136667",
+            "atualizado_em": "2026-08-06T00:06:34.136667",
+            "mensagens": [
+                {
+                    "usuario": "Olá boa noite",
+                    "ia": "Boa noite! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Olá tudo bem com você",
+                    "ia": "Tudo bem, obrigada por perguntar. Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Olá boa noite dona inha",
+                    "ia": "Boa noite! Você disse \"dona inha\", mas não sei a quem se refere. Você gostaria de conversar sobre algo em particular ou precisa de ajuda com um dos seus projetos, como o aplicativo \"Teste Rocha\"?"
+                },
+                {
+                    "usuario": "Olá boa noite dona ia",
+                    "ia": "Olá! Boa noite! Você está se referindo a mim como \"dona ia\", mas posso simplificar e dizer que sou a ROCHA AI. Como posso ajudar você hoje?"
+                }
+            ]
+        },
+        "c6db49e0-68e7-497f-afe0-14e0f42d3a5b": {
+            "titulo": "Olá tudo bem",
+            "fixado": false,
+            "criado_em": "2026-08-06T00:15:06.091147",
+            "atualizado_em": "2026-08-06T00:15:06.091147",
+            "mensagens": [
+                {
+                    "usuario": "Olá tudo bem",
+                    "ia": "Tudo bem, sim! Como posso ajudar você hoje, Hiury?"
+                },
+                {
+                    "usuario": "Olá tudo bem",
+                    "ia": "Tudo bem, Hiury! Como posso ajudar você hoje?"
+                },
+                {
+                    "usuario": "Olá boa noite",
+                    "ia": "Boa noite! Como posso ajudar você hoje?"
+                }
+            ]
+        },
+        "f83900a3-7676-449f-ae4d-0b0379856925": {
+            "titulo": "apenas um teste para ver se sua voz está",
+            "fixado": false,
+            "criado_em": "2026-08-06T00:17:55.368225",
+            "atualizado_em": "2026-08-06T00:17:55.368225",
+            "mensagens": [
+                {
+                    "usuario": "apenas um teste para ver se sua voz está ativa",
+                    "ia": "Tudo funcionando corretamente. Seu nome é Hiury e você está criando vários projetos, incluindo o aplicativo \"Teste Rocha\", que é um aplicativo de música. Estou aqui para ajudar com qualquer dúvida ou informação que você precise. Como posso ajudar agora?"
+                }
+            ]
         }
     }
 }

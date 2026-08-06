@@ -178,7 +178,7 @@ def verificar_memoria(pergunta, usuario_id=None):
 
 def carregar_historico_recente(
     usuario_id,
-    limite=10
+    limite=5
 ):
 
     if not usuario_id:
@@ -470,7 +470,7 @@ Estou aqui para ajudar, conversar e evoluir junto com meu criador.
     historico = (
         carregar_historico_recente(
             usuario_id,
-            limite=10
+            limite=5
         )
     )
 
@@ -623,7 +623,7 @@ a memória e o contexto acima.
 
         ],
 
-        "temperature": 0.7
+        "temperature": 0.5
 
     }
 

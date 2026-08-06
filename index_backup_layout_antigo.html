@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ROCHA AI</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- LOGIN -->
+
+<div id="loginScreen" class="login">
+
+<img src="assets/logo_v2.png" style="width:28px;height:28px;object-fit:contain;">
+
+    <h1>ROCHA AI</h1>
+
+    <p>Entre na sua inteligência pessoal</p>
+
+
+    <input
+    id="loginEmail"
+    type="email"
+    placeholder="E-mail">
+
+
+    <input
+    id="loginSenha"
+    type="password"
+    placeholder="Senha">
+
+
+    <button onclick="fazerLogin()">
+        ENTRAR
+    </button>
+
+
+    <button onclick="mostrarRegistro()">
+        CRIAR CONTA
+    </button>
+
+
+</div>
+
+
+
+<!-- REGISTRO -->
+
+<div id="registroScreen" class="login" style="display:none;">
+
+
+    <img src="assets/logo_v2.png" class="logo-login">
+
+
+    <h1>Criar conta</h1>
+
+
+    <input
+    id="registroNome"
+    placeholder="Nome">
+
+
+    <input
+    id="registroEmail"
+    type="email"
+    placeholder="E-mail">
+
+
+    <input
+    id="registroSenha"
+    type="password"
+    placeholder="Senha">
+
+
+    <button onclick="registrarUsuario()">
+        CADASTRAR
+    </button>
+
+
+    <button onclick="voltarLogin()">
+        VOLTAR
+    </button>
+
+
+</div>
+
+
+
+
+<!-- CHAT -->
+
+<div class="app" id="chatScreen" style="display:none;">
+
+
+
+<div id="menu" class="menu">
+
+
+<button class="novo" onclick="novoChat()">
+➕ Nova conversa
+</button>
+
+
+<h3>Conversas</h3>
+
+
+<div id="listaChats"></div>
+
+
+</div>
+
+
+
+
+
+<div class="principal">
+
+
+<div class="topo">
+
+
+<button class="menu-btn" onclick="abrirMenu()">
+☰
+</button>
+
+
+<img src="assets/logo_v2.png" class="logo-chat">
+
+<div class="titulo-app">
+
+    <h2>ROCHA AI</h2>
+
+    <small>Sua inteligência pessoal</small>
+
+</div>
+
+</div>
+
+
+<div id="chat"></div>
+
+
+
+
+
+<div class="rodape">
+
+
+<input
+id="pergunta"
+placeholder="Mensagem...">
+
+
+
+<button onclick="enviar()">
+➤
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<script src="js/app.js"></script>
+
+
+</body>
+
+</html>
