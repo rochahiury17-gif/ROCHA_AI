@@ -1885,7 +1885,7 @@ async function fazerLogin() {
         );
 
         window.location.href =
-            "/V2/pages/chat.html";
+            "/?v=999";
 
     } catch (erro) {
 
@@ -2113,7 +2113,7 @@ if (botaoEntrar) {
 
             // Vai para o chat V2
             window.location.href =
-                "/V2/pages/chat.html";
+                "/?v=999";
 
         } catch (erro) {
 
@@ -2265,7 +2265,7 @@ if (botaoCriarConta) {
 
 
                 window.location.href =
-                    "/V2/pages/chat.html";
+                    "/?v=999";
 
 
             } catch (erro) {
@@ -3347,3 +3347,817 @@ if (inputImagem) {
     }
 
 })();
+
+// ============================================================
+// ROCHA AI — CONVERSA POR VOZ V2
+// ============================================================
+
+(function ROCHA_VOZ_V2() {
+
+    const botao =
+        document.getElementById("botao-conversa-voz");
+
+    const campo =
+        document.getElementById("mensagem");
+
+    if (!botao || !campo) {
+        console.warn("ROCHA AI VOZ: elementos não encontrados.");
+        return;
+    }
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+    let ativo = false;
+    let ouvindo = false;
+    let falando = false;
+    let reconhecimento = null;
+
+    let vozesDisponiveis = [];
+
+    // ========================================================
+    // CARREGAR VOZES
+    // ========================================================
+
+    function carregarVozes() {
+
+        if (!window.speechSynthesis) {
+            return;
+        }
+
+        vozesDisponiveis =
+            window.speechSynthesis.getVoices() || [];
+
+        console.log(
+            "🔊 ROCHA AI: vozes disponíveis:",
+            vozesDisponiveis.length
+        );
+    }
+
+    if (window.speechSynthesis) {
+
+        carregarVozes();
+
+        window.speechSynthesis.onvoiceschanged =
+            carregarVozes;
+    }
+
+
+    // ========================================================
+    // ATUALIZAR BOTÃO
+    // ========================================================
+
+    function atualizarBotao() {
+
+        botao.classList.toggle(
+            "ativo",
+            ativo
+        );
+
+        botao.classList.toggle(
+            "ouvindo",
+            ouvindo
+        );
+
+
+        if (!ativo) {
+
+            botao.innerText = "🗣️";
+
+            return;
+        }
+
+
+        if (falando) {
+
+            botao.innerText = "🔊";
+
+            return;
+        }
+
+
+        if (ouvindo) {
+
+            botao.innerText = "🔴";
+
+            return;
+        }
+
+
+        botao.innerText = "🗣️";
+    }
+
+
+    // ========================================================
+    // ESCOLHER VOZ
+    // ========================================================
+
+    function obterVoz() {
+
+        const vozes =
+            vozesDisponiveis.length
+                ? vozesDisponiveis
+                : (
+                    window.speechSynthesis
+                        ? window.speechSynthesis.getVoices()
+                        : []
+                );
+
+        if (!vozes.length) {
+            return null;
+        }
+
+
+        // Primeiro tenta português do Brasil
+
+        let voz =
+            vozes.find(function(v) {
+
+                return (
+                    v.lang &&
+                    v.lang
+                        .toLowerCase()
+                        .replace("_", "-") ===
+                    "pt-br"
+                );
+
+            });
+
+
+        if (voz) {
+            return voz;
+        }
+
+
+        // Depois qualquer português
+
+        voz =
+            vozes.find(function(v) {
+
+                return (
+                    v.lang &&
+                    v.lang
+                        .toLowerCase()
+                        .startsWith("pt")
+                );
+
+            });
+
+
+        return voz || null;
+    }
+
+
+    // ========================================================
+    // TTS
+    // ========================================================
+
+    function falar(texto) {
+
+    console.log("🔊 ROCHA AI TESTE TTS CHAMADO:", texto);
+
+
+        return new Promise(function(resolve) {
+
+            if (!window.speechSynthesis) {
+
+                console.error(
+                    "ROCHA AI: speechSynthesis não disponível."
+                );
+
+                resolve();
+                return;
+            }
+
+
+            texto = String(texto || "")
+                .replace(/```[\s\S]*?```/g, "")
+                .replace(/[*_#>`]/g, "")
+                .replace(/\n+/g, ". ")
+                .trim();
+
+
+            if (!texto) {
+                resolve();
+                return;
+            }
+
+
+            try {
+
+                carregarVozes();
+
+                const sintetizador =
+                    window.speechSynthesis;
+
+
+                // Cancela somente uma fala anterior.
+                sintetizador.cancel();
+
+
+                const iniciar = function() {
+
+                    try {
+
+                        carregarVozes();
+
+
+                        const fala =
+                            new SpeechSynthesisUtterance(
+                                texto
+                            );
+
+
+                        fala.lang = "pt-BR";
+                        fala.rate = 1;
+                        fala.pitch = 1;
+                        fala.volume = 1;
+
+
+                        const voz = obterVoz();
+
+
+                        if (voz) {
+
+                            fala.voice = voz;
+
+                            console.log(
+                                "🔊 ROCHA AI: usando voz:",
+                                voz.name,
+                                voz.lang
+                            );
+
+                        } else {
+
+                            console.warn(
+                                "🔊 ROCHA AI: nenhuma voz PT-BR encontrada."
+                            );
+
+                        }
+
+
+                        let finalizado = false;
+
+
+                        function finalizar() {
+
+                            if (finalizado) {
+                                return;
+                            }
+
+
+                            finalizado = true;
+
+                            falando = false;
+
+                            atualizarBotao();
+
+                            resolve();
+
+                        }
+
+
+                        fala.onstart =
+                            function() {
+
+                                falando = true;
+
+                                atualizarBotao();
+
+                                console.log(
+                                    "🔊 ROCHA AI: áudio iniciado."
+                                );
+
+                            };
+
+
+                        fala.onend =
+                            function() {
+
+                                console.log(
+                                    "🔊 ROCHA AI: áudio terminado."
+                                );
+
+                                finalizar();
+
+                            };
+
+
+                        fala.onerror =
+                            function(erro) {
+
+                                console.error(
+                                    "🔊 ROCHA AI TTS erro:",
+                                    erro
+                                );
+
+                                finalizar();
+
+                            };
+
+
+                        falando = true;
+
+                        atualizarBotao();
+
+
+                        sintetizador.speak(
+                            fala
+                        );
+
+
+                        // Android/Chrome pode deixar a fila pausada.
+
+                        setTimeout(function() {
+
+                            try {
+
+                                if (
+                                    sintetizador.paused
+                                ) {
+
+                                    sintetizador.resume();
+
+                                }
+
+                            } catch (erro) {}
+
+                        }, 300);
+
+
+                        // Segundo desbloqueio para alguns
+                        // aparelhos Android.
+
+                        setTimeout(function() {
+
+                            try {
+
+                                if (
+                                    sintetizador.speaking &&
+                                    sintetizador.paused
+                                ) {
+
+                                    sintetizador.resume();
+
+                                }
+
+                            } catch (erro) {}
+
+                        }, 1000);
+
+
+                    } catch (erro) {
+
+                        console.error(
+                            "🔊 ROCHA AI: erro ao iniciar TTS:",
+                            erro
+                        );
+
+                        falando = false;
+
+                        atualizarBotao();
+
+                        resolve();
+
+                    }
+
+                };
+
+
+                // Dá tempo para cancel() limpar a fila.
+
+                setTimeout(
+                    iniciar,
+                    150
+                );
+
+
+            } catch (erro) {
+
+                console.error(
+                    "🔊 ROCHA AI: erro preparando TTS:",
+                    erro
+                );
+
+                falando = false;
+
+                atualizarBotao();
+
+                resolve();
+
+            }
+
+        });
+
+    }
+
+    window.ROCHA_FALAR = falar;
+
+
+    // ========================================================
+    // RECONHECIMENTO DE VOZ
+    // ========================================================
+
+    function iniciarEscuta() {
+
+        if (
+            !ativo ||
+            falando ||
+            ouvindo ||
+            !SpeechRecognition
+        ) {
+            return;
+        }
+
+
+        reconhecimento =
+            new SpeechRecognition();
+
+
+        reconhecimento.lang =
+            "pt-BR";
+
+        reconhecimento.continuous =
+            false;
+
+        reconhecimento.interimResults =
+            false;
+
+        reconhecimento.maxAlternatives =
+            1;
+
+
+        reconhecimento.onstart =
+            function() {
+
+                ouvindo = true;
+
+                atualizarBotao();
+
+                console.log(
+                    "🎙️ ROCHA AI: ouvindo..."
+                );
+            };
+
+
+        reconhecimento.onresult =
+            async function(evento) {
+
+                ouvindo = false;
+
+                atualizarBotao();
+
+
+                const texto =
+                    evento.results[0][0]
+                        .transcript
+                        .trim();
+
+
+                if (!texto) {
+
+                    if (ativo) {
+                        iniciarEscuta();
+                    }
+
+                    return;
+                }
+
+
+                console.log(
+                    "👤 Voz:",
+                    texto
+                );
+
+
+                campo.value = texto;
+
+
+                if (
+                    typeof adicionarMensagem ===
+                    "function"
+                ) {
+
+                    adicionarMensagem(
+                        "👤 " + texto,
+                        "user-message"
+                    );
+                }
+
+
+                campo.value = "";
+
+
+                const usuario =
+                    typeof obterUsuario ===
+                    "function"
+                        ? obterUsuario()
+                        : null;
+
+
+                if (
+                    !usuario ||
+                    !usuario.id
+                ) {
+
+                    adicionarMensagem(
+                        "🤖 Faça login para conversar com a ROCHA AI.",
+                        "bot-message"
+                    );
+
+                    ativo = false;
+
+                    atualizarBotao();
+
+                    return;
+                }
+
+
+                try {
+
+                    const resposta =
+                        await fetch(
+                            "/api/chat",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+
+                                        mensagem:
+                                            texto,
+
+                                        usuario:
+                                            usuario.id,
+
+                                        chat_id:
+                                            typeof chatAtual !==
+                                            "undefined"
+                                                ? chatAtual
+                                                : null
+
+                                    })
+                            }
+                        );
+
+
+                    if (!resposta.ok) {
+
+                        throw new Error(
+                            "HTTP " +
+                            resposta.status
+                        );
+                    }
+
+
+                    const dados =
+                        await resposta.json();
+
+
+                    if (dados.chat_id) {
+
+                        if (
+                            typeof chatAtual !==
+                            "undefined"
+                        ) {
+
+                            chatAtual =
+                                dados.chat_id;
+                        }
+                    }
+
+
+                    const respostaTexto =
+                        dados.resposta ||
+                        "Não consegui responder.";
+
+                    // =================================================
+                    // ROCHA AI AUTO VOZ
+                    // =================================================
+
+                    console.log(
+                        "ROCHA AI VOZ: resposta recebida:",
+                        respostaTexto
+                    );
+
+                    adicionarMensagem(
+                        "🤖 " + respostaTexto,
+                        "bot-message"
+                    );
+
+
+                    // =================================================
+                    // FALA A RESPOSTA
+                    // =================================================
+
+                    console.log(
+                        "ROCHA AI VOZ: ativo =",
+                        ativo,
+                        "resposta:",
+                        respostaTexto
+                    );
+
+                    if (ativo) {
+
+                        await falar(
+                            respostaTexto
+                        );
+                    }
+
+
+                } catch (erro) {
+
+                    console.error(
+                        "ROCHA AI VOZ — erro:",
+                        erro
+                    );
+
+
+                    adicionarMensagem(
+                        "🤖 Não foi possível conectar ao servidor.",
+                        "bot-message"
+                    );
+                }
+
+
+                if (ativo) {
+
+                    setTimeout(
+                        function() {
+
+                            iniciarEscuta();
+
+                        },
+                        500
+                    );
+                }
+            };
+
+
+        reconhecimento.onerror =
+            function(erro) {
+
+                console.error(
+                    "🎙️ ROCHA AI reconhecimento:",
+                    erro
+                );
+
+                ouvindo = false;
+
+                atualizarBotao();
+
+
+                if (ativo) {
+
+                    setTimeout(
+                        function() {
+
+                            iniciarEscuta();
+
+                        },
+                        700
+                    );
+                }
+            };
+
+
+        reconhecimento.onend =
+            function() {
+
+                ouvindo = false;
+
+                atualizarBotao();
+
+
+                if (
+                    ativo &&
+                    !falando
+                ) {
+
+                    setTimeout(
+                        function() {
+
+                            iniciarEscuta();
+
+                        },
+                        500
+                    );
+                }
+            };
+
+
+        try {
+
+            reconhecimento.start();
+
+        } catch (erro) {
+
+            console.error(
+                "🎙️ ROCHA AI: erro ao iniciar reconhecimento:",
+                erro
+            );
+
+            ouvindo = false;
+
+            atualizarBotao();
+        }
+    }
+
+
+    // ========================================================
+    // BOTÃO CONVERSA POR VOZ
+    // ========================================================
+
+    botao.addEventListener(
+        "click",
+        async function() {
+
+            ativo =
+                !ativo;
+
+
+            if (!ativo) {
+
+                ouvindo = false;
+                falando = false;
+
+
+                if (reconhecimento) {
+
+                    try {
+
+                        reconhecimento.stop();
+
+                    } catch (erro) {}
+                }
+
+
+                if (
+                    window.speechSynthesis
+                ) {
+
+                    try {
+
+                        window.speechSynthesis.cancel();
+
+                    } catch (erro) {}
+                }
+
+
+                atualizarBotao();
+
+
+                console.log(
+                    "🛑 ROCHA AI: conversa por voz desligada."
+                );
+
+
+                return;
+            }
+
+
+            console.log(
+                "🗣️ ROCHA AI: conversa por voz ativada."
+            );
+
+
+            atualizarBotao();
+
+
+            // Desbloqueia o sistema de áudio
+            // através da interação do usuário.
+
+            if (
+                window.speechSynthesis
+            ) {
+
+                try {
+
+                    window.speechSynthesis.cancel();
+
+                    window.speechSynthesis.resume();
+
+                } catch (erro) {}
+            }
+
+
+            iniciarEscuta();
+        }
+    );
+
+
+    atualizarBotao();
+
+
+    console.log(
+        "✅ ROCHA AI V2: sistema de conversa por voz carregado."
+    );
+
+})();
+

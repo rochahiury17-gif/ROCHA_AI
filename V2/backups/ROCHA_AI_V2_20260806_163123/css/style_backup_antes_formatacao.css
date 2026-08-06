@@ -1,0 +1,3263 @@
+```css
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top, #12345a, transparent 40%),
+        linear-gradient(135deg, #020617, #000000);
+    color: white;
+}
+
+/* ============================================================
+   LOGIN / REGISTRO
+   ============================================================ */
+
+.login-container {
+    width: 90%;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 40px 28px;
+    background: rgba(15, 15, 25, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    text-align: center;
+    border: 1px solid rgba(0, 140, 255, 0.25);
+    box-shadow: 0 0 40px rgba(0, 140, 255, 0.25);
+}
+
+.logo {
+    width: 170px;
+    height: 170px;
+    object-fit: contain;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 20px rgba(0, 180, 255, 0.5));
+}
+
+h1 {
+    font-size: 34px;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #b5b5b5;
+    margin-bottom: 35px;
+}
+
+h2 {
+    font-size: 21px;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    height: 52px;
+    margin-bottom: 15px;
+    padding: 0 16px;
+    border-radius: 14px;
+    border: 1px solid #333;
+    background: rgba(255,255,255,0.06);
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #00aaff;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    filter: brightness(1.1);
+}
+
+.divider {
+    margin: 25px 0;
+    color: #777;
+}
+
+.register {
+    background: transparent;
+    border: 1px solid #008cff;
+}
+
+
+/* ============================================================
+   CHAT PRINCIPAL
+   ============================================================ */
+
+.chat-container {
+    width: 100%;
+    max-width: 700px;
+    height: 94vh;
+    margin: 3vh auto;
+    background: #080b14;
+    border: 1px solid #182235;
+    border-radius: 25px;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    box-shadow:
+        0 0 40px rgba(0, 140, 255, 0.12);
+}
+
+
+/* ============================================================
+   CABEÇALHO
+   ============================================================ */
+
+.chat-header {
+    min-height: 80px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 12px 16px;
+
+    border-bottom: 1px solid #222;
+    background: rgba(8, 11, 20, 0.96);
+}
+
+.chat-header img {
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+    margin-right: 13px;
+}
+
+.chat-header-info {
+    flex: 1;
+}
+
+.chat-header h1 {
+    font-size: 21px;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+.chat-header span {
+    color: #00d4ff;
+    font-size: 13px;
+}
+
+
+/* ============================================================
+   BOTÃO NOVO CHAT
+   ============================================================ */
+
+.novo-chat {
+    width: 46px;
+    height: 46px;
+
+    flex-shrink: 0;
+
+    border-radius: 14px;
+
+    background: linear-gradient(
+        135deg,
+        #008cff,
+        #00d4ff
+    );
+
+    color: white;
+
+    font-size: 27px;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 0 15px rgba(0, 180, 255, 0.25);
+}
+
+.novo-chat:active {
+    transform: scale(0.94);
+}
+
+
+/* ============================================================
+   LISTA DE CONVERSAS
+   ============================================================ */
+
+.lista-chats {
+    max-height: 155px;
+
+    padding: 10px;
+
+    overflow-x: auto;
+    overflow-y: auto;
+
+    border-bottom: 1px solid #1b2230;
+
+    background: #060912;
+}
+
+.lista-chats-titulo {
+    color: #7f8ba3;
+
+    font-size: 12px;
+    font-weight: bold;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    padding: 5px 7px 9px;
+}
+
+.chat-item {
+    padding: 11px 13px;
+
+    margin-bottom: 6px;
+
+    border-radius: 11px;
+
+    background: #101625;
+
+    color: #dce5f2;
+
+    font-size: 14px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    cursor: pointer;
+
+    border: 1px solid transparent;
+
+    transition:
+        background 0.2s,
+        border 0.2s,
+        transform 0.15s;
+}
+
+.chat-item:hover {
+    background: #172033;
+    border-color: #263a57;
+}
+
+.chat-item:active {
+    transform: scale(0.99);
+}
+
+.chat-item-ativo {
+    background: rgba(0, 140, 255, 0.16);
+
+    border-color: rgba(0, 170, 255, 0.45);
+
+    color: #ffffff;
+
+    box-shadow:
+        inset 3px 0 0 #00aaff;
+}
+
+.chat-vazio {
+    color: #657085;
+
+    text-align: center;
+
+    font-size: 13px;
+
+    padding: 15px;
+}
+
+
+/* ============================================================
+   ÁREA DAS MENSAGENS
+   ============================================================ */
+
+.chat-box {
+    flex: 1;
+
+    padding: 20px;
+
+    overflow-y: auto;
+
+    scroll-behavior: smooth;
+}
+
+
+/* Barra de rolagem */
+
+.chat-box::-webkit-scrollbar,
+.lista-chats::-webkit-scrollbar {
+    width: 5px;
+}
+
+.chat-box::-webkit-scrollbar-thumb,
+.lista-chats::-webkit-scrollbar-thumb {
+    background: #26354b;
+    border-radius: 10px;
+}
+
+
+/* ============================================================
+   MENSAGENS DA IA
+   ============================================================ */
+
+.bot-message {
+    background: #151c2b;
+
+    padding: 13px 15px;
+
+    border-radius: 15px;
+
+    max-width: 82%;
+
+    margin: 8px 0;
+
+    color: #e8edf5;
+
+    line-height: 1.45;
+
+    white-space: pre-wrap;
+
+    border: 1px solid #202c40;
+}
+
+
+/* ============================================================
+   MENSAGENS DO USUÁRIO
+   ============================================================ */
+
+.user-message {
+    background: linear-gradient(
+        135deg,
+        #0077e6,
+        #009cff
+    );
+
+    padding: 13px 15px;
+
+    border-radius: 15px;
+
+    max-width: 82%;
+
+    margin: 12px 0 12px auto;
+
+    color: white;
+
+    line-height: 1.45;
+
+    white-space: pre-wrap;
+
+    box-shadow:
+        0 3px 12px rgba(0, 100, 255, 0.15);
+}
+
+
+/* ============================================================
+   CAMPO DE MENSAGEM
+   ============================================================ */
+
+.chat-input {
+    display: flex;
+
+    align-items: center;
+
+    padding: 12px 14px;
+
+    gap: 10px;
+
+    background: #080b14;
+
+    border-top: 1px solid #1b2230;
+}
+
+.chat-input input {
+    flex: 1;
+
+    height: 50px;
+
+    margin: 0;
+
+    border-radius: 15px;
+
+    background: #101624;
+
+    border: 1px solid #253149;
+
+    color: white;
+}
+
+.chat-input input:focus {
+    border-color: #009cff;
+
+    box-shadow:
+        0 0 0 2px rgba(0, 156, 255, 0.08);
+}
+
+.chat-input button {
+    width: 52px;
+    height: 50px;
+
+    flex-shrink: 0;
+
+    border-radius: 15px;
+
+    background: linear-gradient(
+        135deg,
+        #008cff,
+        #00d4ff
+    );
+
+    color: white;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    box-shadow:
+        0 0 15px rgba(0, 180, 255, 0.2);
+}
+
+.chat-input button:active {
+    transform: scale(0.94);
+}
+
+
+/* ============================================================
+   CELULAR
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    body {
+        background: #020617;
+    }
+
+    .chat-container {
+        width: 100%;
+        height: 100vh;
+
+        margin: 0;
+
+        border-radius: 0;
+
+        border: none;
+    }
+
+    .chat-header {
+        min-height: 70px;
+
+        padding: 10px 12px;
+    }
+
+    .chat-header img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .chat-header h1 {
+        font-size: 19px;
+    }
+
+    .lista-chats {
+        max-height: 135px;
+    }
+
+    .chat-box {
+        padding: 15px 12px;
+    }
+
+    .bot-message,
+    .user-message {
+        max-width: 88%;
+    }
+
+    .chat-input {
+        padding: 10px;
+    }
+
+    .chat-input input {
+        height: 48px;
+    }
+
+    .chat-input button {
+        width: 50px;
+        height: 48px;
+    }
+}
+```
+/* ============================================================
+   CORREÇÃO DO CHAT NO CELULAR
+   ============================================================ */
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.chat-container {
+    min-height: 0;
+}
+
+.chat-box {
+    min-height: 0;
+    flex: 1 1 auto;
+}
+
+.chat-input {
+    flex: 0 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
+@media (max-width: 600px) {
+
+    .chat-container {
+        width: 100%;
+        height: 100dvh;
+        min-height: 100dvh;
+        max-height: 100dvh;
+
+        margin: 0;
+
+        border-radius: 0;
+    }
+
+    .chat-header {
+        flex: 0 0 auto;
+    }
+
+    .lista-chats {
+        flex: 0 0 auto;
+        max-height: 135px;
+    }
+
+    .chat-box {
+        min-height: 0;
+        flex: 1 1 auto;
+        overflow-y: auto;
+    }
+
+    .chat-input {
+        flex: 0 0 auto;
+        width: 100%;
+        padding-bottom: 10px;
+    }
+}
+
+/* ============================================================
+   CORREÇÃO FINAL - CHAT MOBILE
+   ============================================================ */
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.chat-container {
+    height: 100dvh;
+    max-height: 100dvh;
+
+    margin: 0;
+
+    border-radius: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+}
+
+
+/* CABEÇALHO FIXO */
+
+.chat-header {
+    flex: 0 0 auto;
+}
+
+
+/* LISTA DE CHATS */
+
+.lista-chats {
+    flex: 0 0 auto;
+
+    height: 110px;
+    max-height: 110px;
+
+    overflow-y: auto;
+}
+
+
+/* ÁREA DA CONVERSA */
+
+.chat-box {
+    flex: 1 1 auto;
+
+    min-height: 0;
+
+    overflow-y: auto;
+
+    padding: 15px 12px;
+}
+
+
+/* CAMPO DE MENSAGEM */
+
+.chat-input {
+    flex: 0 0 auto;
+
+    width: 100%;
+
+    padding: 10px;
+
+    padding-bottom:
+        calc(10px + env(safe-area-inset-bottom));
+
+    background: #080b14;
+}
+
+
+/* INPUT */
+
+.chat-input input {
+    min-width: 0;
+
+    width: auto;
+
+    flex: 1;
+
+    margin: 0;
+}
+
+
+/* BOTÃO */
+
+.chat-input button {
+    flex: 0 0 50px;
+}
+
+
+/* CELULAR */
+
+@media (max-width: 600px) {
+
+    .chat-container {
+        width: 100%;
+        height: 100dvh;
+        max-height: 100dvh;
+    }
+
+    .chat-header {
+        min-height: 70px;
+        height: 70px;
+    }
+
+    .chat-header img {
+        width: 45px;
+        height: 45px;
+    }
+
+    .lista-chats {
+        height: 105px;
+        max-height: 105px;
+    }
+
+    .chat-box {
+        min-height: 0;
+        flex: 1 1 auto;
+    }
+
+    .chat-input {
+        min-height: 68px;
+    }
+}
+
+/* ============================================================
+   CORREÇÃO DOS BOTÕES DE LOGIN
+   ============================================================ */
+
+.login-container button {
+    color: #ffffff;
+    background: linear-gradient(
+        135deg,
+        #008cff,
+        #00d4ff
+    );
+
+    min-height: 48px;
+    padding: 0 24px;
+
+    border-radius: 12px;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    border: 1px solid rgba(0, 180, 255, 0.45);
+
+    box-shadow:
+        0 0 15px rgba(0, 140, 255, 0.18);
+}
+
+.login-container .register {
+    color: #ffffff;
+
+    background: rgba(0, 140, 255, 0.12);
+
+    border: 1px solid #008cff;
+}
+
+.login-container button:active {
+    transform: scale(0.97);
+}
+
+
+/* ============================================================
+   BOTÕES DE AUTENTICAÇÃO
+   ============================================================ */
+
+.login-container #entrar,
+.login-container #criar-conta,
+.login-container .register {
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #008cff,
+            #00d4ff
+        );
+
+    min-height: 48px;
+
+    padding:
+        0 25px;
+
+    border-radius:
+        12px;
+
+    font-size:
+        16px;
+
+    font-weight:
+        600;
+
+    border:
+        1px solid
+        rgba(0, 190, 255, 0.55);
+
+    box-shadow:
+        0 0 18px
+        rgba(0, 150, 255, 0.20);
+}
+
+
+.login-container .register {
+
+    background:
+        rgba(0, 140, 255, 0.12);
+
+    color:
+        #ffffff;
+}
+
+
+.login-container #entrar:active,
+.login-container #criar-conta:active,
+.login-container .register:active {
+
+    transform:
+        scale(0.97);
+}
+
+
+/* ============================================================
+   BOTÕES DE LOGIN / REGISTRO
+   ============================================================ */
+
+.primary-button {
+    width: 100%;
+    height: 52px;
+
+    margin-top: 5px;
+
+    border-radius: 14px;
+
+    background: linear-gradient(
+        135deg,
+        #008cff,
+        #00d4ff
+    );
+
+    color: #ffffff;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    box-shadow:
+        0 0 18px rgba(0, 180, 255, 0.22);
+}
+
+.primary-button:active {
+    transform: scale(0.98);
+}
+
+.register {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 150px;
+    min-height: 46px;
+
+    padding: 0 20px;
+
+    border: 1px solid #008cff;
+
+    border-radius: 12px;
+
+    background: rgba(0, 140, 255, 0.08);
+
+    color: #ffffff !important;
+
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.register:hover {
+    background: rgba(0, 140, 255, 0.18);
+}
+
+.register-link {
+    text-decoration: none;
+}
+
+#entrar {
+    width: 100%;
+    height: 52px;
+
+    margin-top: 5px;
+
+    border-radius: 14px;
+
+    background: linear-gradient(
+        135deg,
+        #008cff,
+        #00d4ff
+    );
+
+    color: #ffffff;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    box-shadow:
+        0 0 18px rgba(0, 180, 255, 0.22);
+}
+
+#entrar:active {
+    transform: scale(0.98);
+}
+
+
+/* ============================================================
+   BOTÃO GERAR IMAGEM - CHAT
+   ============================================================ */
+
+#gerar-imagem {
+    width: 50px;
+    height: 50px;
+    flex: 0 0 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+    margin: 0;
+
+    border: 1px solid #253149;
+    border-radius: 15px;
+
+    background: #101624;
+    color: white;
+
+    font-size: 21px;
+    cursor: pointer;
+
+    box-shadow: none;
+}
+
+#gerar-imagem:hover {
+    background: #172033;
+    border-color: #008cff;
+}
+
+#gerar-imagem:active {
+    transform: scale(0.94);
+}
+
+#gerar-imagem:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+
+/* ============================================================
+   MENU INDIVIDUAL DOS CHATS
+   ============================================================ */
+
+.chat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+}
+
+.chat-item-conteudo {
+    flex: 1;
+    min-width: 0;
+}
+
+.chat-item-nome {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.chat-menu-btn {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    border: none;
+    border-radius: 9px;
+
+    background: transparent;
+    color: #94a3b8;
+
+    font-size: 22px;
+    line-height: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-menu-btn:hover {
+    background: #263247;
+    color: white;
+}
+
+.chat-menu-btn:active {
+    transform: scale(0.92);
+}
+
+
+/* MENU FLUTUANTE */
+
+.chat-menu-popup {
+
+    position: fixed;
+
+    width: 170px;
+
+    padding: 6px;
+
+    background: #111827;
+
+    border: 1px solid #263247;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.45);
+
+    z-index: 9999;
+
+    animation:
+        aparecerMenuChat .15s ease;
+
+}
+
+.chat-menu-popup button {
+
+    width: 100%;
+
+    height: 42px;
+
+    padding: 0 12px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: transparent;
+
+    color: #e5e7eb;
+
+    text-align: left;
+
+    font-size: 14px;
+
+}
+
+.chat-menu-popup button:hover {
+
+    background: #1f2937;
+
+}
+
+.chat-menu-popup .chat-menu-excluir {
+
+    color: #f87171;
+
+}
+
+.chat-menu-popup .chat-menu-excluir:hover {
+
+    background: rgba(239,68,68,.12);
+
+}
+
+@keyframes aparecerMenuChat {
+
+    from {
+        opacity: 0;
+        transform: translateY(-5px) scale(.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+
+/* ============================================================
+   ÁREA DE CONVERSAS V2
+   ============================================================ */
+
+.area-conversas {
+    flex: 0 0 auto;
+    background: #060912;
+    border-bottom: 1px solid #1b2230;
+}
+
+.conversas-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px 6px;
+}
+
+.conversas-titulo {
+    color: #e5edf8;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#novo-chat-secundario {
+    height: 34px;
+    padding: 0 12px;
+
+    border: 1px solid rgba(0, 180, 255, .35);
+    border-radius: 10px;
+
+    background: rgba(0, 140, 255, .12);
+    color: #67d8ff;
+
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#novo-chat-secundario:hover {
+    background: rgba(0, 140, 255, .22);
+}
+
+.busca-chats {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    margin: 4px 10px 8px;
+    padding: 0 11px;
+
+    height: 40px;
+
+    border: 1px solid #202c40;
+    border-radius: 12px;
+
+    background: #101624;
+}
+
+.busca-chats span {
+    font-size: 15px;
+    opacity: .7;
+}
+
+.busca-chats input {
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+    color: white;
+
+    font-size: 13px;
+}
+
+.busca-chats input::placeholder {
+    color: #657085;
+}
+
+.lista-chats {
+    height: 125px;
+    max-height: 125px;
+
+    padding: 5px 10px 10px;
+
+    overflow-y: auto;
+}
+
+.lista-chats-titulo {
+    display: none;
+}
+
+.chat-secao {
+    color: #718096;
+
+    padding: 5px 5px 7px;
+
+    font-size: 10px;
+    font-weight: bold;
+
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.chat-secao:not(:first-child) {
+    margin-top: 5px;
+}
+
+.chat-item {
+    min-height: 42px;
+    padding: 5px 7px 5px 11px;
+    margin-bottom: 5px;
+
+    display: flex;
+    align-items: center;
+}
+
+.chat-item-nome {
+    font-size: 13px;
+}
+
+@media (max-width: 600px) {
+
+    .lista-chats {
+        height: 125px;
+        max-height: 125px;
+    }
+
+    .busca-chats {
+        height: 38px;
+        margin-left: 9px;
+        margin-right: 9px;
+    }
+
+    #novo-chat-secundario {
+        height: 32px;
+    }
+
+}
+
+
+/* ============================================================
+   MENU DOS CHATS
+   ============================================================ */
+
+.chat-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chat-item-nome {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.chat-item-menu {
+    flex: 0 0 32px;
+
+    width: 32px;
+    height: 32px;
+
+    border: none;
+    border-radius: 9px;
+
+    background: transparent;
+    color: #9aa8bd;
+
+    font-size: 22px;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+.chat-item-menu:hover {
+    background: rgba(255,255,255,0.08);
+    color: white;
+}
+
+.chat-menu-popup {
+    position: fixed;
+
+    width: 170px;
+
+    padding: 6px;
+
+    background: #101725;
+
+    border: 1px solid #293952;
+
+    border-radius: 13px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,0.55);
+
+    z-index: 99999;
+}
+
+.chat-menu-popup button {
+    width: 100%;
+
+    min-height: 42px;
+
+    padding: 0 12px;
+
+    display: flex;
+    align-items: center;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: transparent;
+
+    color: #e8edf5;
+
+    text-align: left;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+.chat-menu-popup button:hover {
+    background: #1b273a;
+}
+
+.chat-menu-popup .chat-menu-excluir {
+    color: #ff6b6b;
+}
+
+@media (max-width: 600px) {
+
+    .chat-menu-popup {
+        width: 175px;
+    }
+
+    .chat-menu-popup button {
+        min-height: 46px;
+        font-size: 15px;
+    }
+
+}
+
+
+/* ============================================================
+   OPÇÕES DOS CHATS - V2
+   ============================================================ */
+
+.chat-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chat-item-nome {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat-opcoes {
+    flex: 0 0 34px;
+
+    width: 34px;
+    height: 34px;
+
+    border-radius: 9px;
+
+    background: transparent;
+    color: #9aa8bd;
+
+    font-size: 22px;
+    line-height: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-opcoes:hover {
+    background: rgba(255,255,255,0.08);
+    color: white;
+}
+
+.chat-menu {
+    position: absolute;
+
+    right: 8px;
+    top: calc(100% - 2px);
+
+    z-index: 1000;
+
+    min-width: 160px;
+
+    padding: 6px;
+
+    background: #111827;
+
+    border: 1px solid #26354b;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,0.45);
+}
+
+.chat-menu button {
+    width: 100%;
+
+    min-height: 42px;
+
+    padding: 0 12px;
+
+    border-radius: 9px;
+
+    background: transparent;
+
+    color: #e5edf8;
+
+    text-align: left;
+
+    font-size: 14px;
+}
+
+.chat-menu button:hover {
+    background: #1d293d;
+}
+
+.chat-menu .chat-menu-excluir {
+    color: #ff6b6b;
+}
+
+@media (max-width: 600px) {
+
+    .chat-menu {
+        position: fixed;
+
+        right: 12px;
+        top: auto;
+
+        max-width: calc(100vw - 24px);
+    }
+
+    .chat-opcoes {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+    }
+}
+
+
+/* ============================================================
+   MENU DE OPÇÕES - CORREÇÃO
+   ============================================================ */
+
+.chat-menu {
+    position: fixed !important;
+
+    z-index: 99999 !important;
+
+    min-width: 175px;
+
+    padding: 6px;
+
+    background:
+        rgba(15, 23, 42, 0.98);
+
+    border:
+        1px solid
+        rgba(100, 150, 200, 0.25);
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 15px 45px
+        rgba(0, 0, 0, 0.55);
+
+    backdrop-filter:
+        blur(18px);
+
+    overflow: hidden;
+}
+
+.chat-menu button {
+    display: flex;
+
+    align-items: center;
+
+    width: 100%;
+
+    min-height: 44px;
+
+    padding: 0 13px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: transparent;
+
+    color: #e8eef8;
+
+    font-size: 14px;
+
+    text-align: left;
+
+    cursor: pointer;
+}
+
+.chat-menu button:hover {
+    background:
+        rgba(255,255,255,0.08);
+}
+
+.chat-menu-excluir {
+    color: #ff6b6b !important;
+}
+
+.chat-item {
+    overflow: visible !important;
+}
+
+.lista-chats {
+    overflow-x: visible;
+}
+
+
+/* ============================================================
+   HISTÓRICO - ESTILO IA MODERNA
+   ============================================================ */
+
+.lista-chats {
+    padding: 12px 10px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #070b13,
+            #060910
+        );
+
+    border-bottom:
+        1px solid #171f2d;
+}
+
+.lista-chats-titulo {
+    display: flex;
+
+    align-items: center;
+
+    padding:
+        5px 10px 10px;
+
+    color: #7d8ba3;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+
+    text-transform: uppercase;
+}
+
+.chat-item {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    min-height: 48px;
+
+    margin-bottom: 4px;
+
+    padding:
+        6px 7px 6px 12px;
+
+    border-radius: 12px;
+
+    background: transparent;
+
+    border:
+        1px solid transparent;
+
+    transition:
+        background .18s ease,
+        border .18s ease,
+        transform .12s ease;
+}
+
+.chat-item:hover {
+    background:
+        rgba(255,255,255,0.045);
+
+    border-color:
+        rgba(255,255,255,0.04);
+}
+
+.chat-item:active {
+    transform: scale(.985);
+}
+
+.chat-item-ativo {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,140,255,.17),
+            rgba(0,140,255,.06)
+        );
+
+    border-color:
+        rgba(0,160,255,.20);
+
+    box-shadow:
+        inset 3px 0 0 #00aaff;
+}
+
+.chat-item-nome {
+    flex: 1;
+
+    min-width: 0;
+
+    padding-right: 5px;
+
+    color: #dce5f2;
+
+    font-size: 14px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.chat-item-ativo .chat-item-nome {
+    color: #ffffff;
+
+    font-weight: 500;
+}
+
+.chat-opcoes {
+    flex:
+        0 0 34px;
+
+    width: 34px;
+
+    height: 34px;
+
+    margin-left: 3px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: transparent;
+
+    color: #718096;
+
+    font-size: 21px;
+
+    line-height: 1;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.chat-opcoes:hover {
+    background:
+        rgba(255,255,255,.08);
+
+    color: #ffffff;
+}
+
+.chat-vazio {
+    padding: 20px 10px;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    text-align: center;
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .lista-chats {
+        padding:
+            10px 8px;
+
+        height: 105px;
+
+        max-height: 105px;
+
+        overflow-y: auto;
+
+        overflow-x: visible;
+    }
+
+    .chat-item {
+        min-height: 46px;
+    }
+
+    .chat-item-nome {
+        font-size: 14px;
+    }
+
+    .chat-opcoes {
+        width: 38px;
+
+        height: 38px;
+
+        flex-basis: 38px;
+    }
+
+}
+
+
+/* ============================================================
+   ROCHA AI V2 — HISTÓRICO ESTILO CHATGPT
+   ============================================================ */
+
+.lista-chats {
+    padding: 10px 8px !important;
+    background: #080b14 !important;
+    border-bottom: 1px solid #171d29 !important;
+}
+
+.lista-chats-titulo {
+    padding: 5px 10px 9px !important;
+    color: #8b98aa !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+}
+
+.chat-item {
+    position: relative !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    width: 100% !important;
+    min-height: 44px !important;
+
+    margin: 2px 0 !important;
+    padding: 5px 5px 5px 12px !important;
+
+    border-radius: 10px !important;
+
+    background: transparent !important;
+    border: 1px solid transparent !important;
+
+    color: #d8dee8 !important;
+
+    transition: .15s ease !important;
+}
+
+.chat-item:hover {
+    background: #121722 !important;
+}
+
+.chat-item-ativo {
+    background: #151b27 !important;
+    border-color: #202a3b !important;
+
+    box-shadow:
+        inset 3px 0 0 #00aaff !important;
+}
+
+.chat-item-nome {
+    flex: 1 !important;
+    min-width: 0 !important;
+
+    padding-right: 5px !important;
+
+    color: #dce4ef !important;
+
+    font-size: 14px !important;
+
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.chat-item-ativo .chat-item-nome {
+    color: #ffffff !important;
+}
+
+.chat-opcoes {
+    flex: 0 0 34px !important;
+
+    width: 34px !important;
+    height: 34px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    margin-left: 3px !important;
+
+    border: none !important;
+    border-radius: 8px !important;
+
+    background: transparent !important;
+
+    color: #7f8a9b !important;
+
+    font-size: 20px !important;
+
+    opacity: .75 !important;
+}
+
+.chat-opcoes:hover {
+    background: #202734 !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+.chat-item:hover .chat-opcoes,
+.chat-item-ativo .chat-opcoes {
+    opacity: 1 !important;
+}
+
+
+/* ============================================================
+   MENU DOS TRÊS PONTOS
+   ============================================================ */
+
+.chat-menu {
+    position: fixed !important;
+
+    z-index: 99999 !important;
+
+    min-width: 180px !important;
+
+    padding: 6px !important;
+
+    background: #171c27 !important;
+
+    border: 1px solid #293244 !important;
+
+    border-radius: 12px !important;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.55) !important;
+
+    overflow: hidden !important;
+}
+
+.chat-menu button {
+    width: 100% !important;
+
+    min-height: 42px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    padding: 0 12px !important;
+
+    border: none !important;
+    border-radius: 8px !important;
+
+    background: transparent !important;
+
+    color: #e5eaf2 !important;
+
+    font-size: 14px !important;
+
+    text-align: left !important;
+}
+
+.chat-menu button:hover {
+    background: #242b39 !important;
+}
+
+.chat-menu-excluir {
+    color: #ff6b6b !important;
+}
+
+
+/* ============================================================
+   CELULAR
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .lista-chats {
+        height: 105px !important;
+        max-height: 105px !important;
+
+        padding: 8px !important;
+
+        overflow-y: auto !important;
+        overflow-x: visible !important;
+    }
+
+    .chat-item {
+        min-height: 43px !important;
+    }
+
+    .chat-item-nome {
+        font-size: 14px !important;
+    }
+
+    .chat-opcoes {
+        flex-basis: 38px !important;
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+}
+
+
+/* ============================================================
+   CHATGPT MOBILE — HISTÓRICO COMPACTO
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    /* Cabeçalho */
+    .chat-header {
+        height: 68px !important;
+        min-height: 68px !important;
+        padding: 8px 12px !important;
+    }
+
+    .chat-header img {
+        width: 44px !important;
+        height: 44px !important;
+    }
+
+    .chat-header h1 {
+        font-size: 19px !important;
+    }
+
+    /* Área completa do histórico */
+    .lista-chats {
+        height: 185px !important;
+        max-height: 185px !important;
+
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+
+        padding: 8px !important;
+    }
+
+    /* Título */
+    .lista-chats-titulo {
+        padding: 3px 8px 7px !important;
+        font-size: 11px !important;
+    }
+
+    /* Cada conversa */
+    .chat-item {
+        min-height: 42px !important;
+        height: 42px !important;
+
+        margin: 2px 0 !important;
+
+        padding:
+            4px 5px 4px 10px !important;
+
+        border-radius: 9px !important;
+    }
+
+    .chat-item-nome {
+        font-size: 13px !important;
+    }
+
+    .chat-opcoes {
+        width: 34px !important;
+        height: 34px !important;
+        flex-basis: 34px !important;
+    }
+
+    /* Área das mensagens ganha mais espaço */
+    .chat-box {
+        min-height: 0 !important;
+
+        flex:
+            1 1 auto !important;
+
+        overflow-y: auto !important;
+    }
+
+    /* Campo inferior */
+    .chat-input {
+        min-height: 68px !important;
+
+        padding:
+            9px 10px
+            calc(9px + env(safe-area-inset-bottom))
+            10px !important;
+
+        gap: 8px !important;
+    }
+
+    .chat-input input {
+        height: 48px !important;
+        font-size: 16px !important;
+    }
+
+    .chat-input button {
+        height: 48px !important;
+        width: 48px !important;
+    }
+
+    /* Botão de imagem */
+    #gerar-imagem {
+        flex: 0 0 48px !important;
+
+        width: 48px !important;
+        height: 48px !important;
+
+        padding: 0 !important;
+
+        border-radius: 14px !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        background:
+            #20242d !important;
+
+        font-size: 20px !important;
+    }
+}
+
+
+
+/* ============================================================
+   ROCHA AI V2 — SIDEBAR ESTILO CHATGPT
+============================================================ */
+
+:root {
+    --rocha-blue: #00aaff;
+    --rocha-bg: #080b14;
+    --rocha-sidebar: #070a12;
+    --rocha-border: #202b3d;
+    --rocha-card: #101624;
+}
+
+
+/* ============================================================
+   BOTÃO MENU
+============================================================ */
+
+.menu-toggle {
+    position: fixed;
+
+    top: 16px;
+    left: 16px;
+
+    z-index: 3000;
+
+    width: 46px;
+    height: 46px;
+
+    border-radius: 13px;
+
+    background: rgba(8, 11, 20, .94);
+
+    border: 1px solid #26344b;
+
+    color: white;
+
+    font-size: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,.25);
+}
+
+
+/* ============================================================
+   SIDEBAR
+============================================================ */
+
+.sidebar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 290px;
+    height: 100dvh;
+
+    z-index: 2000;
+
+    display: flex;
+    flex-direction: column;
+
+    background:
+        linear-gradient(
+            180deg,
+            #090d16,
+            #05070d
+        );
+
+    border-right: 1px solid var(--rocha-border);
+
+    transform: translateX(-100%);
+
+    transition:
+        transform .25s ease;
+
+    box-shadow:
+        15px 0 50px rgba(0,0,0,.35);
+}
+
+
+.sidebar.sidebar-aberta {
+
+    transform: translateX(0);
+
+}
+
+
+/* ============================================================
+   CABEÇALHO SIDEBAR
+============================================================ */
+
+.sidebar-header {
+
+    min-height: 75px;
+
+    padding: 12px 14px;
+
+    display: flex;
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-bottom: 1px solid #182131;
+}
+
+
+.sidebar-brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.sidebar-brand img {
+
+    width: 43px;
+    height: 43px;
+
+    object-fit: contain;
+
+    border-radius: 9px;
+}
+
+
+.sidebar-brand strong {
+
+    display: block;
+
+    font-size: 16px;
+
+    letter-spacing: 1px;
+}
+
+
+.sidebar-brand span {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: #718099;
+
+    font-size: 11px;
+}
+
+
+.sidebar-close {
+
+    width: 38px;
+    height: 38px;
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: #8996aa;
+
+    font-size: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.sidebar-close:hover {
+
+    background: #151c2b;
+
+    color: white;
+
+}
+
+
+/* ============================================================
+   NOVO CHAT
+============================================================ */
+
+.sidebar-new-chat {
+
+    margin: 15px;
+
+    height: 48px;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #008cff,
+            #00bfff
+        );
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    box-shadow:
+        0 5px 20px rgba(0,150,255,.18);
+}
+
+
+.sidebar-new-chat span:first-child {
+
+    font-size: 22px;
+
+}
+
+
+/* ============================================================
+   BUSCA
+============================================================ */
+
+.sidebar-search {
+
+    margin: 0 15px 12px;
+
+    height: 44px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 0 12px;
+
+    border-radius: 11px;
+
+    background: #101624;
+
+    border: 1px solid #26344b;
+}
+
+
+.sidebar-search span {
+
+    color: #718099;
+
+    font-size: 23px;
+
+}
+
+
+.sidebar-search input {
+
+    height: 100%;
+
+    margin: 0;
+
+    padding: 0;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    font-size: 14px;
+
+    color: white;
+
+}
+
+
+.sidebar-search input:focus {
+
+    border: none;
+
+    box-shadow: none;
+
+}
+
+
+/* ============================================================
+   LISTA
+============================================================ */
+
+.sidebar .lista-chats {
+
+    flex: 1;
+
+    height: auto;
+    max-height: none;
+
+    padding: 5px 10px 15px;
+
+    overflow-y: auto;
+
+    border: none;
+
+    background: transparent;
+}
+
+
+.sidebar .lista-chats-titulo {
+
+    padding:
+        8px 10px 10px;
+
+    color: #65738a;
+
+    font-size: 11px;
+
+    letter-spacing: 1.5px;
+}
+
+
+/* ============================================================
+   ITEM DO CHAT
+============================================================ */
+
+.sidebar .chat-item {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 44px;
+
+    margin-bottom: 3px;
+
+    padding: 11px 38px 11px 12px;
+
+    border-radius: 9px;
+
+    background: transparent;
+
+    border: 1px solid transparent;
+
+    color: #cbd5e1;
+
+    font-size: 14px;
+
+    transition:
+        background .15s,
+        border .15s;
+}
+
+
+.sidebar .chat-item:hover {
+
+    background: #121927;
+
+}
+
+
+.sidebar .chat-item-ativo {
+
+    background:
+        rgba(0,150,255,.14);
+
+    border-color:
+        rgba(0,170,255,.25);
+
+    color: white;
+
+    box-shadow: none;
+
+}
+
+
+/* ============================================================
+   FOOTER
+============================================================ */
+
+.sidebar-footer {
+
+    padding: 15px;
+
+    border-top: 1px solid #182131;
+
+    color: #4f5c70;
+
+    font-size: 10px;
+
+    text-align: center;
+
+    letter-spacing: 1px;
+}
+
+
+/* ============================================================
+   OVERLAY
+============================================================ */
+
+.sidebar-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1500;
+
+    background:
+        rgba(0,0,0,.55);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity .25s ease;
+}
+
+
+.sidebar-overlay.overlay-visivel {
+
+    opacity: 1;
+
+    pointer-events: auto;
+
+}
+
+
+/* ============================================================
+   CHAT PRINCIPAL
+============================================================ */
+
+.chat-container {
+
+    width: 100%;
+    max-width: none;
+
+    height: 100dvh;
+
+    margin: 0;
+
+    border-radius: 0;
+
+    border: none;
+
+    background: #080b14;
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.chat-header {
+
+    min-height: 72px;
+
+    height: 72px;
+
+    padding:
+        8px 16px 8px 75px;
+
+    background:
+        rgba(8,11,20,.97);
+
+    border-bottom:
+        1px solid #182131;
+}
+
+
+.header-menu {
+
+    display: none;
+
+    width: 42px;
+    height: 42px;
+
+    margin-right: 8px;
+
+    border-radius: 10px;
+
+    background: #101624;
+
+    border: 1px solid #26344b;
+
+    color: white;
+
+    font-size: 21px;
+}
+
+
+/* ============================================================
+   HEADER NOVO CHAT
+============================================================ */
+
+.novo-chat {
+
+    width: 46px;
+    height: 46px;
+
+    border-radius: 13px;
+
+}
+
+
+/* ============================================================
+   DESKTOP
+============================================================ */
+
+@media (min-width: 701px) {
+
+    .sidebar.sidebar-aberta {
+
+        transform: translateX(0);
+
+    }
+
+}
+
+
+/* ============================================================
+   CELULAR
+============================================================ */
+
+@media (max-width: 700px) {
+
+    .menu-toggle {
+
+        top: 12px;
+        left: 12px;
+
+        width: 43px;
+        height: 43px;
+
+    }
+
+
+    .chat-header {
+
+        padding:
+            8px 12px 8px 62px;
+
+    }
+
+
+    .chat-header img {
+
+        width: 43px;
+        height: 43px;
+
+    }
+
+
+    .chat-header h1 {
+
+        font-size: 18px;
+
+    }
+
+
+    .chat-header span {
+
+        font-size: 11px;
+
+    }
+
+
+    .novo-chat {
+
+        display: none;
+
+    }
+
+
+    .header-menu {
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+    }
+
+
+    .sidebar {
+
+        width: min(310px, 86vw);
+
+    }
+
+
+    .chat-box {
+
+        padding:
+            15px 12px;
+
+    }
+
+}
+
+
+/* ============================================================
+   ANIMAÇÃO
+============================================================ */
+
+@media (prefers-reduced-motion: no-preference) {
+
+    .sidebar {
+
+        will-change: transform;
+
+    }
+
+}
+
+
+/* ============================================================
+   BOTÃO IMAGEM
+============================================================ */
+
+#gerar-imagem {
+
+    width: 50px !important;
+    height: 48px !important;
+
+    padding: 0 !important;
+
+    flex: 0 0 50px;
+
+    border-radius: 13px !important;
+
+    background: #151c2b !important;
+
+    border: 1px solid #26344b !important;
+
+    color: white;
+
+    font-size: 20px;
+
+}
+
+
+#gerar-imagem:hover {
+
+    background: #1b2639 !important;
+
+}
+
+
+/* ============================================================
+   INPUT
+============================================================ */
+
+.chat-input {
+
+    padding:
+        10px 12px;
+
+    gap: 9px;
+
+    background:
+        #080b14;
+
+    border-top:
+        1px solid #182131;
+
+}
+
+
+.chat-input input {
+
+    min-width: 0;
+
+}
+
+
+/* ============================================================
+   MENSAGENS
+============================================================ */
+
+.bot-message,
+.user-message {
+
+    font-size: 16px;
+
+}
+
+
+
+/* ============================================================
+   FUNDO FUTURISTA DA CONVERSA - ROCHA AI
+   ============================================================ */
+
+.chat-box {
+    background:
+        linear-gradient(
+            rgba(2, 6, 23, 0.78),
+            rgba(2, 6, 23, 0.88)
+        ),
+        url("../assets/fundo_chat.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+
+/* ============================================================
+   LOGO ROCHA AI — AJUSTE FINAL
+============================================================ */
+
+.chat-header img {
+    width: 64px !important;
+    height: 64px !important;
+    object-fit: contain;
+    margin-right: 12px;
+
+    transform: scale(1.35);
+    transform-origin: center;
+
+    filter:
+        drop-shadow(0 0 8px rgba(0, 180, 255, 0.55))
+        drop-shadow(0 0 18px rgba(0, 140, 255, 0.25));
+}
+
+@media (max-width: 600px) {
+
+    .chat-header {
+        min-height: 74px;
+        height: 74px;
+    }
+
+    .chat-header img {
+        width: 58px !important;
+        height: 58px !important;
+        transform: scale(1.35);
+        margin-right: 10px;
+    }
+
+    .chat-header h1 {
+        font-size: 20px;
+    }
+}
+
+
+
+/* ============================================================
+   ROCHA AI — AJUSTE FINAL DO CABEÇALHO / LOGO
+   ============================================================ */
+
+.chat-header {
+    height: 110px !important;
+    min-height: 110px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 14px 22px !important;
+    gap: 18px !important;
+    position: relative !important;
+    z-index: 20 !important;
+}
+
+.chat-header img {
+    width: 78px !important;
+    height: 78px !important;
+    min-width: 78px !important;
+    min-height: 78px !important;
+    max-width: 78px !important;
+    max-height: 78px !important;
+    object-fit: contain !important;
+    border-radius: 18px !important;
+    display: block !important;
+}
+
+.chat-header-info {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    gap: 4px !important;
+}
+
+.chat-header h1 {
+    margin: 0 !important;
+    font-size: 29px !important;
+    line-height: 1.1 !important;
+    letter-spacing: 1px !important;
+}
+
+.chat-header span {
+    font-size: 16px !important;
+}
+
+
+/* BOTÃO DO MENU */
+
+.header-menu,
+#abrir-sidebar-header {
+    width: 58px !important;
+    height: 58px !important;
+    min-width: 58px !important;
+    min-height: 58px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .chat-header {
+        height: 100px !important;
+        min-height: 100px !important;
+        padding: 10px 14px !important;
+        gap: 14px !important;
+    }
+
+    .chat-header img {
+        width: 68px !important;
+        height: 68px !important;
+        min-width: 68px !important;
+        min-height: 68px !important;
+        max-width: 68px !important;
+        max-height: 68px !important;
+        border-radius: 16px !important;
+    }
+
+    .chat-header h1 {
+        font-size: 25px !important;
+    }
+
+    .chat-header span {
+        font-size: 15px !important;
+    }
+
+    .header-menu,
+    #abrir-sidebar-header {
+        width: 52px !important;
+        height: 52px !important;
+        min-width: 52px !important;
+        min-height: 52px !important;
+    }
+}
+
+
+
+/* ============================================================
+   ROCHA AI — FUNDO DO CHAT MAIS VISÍVEL
+   ============================================================ */
+
+.chat-container {
+    background-image:
+        linear-gradient(
+            rgba(2, 8, 22, 0.38),
+            rgba(2, 8, 22, 0.38)
+        ),
+        url("../assets/fundo_chat.png") !important;
+
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+}
+
+
+/* Mantém a área das mensagens transparente
+   para o fundo aparecer */
+
+.chat-box {
+    background: transparent !important;
+}
+
+
+/* Evita que algum pseudo-elemento escureça
+   novamente o fundo */
+
+.chat-container::before,
+.chat-container::after,
+.chat-box::before,
+.chat-box::after {
+    background: transparent !important;
+}
+
+
+/* Cabeçalho continua sólido */
+
+.chat-header {
+    background: rgba(3, 7, 17, 0.96) !important;
+}
+
+
+/* Área inferior */
+
+.chat-input {
+    background: rgba(3, 7, 17, 0.94) !important;
+}
+
+
+
+/* ============================================================
+   AJUSTE FINAL — LOGO MAIOR + FUNDO MAIS VISÍVEL
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .chat-header {
+        height: 112px !important;
+        min-height: 112px !important;
+        padding: 10px 14px !important;
+        gap: 16px !important;
+    }
+
+    .chat-header img {
+        width: 82px !important;
+        height: 82px !important;
+        min-width: 82px !important;
+        min-height: 82px !important;
+        max-width: 82px !important;
+        max-height: 82px !important;
+        border-radius: 18px !important;
+    }
+
+    .chat-header h1 {
+        font-size: 27px !important;
+    }
+
+    .chat-header span {
+        font-size: 16px !important;
+    }
+}
+
+
+/* ============================================================
+   FUNDO — MAIS VISÍVEL
+   ============================================================ */
+
+.chat-container {
+    background-image:
+        linear-gradient(
+            rgba(2, 8, 22, 0.22),
+            rgba(2, 8, 22, 0.22)
+        ),
+        url("../assets/fundo_chat.png") !important;
+
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+}
+
+.chat-box {
+    background: transparent !important;
+}
+
+
+/* LOGO EXTRA GRANDE */
+@media (max-width: 600px) {
+
+    .chat-header {
+        height: 125px !important;
+        min-height: 125px !important;
+    }
+
+    .chat-header img {
+        width: 96px !important;
+        height: 96px !important;
+        min-width: 96px !important;
+        min-height: 96px !important;
+        max-width: 96px !important;
+        max-height: 96px !important;
+        object-fit: contain !important;
+    }
+
+}
+
+
+/* ============================================================
+   FUNDO DO CHAT — MAIS CLARO
+   ============================================================ */
+
+.chat-container {
+    background-image:
+        linear-gradient(
+            rgba(2, 8, 22, 0.08),
+            rgba(2, 8, 22, 0.08)
+        ),
+        url("../assets/fundo_chat.png") !important;
+
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+}
+
+.chat-box {
+    background: transparent !important;
+}
+
+
+/* ============================================================
+   MENSAGENS — ESTILO ROCHA AI
+   ============================================================ */
+
+.chat-box {
+    padding: 24px 18px 120px !important;
+    background: transparent !important;
+}
+
+/* Mensagem da ROCHA AI */
+.bot-message {
+    max-width: 82%;
+    width: fit-content;
+    margin: 10px 0 14px 0;
+    padding: 13px 16px;
+
+    background: rgba(20, 25, 35, 0.82);
+    color: #f5f5f5;
+
+    border-radius: 18px 18px 18px 5px;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.25);
+
+    line-height: 1.5;
+    backdrop-filter: blur(6px);
+}
+
+/* Mensagem do usuário */
+.user-message {
+    max-width: 82%;
+    width: fit-content;
+    margin: 10px 0 14px auto;
+    padding: 13px 16px;
+
+    background: rgba(35, 35, 42, 0.90);
+    color: #ffffff;
+
+    border-radius: 18px 18px 5px 18px;
+
+    box-shadow:
+        0 4px 15px rgba(0,0,0,0.25);
+
+    line-height: 1.5;
+    backdrop-filter: blur(6px);
+}
+
+/* Evita mensagens gigantes */
+.bot-message,
+.user-message {
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+}
+
+
+/* ============================================================
+   CAMPO DE MENSAGEM — ESTILO ROCHA AI
+   ============================================================ */
+
+.chat-input {
+    position: fixed !important;
+    bottom: 18px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+
+    width: calc(100% - 28px) !important;
+    max-width: 850px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+
+    padding: 8px !important;
+
+    background: rgba(18, 20, 27, 0.92) !important;
+
+    border: 1px solid rgba(255,255,255,0.10) !important;
+    border-radius: 24px !important;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,0.45) !important;
+
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+
+    z-index: 1000 !important;
+}
+
+/* Campo de texto */
+
+.chat-input #mensagem {
+    flex: 1 !important;
+
+    min-width: 0 !important;
+
+    height: 44px !important;
+
+    padding: 0 12px !important;
+
+    border: none !important;
+    outline: none !important;
+
+    background: transparent !important;
+
+    color: #ffffff !important;
+
+    font-size: 15px !important;
+}
+
+.chat-input #mensagem::placeholder {
+    color: rgba(255,255,255,0.45) !important;
+}
+
+/* Botões */
+
+.chat-input button {
+    flex-shrink: 0 !important;
+
+    width: 42px !important;
+    height: 42px !important;
+
+    border: none !important;
+    border-radius: 50% !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    cursor: pointer !important;
+
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease,
+        background 0.15s ease !important;
+}
+
+/* Botão gerar imagem */
+
+#gerar-imagem {
+    background: rgba(255,255,255,0.08) !important;
+    color: #ffffff !important;
+
+    font-size: 18px !important;
+}
+
+#gerar-imagem:hover {
+    background: rgba(255,255,255,0.15) !important;
+    transform: scale(1.05) !important;
+}
+
+/* Botão enviar */
+
+#enviar-mensagem {
+    background: #ffffff !important;
+    color: #111111 !important;
+
+    font-size: 18px !important;
+    font-weight: bold !important;
+}
+
+#enviar-mensagem:hover {
+    transform: scale(1.05) !important;
+    opacity: 0.9 !important;
+}
+
+/* ============================================================
+   CELULAR
+   ============================================================ */
+
+@media (max-width: 600px) {
+
+    .chat-input {
+        bottom: 12px !important;
+        width: calc(100% - 18px) !important;
+        padding: 7px !important;
+    }
+
+    .chat-input #mensagem {
+        font-size: 14px !important;
+    }
+
+    .chat-input button {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+}
+
+
+/* ============================================================
+   ROCHA AI — ANIMAÇÃO DE DIGITAÇÃO
+   ============================================================ */
+
+.digitando {
+    display: flex !important;
+    align-items: center;
+    gap: 7px;
+    min-height: 22px;
+}
+
+.digitando-logo {
+    font-size: 16px;
+}
+
+.digitando-texto {
+    font-size: 14px;
+    opacity: 0.75;
+}
+
+.pontos {
+    display: inline-flex;
+    gap: 2px;
+    margin-left: -3px;
+}
+
+.pontos span {
+    animation: pontoDigitando 1.4s infinite;
+    opacity: 0.2;
+    font-weight: bold;
+}
+
+.pontos span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.pontos span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes pontoDigitando {
+
+    0% {
+        opacity: 0.2;
+        transform: translateY(0);
+    }
+
+    25% {
+        opacity: 1;
+        transform: translateY(-2px);
+    }
+
+    50% {
+        opacity: 0.2;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0.2;
+        transform: translateY(0);
+    }
+
+}
+

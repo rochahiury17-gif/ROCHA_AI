@@ -1660,7 +1660,7 @@ async function fazerLogin() {
         );
 
         window.location.href =
-            "/V2/pages/chat.html";
+            "/?v=999";
 
     } catch (erro) {
 
@@ -1888,7 +1888,7 @@ if (botaoEntrar) {
 
             // Vai para o chat V2
             window.location.href =
-                "/V2/pages/chat.html";
+                "/?v=999";
 
         } catch (erro) {
 
@@ -2040,7 +2040,7 @@ if (botaoCriarConta) {
 
 
                 window.location.href =
-                    "/V2/pages/chat.html";
+                    "/?v=999";
 
 
             } catch (erro) {
